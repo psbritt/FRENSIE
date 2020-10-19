@@ -116,6 +116,10 @@ std::string ToStringTraits<MonteCarlo::PhaseSpaceDimension>::toString(
     return "Source Time Dimension";
   case MonteCarlo::SOURCE_WEIGHT_DIMENSION:
     return "Source Weight Dimension";
+  case MonteCarlo::SPATIAL_INDEX_DIMENSION:
+    return "Spatial Index Dimension";
+  case MonteCarlo::DIRECTION_INDEX_DIMENSION:
+    return "Direction Index Dimension";
   default:
     THROW_EXCEPTION( std::logic_error,
                      "An unknown PhaseSpaceDimension was "

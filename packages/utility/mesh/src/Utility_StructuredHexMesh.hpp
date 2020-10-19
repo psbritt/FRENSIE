@@ -75,6 +75,9 @@ public:
   //! Get the end iterator of the hex element list.
   ElementHandleIterator getEndElementHandleIterator() const final override;
 
+  void getRandomPointInHex(const ElementHandle h,
+                           double point[3]) const;
+
   //! Get the number of mesh elements
   size_t getNumberOfElements() const final override;
 

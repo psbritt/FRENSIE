@@ -36,7 +36,13 @@ PhaseSpacePoint::PhaseSpacePoint(
     d_energy_coord_weight( 1.0 ),
     d_time_coord( 0.0 ),
     d_time_coord_weight( 1.0 ),
-    d_weight_coord( 1.0 )
+    d_weight_coord( 1.0 ),
+    d_is_mesh_index_defined(false),
+    d_mesh_index_coord(0),
+    d_mesh_index_coord_weight(1.0),
+    d_is_direction_index_defined(false),
+    d_direction_index_coord(0),
+    d_direction_index_coord_weight(1.0)
 { /* ... */ }
 
 // Constructor (particle state initialization)
@@ -64,7 +70,13 @@ PhaseSpacePoint::PhaseSpacePoint(
     d_energy_coord_weight( 1.0 ),
     d_time_coord( particle.getTime() ),
     d_time_coord_weight( 1.0 ),
-    d_weight_coord( particle.getWeight() )
+    d_weight_coord( particle.getWeight() ),
+    d_is_mesh_index_defined(false),
+    d_mesh_index_coord(0),
+    d_mesh_index_coord_weight(1.0),
+    d_is_direction_index_defined(false),
+    d_direction_index_coord(0),
+    d_direction_index_coord_weight(1.0)
 {
   // Convert the particle's Cartesian spatial coordinates to the spatial
   // coordinates of the phase space
@@ -395,6 +407,78 @@ void PhaseSpacePoint::setTimeCoordinateWeight( const double weight )
   d_time_coord_weight = weight;
 }
 
+// Return the mesh index coordinate of the phase space point
+size_t PhaseSpacePoint::getMeshIndexCoordinate() const
+{
+  // Make sure the mesh index is defined
+  testPrecondition(d_is_mesh_index_defined);
+
+  return d_mesh_index_coord;
+}
+
+// Set the mesh index coordinate of the phase space point
+void PhaseSpacePoint::setMeshIndexCoordinate(const size_t mesh_index_coord)
+{
+  // Set the mesh index as defined
+  d_is_mesh_index_defined = true;
+
+  d_mesh_index_coord = mesh_index_coord;
+}
+
+// Return the mesh index coordinate weight;
+double PhaseSpacePoint::getMeshIndexCoordinateWeight() const
+{
+  // Make sure the mesh index is defined
+  testPrecondition(d_is_mesh_index_defined);
+
+  return d_mesh_index_coord_weight;
+}
+
+// Set the mesh coordinate weight
+void PhaseSpacePoint::setMeshIndexCoordinateWeight( const double weight )
+{
+  // Make sure mesh index is defined and weight is greater than 0
+  testPrecondition(d_is_mesh_index_defined && weight > 0.0);
+
+  d_mesh_index_coord_weight = weight;
+}
+
+// Return the mesh index coordinate of the phase space point
+size_t PhaseSpacePoint::getDirectionIndexCoordinate() const
+{
+  // Make sure direction index is defined
+  testPrecondition(d_is_direction_index_defined);
+
+  return d_direction_index_coord;
+}
+
+// Set the mesh index coordinate of the phase space point
+void PhaseSpacePoint::setDirectionIndexCoordinate(const size_t direction_index_coord)
+{
+  // Set the direction index as defined
+  d_is_direction_index_defined = true;
+
+  d_direction_index_coord = direction_index_coord;
+}
+
+// Return the mesh index coordinate weight;
+double PhaseSpacePoint::getDirectionIndexCoordinateWeight() const
+{
+  // Make sure the direction index is defined
+  testPrecondition(d_is_direction_index_defined);
+
+  return d_direction_index_coord_weight;
+}
+
+// Set the mesh coordinate weight
+void PhaseSpacePoint::setDirectionIndexCoordinateWeight( const double weight )
+{
+  // Make sure direction index is defined and weight is greater than 0
+  testPrecondition(d_is_direction_index_defined && weight > 0.0);
+
+  d_direction_index_coord_weight = weight;
+}
+
 // Return the weight coordinate of the phase space point
 double PhaseSpacePoint::getWeightCoordinate() const
 {
@@ -413,11 +497,16 @@ void PhaseSpacePoint::setWeightCoordinate( const double weight_coord )
 // Return the weight of all coordinates
 double PhaseSpacePoint::getWeightOfCoordinates() const
 {
+  double discretization_weight_factor = 1.0;
+  if(d_is_mesh_index_defined) discretization_weight_factor *= d_mesh_index_coord_weight;
+  if(d_is_direction_index_defined) discretization_weight_factor *= d_direction_index_coord_weight;
+  
   return this->getWeightOfSpatialCoordinates()*
     this->getWeightOfDirectionalCoordinates()*
     this->getEnergyCoordinateWeight()*
     this->getTimeCoordinateWeight()*
-    this->getWeightCoordinate();
+    this->getWeightCoordinate()*
+    discretization_weight_factor;
 }
 
 // Set a particle state

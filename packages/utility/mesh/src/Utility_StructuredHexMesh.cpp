@@ -20,6 +20,7 @@
 #include "Utility_ExceptionTestMacros.hpp"
 #include "Utility_LoggingMacros.hpp"
 #include "FRENSIE_config.hpp"
+#include "Utility_RandomNumberGenerator.hpp"
 
 // Moab Includes
 #ifdef HAVE_FRENSIE_MOAB
@@ -87,6 +88,22 @@ std::string StructuredHexMesh::getMeshTypeName() const
 std::string StructuredHexMesh::getMeshElementTypeName() const
 {
   return "Hex";
+}
+
+void StructuredHexMesh::getRandomPointInHex(const ElementHandle h,
+                                            double point[3]) const
+{
+  size_t hex_plane_indices[3];
+  this->getHexPlaneIndices(h, hex_plane_indices);
+
+  point[0] = this->getXPlaneLocation(hex_plane_indices[0]) + 
+    RandomNumberGenerator::getRandomNumber<double>()*(getXPlaneLocation(hex_plane_indices[0]+1) - getXPlaneLocation(hex_plane_indices[0]));
+  point[1] = this->getYPlaneLocation(hex_plane_indices[1]) + 
+    RandomNumberGenerator::getRandomNumber<double>()*(getYPlaneLocation(hex_plane_indices[1]+1) - getYPlaneLocation(hex_plane_indices[1])); 
+  point[2] = this->getZPlaneLocation(hex_plane_indices[2]) + 
+    RandomNumberGenerator::getRandomNumber<double>()*(getZPlaneLocation(hex_plane_indices[2]+1) - getZPlaneLocation(hex_plane_indices[2]));
+
+  testPostcondition(this->isPointInMesh(point));
 }
 
 // Deconstruct a hex index into indices of planes on each dimension.

@@ -18,6 +18,7 @@
 #include "Utility_UnitTestHarnessWithMain.hpp"
 #include "FRENSIE_config.hpp"
 #include "ArchiveTestHelpers.hpp"
+#include "Utility_RandomNumberGenerator.hpp"
 
 //---------------------------------------------------------------------------//
 // Testing Types
@@ -103,6 +104,40 @@ FRENSIE_UNIT_TEST( StructuredHexMex, getMeshElementTypeName )
               new Utility::StructuredHexMesh( x_planes, y_planes, z_planes ) );
 
   FRENSIE_CHECK_EQUAL( hex_mesh->getMeshElementTypeName(), "Hex" );
+}
+
+//---------------------------------------------------------------------------//
+// Test the getRandomPointInHex method
+FRENSIE_UNIT_TEST( StructuredHexMesh, getRandomPointInHex )
+{
+  std::vector<double> x_planes( {0.0, 0.5, 1.0} ),
+    y_planes( {0.0, 0.5, 1.0} ),
+    z_planes( {0.0, 0.5, 1.5} );
+
+  std::shared_ptr<Utility::StructuredHexMesh> hex_mesh(
+              new Utility::StructuredHexMesh( x_planes, y_planes, z_planes ) );
+  
+  // Initialize the random number generator
+  Utility::RandomNumberGenerator::createStreams();
+
+  std::vector<double> fake_stream = {0.01, 0.99, 0.8};
+  Utility::RandomNumberGenerator::setFakeStream( fake_stream );
+
+  size_t test_element_handle = 7;
+  double correct_point[3];
+  correct_point[0] = 0.5 + (1.0-0.5)*0.01;
+  correct_point[1] = 0.5 + (1.0-0.5)*0.99;
+  correct_point[2] = 0.5 + (1.5-0.5)*0.8;
+
+  double test_point[3];
+  hex_mesh->getRandomPointInHex(test_element_handle, test_point);
+
+  for(size_t dimension = 0; dimension < 3; ++dimension)
+  {
+    FRENSIE_CHECK_FLOATING_EQUALITY(test_point[dimension], correct_point[dimension], 1e-15);
+  }
+  
+  Utility::RandomNumberGenerator::unsetFakeStream();
 }
 
 //---------------------------------------------------------------------------//

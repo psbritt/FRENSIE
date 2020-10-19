@@ -94,6 +94,16 @@ void StandardParticleDistribution::setDimensionDistribution(
   // The dependency tree needs to be constructed again.
   if( d_ready )
     d_ready = false;
+  /*
+  if( dimension_distribution->getDimension() == SPATIAL_INDEX_DIMENSION)
+  {
+    PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::initializeMesh();
+  }
+  else if( dimension_distribution->getDimension() == DIRECTION_INDEX_DIMENSION)
+  {
+
+  }
+  */
 }
 
 // Set the energy that will be sampled by the distribution
