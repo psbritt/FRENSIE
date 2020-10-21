@@ -183,6 +183,14 @@ BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( ImportanceSampledIndependentWeigh
 EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( ImportanceSampledIndependentSpatialIndexDimensionDistribution, MonteCarlo );
+EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( ImportanceSampledIndependentDirectionIndexDimensionDistribution, MonteCarlo );
+EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
 #endif // end MONTE_CARLO_IMPORTANCE_SAMPLED_INDEPENDENT_PHASE_SPACE_DIMENSION_DISTRIBUTION_DEF_HPP
 
 //---------------------------------------------------------------------------//

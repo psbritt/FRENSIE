@@ -220,6 +220,14 @@ BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( IndependentWeightDimensionDistrib
 EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::IndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, IndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( IndependentSpatialIndexDimensionDistribution, MonteCarlo );
+EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::IndependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, IndependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION> );
+
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY( IndependentDirectionIndexDimensionDistribution, MonteCarlo );
+EXTERN_EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::IndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, IndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
 #endif // end MONTE_CARLO_INDEPENDENT_PHASE_SPACE_DIMENSION_DISTRIBUTION_DEF_HPP
 
 //---------------------------------------------------------------------------//

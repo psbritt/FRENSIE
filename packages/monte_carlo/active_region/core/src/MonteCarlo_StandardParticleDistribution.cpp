@@ -86,8 +86,8 @@ void StandardParticleDistribution::setDimensionDistribution(
 {
   // Make sure that the distribution is valid
   testPrecondition( dimension_distribution.get() &&
-                    !dimension_distribution->getDimension() == SPATIAL_INDEX_DIMENSION &&
-                    !dimension_distribution->getDimension() == DIRECTION_INDEX_DIMENSION );
+                    dimension_distribution->getDimension() != SPATIAL_INDEX_DIMENSION &&
+                    dimension_distribution->getDimension() != DIRECTION_INDEX_DIMENSION );
 
   // Add the distribution to the dimension distribution map
   d_dimension_distributions[dimension_distribution->getDimension()] =

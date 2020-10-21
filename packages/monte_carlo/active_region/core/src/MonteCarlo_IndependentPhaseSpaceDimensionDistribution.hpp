@@ -138,6 +138,12 @@ typedef IndependentPhaseSpaceDimensionDistribution<TIME_DIMENSION> IndependentTi
 
 //! The independent weight phase space dimension distribution
 typedef IndependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION> IndependentWeightDimensionDistribution;
+
+//! The independent time phase space dimension distribution
+typedef IndependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION> IndependentSpatialIndexDimensionDistribution;
+
+//! The independent weight phase space dimension distribution
+typedef IndependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION> IndependentDirectionIndexDimensionDistribution;
   
 } // end MonteCarlo namespace
 
