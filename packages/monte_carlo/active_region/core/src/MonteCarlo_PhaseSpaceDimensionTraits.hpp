@@ -518,8 +518,8 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   typedef double DimensionWeightType;
 
   //! Set the mesh (can only be one source if mesh is used)
-  static inline void setMesh( std::shared_ptr<Utility::StructuredHexMesh> mesh)
-  { d_mesh = mesh; }
+  static void setMesh( std::shared_ptr<Utility::StructuredHexMesh> mesh)
+  { s_mesh = mesh; }
 
   //! Get the dimension class type
   static inline PhaseSpaceDimensionClass getClass()
@@ -528,14 +528,14 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   //! Get the coordinate value
   static inline DimensionValueType getCoordinate( const ParticleState& point )
   {
-    testPrecondition(d_mesh);
-    return d_mesh->whichElementIsPointIn(point.getPosition()); 
+    testPrecondition(s_mesh);
+    return s_mesh->whichElementIsPointIn(point.getPosition()); 
   }
 
   //! Get the coordinate value
   static inline DimensionValueType getCoordinate( const PhaseSpacePoint& point )
   {
-    testPrecondition(d_mesh);
+    testPrecondition(s_mesh);
     return point.getMeshIndexCoordinate();
   }
 
@@ -543,9 +543,9 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   static inline void setCoordinate( PhaseSpacePoint& point,
                                     const DimensionValueType coord_value )
   { 
-    testPrecondition(d_mesh);
+    testPrecondition(s_mesh);
     double position[3];
-    d_mesh->getRandomPointInHex(coord_value, position);
+    s_mesh->getRandomPointInHex(coord_value, position);
     point.setPrimarySpatialCoordinate( position[0] );
     point.setSecondarySpatialCoordinate( position[1] );
     point.setTertiarySpatialCoordinate( position[2] );
@@ -554,7 +554,7 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   //! Get the coordinate weight
   static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
   {
-    testPrecondition(d_mesh);
+    testPrecondition(s_mesh);
     point.getMeshIndexCoordinateWeight();
   }
 
@@ -562,11 +562,11 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   static inline void setCoordinateWeight( PhaseSpacePoint& point,
                                           const DimensionWeightType coord_weight )
   { 
-    testPrecondition(d_mesh);
+    testPrecondition(s_mesh);
     point.setMeshIndexCoordinateWeight( coord_weight ); 
   }
 
-  static std::shared_ptr<Utility::StructuredHexMesh> d_mesh;
+  static std::shared_ptr<Utility::StructuredHexMesh> s_mesh;
 };
 
 template<>
@@ -579,8 +579,8 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   typedef double DimensionWeightType;
 
   //! Set the mesh (can only be one source if mesh is used)
-  static inline void setDirectionDiscretization( std::shared_ptr<Utility::PQLAQuadrature> direction_discretization)
-  { d_direction_discretization = direction_discretization; }
+  static void setDirectionDiscretization( std::shared_ptr<Utility::PQLAQuadrature> direction_discretization)
+  { s_direction_discretization = direction_discretization; }
 
   //! Get the dimension class type
   static inline PhaseSpaceDimensionClass getClass()
@@ -589,8 +589,8 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   //! Get the coordinate value
   static inline DimensionValueType getCoordinate( const ParticleState& point )
   {
-    testPrecondition(d_direction_discretization);
-    return d_direction_discretization->findTriangleBin(point.getXDirection(),
+    testPrecondition(s_direction_discretization);
+    return s_direction_discretization->findTriangleBin(point.getXDirection(),
                                                        point.getYDirection(),
                                                        point.getZDirection()); 
   }
@@ -598,7 +598,7 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   //! Get the coordinate value
   static inline DimensionValueType getCoordinate( const PhaseSpacePoint& point )
   {
-    testPrecondition(d_direction_discretization);
+    testPrecondition(s_direction_discretization);
     return point.getDirectionIndexCoordinate();
   }
 
@@ -606,9 +606,9 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   static inline void setCoordinate( PhaseSpacePoint& point,
                                     const DimensionValueType coord_value )
   { 
-    testPrecondition(d_direction_discretization);
+    testPrecondition(s_direction_discretization);
     std::array<double, 3> direction;
-    d_direction_discretization->sampleIsotropicallyFromTriangle(direction, coord_value );
+    s_direction_discretization->sampleIsotropicallyFromTriangle(direction, coord_value );
     point.setPrimaryDirectionalCoordinate( direction[0] );
     point.setSecondaryDirectionalCoordinate( direction[1] );
     point.setTertiaryDirectionalCoordinate( direction[2] );
@@ -617,7 +617,7 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   //! Get the coordinate weight
   static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
   {
-    testPrecondition(d_direction_discretization);
+    testPrecondition(s_direction_discretization);
     point.getDirectionIndexCoordinateWeight();
   }
 
@@ -625,11 +625,11 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   static inline void setCoordinateWeight( PhaseSpacePoint& point,
                                           const DimensionWeightType coord_weight )
   { 
-    testPrecondition(d_direction_discretization);
+    testPrecondition(s_direction_discretization);
     point.setDirectionIndexCoordinateWeight( coord_weight ); 
   }
 
-  static std::shared_ptr<Utility::PQLAQuadrature> d_direction_discretization;
+  static std::shared_ptr<Utility::PQLAQuadrature> s_direction_discretization;
 };
 
 } // end MonteCarlo namespace

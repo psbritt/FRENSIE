@@ -22,6 +22,8 @@
 #include "Utility_Map.hpp"
 #include "Utility_Set.hpp"
 #include "Utility_Vector.hpp"
+#include "Utility_StructuredHexMesh.hpp"
+#include "Utility_PQLAQuadrature.hpp"
 
 namespace MonteCarlo{
 
@@ -71,6 +73,14 @@ public:
   void setDimensionDistribution(
                         const std::shared_ptr<PhaseSpaceDimensionDistribution>&
                         dimension_distribution );
+
+  void setMeshIndexDimensionDistribution(
+                        const std::shared_ptr<PhaseSpaceDimensionDistribution>& dimension_distribution,
+                        const std::shared_ptr<Utility::StructuredHexMesh>& mesh_object );
+  
+  void setDirectionIndexDimensionDistribution(
+                        const std::shared_ptr<PhaseSpaceDimensionDistribution>& dimension_distribution,
+                        const std::shared_ptr<Utility::PQLAQuadrature>& quadrature_pointer );
 
   //! Set the energy that will be sampled by the distribution
   void setEnergy( const double energy );

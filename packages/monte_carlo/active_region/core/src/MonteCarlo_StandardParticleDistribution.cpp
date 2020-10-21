@@ -85,7 +85,9 @@ void StandardParticleDistribution::setDimensionDistribution(
                         dimension_distribution )
 {
   // Make sure that the distribution is valid
-  testPrecondition( dimension_distribution.get() );
+  testPrecondition( dimension_distribution.get() &&
+                    !dimension_distribution->getDimension() == SPATIAL_INDEX_DIMENSION &&
+                    !dimension_distribution->getDimension() == DIRECTION_INDEX_DIMENSION );
 
   // Add the distribution to the dimension distribution map
   d_dimension_distributions[dimension_distribution->getDimension()] =
@@ -94,16 +96,60 @@ void StandardParticleDistribution::setDimensionDistribution(
   // The dependency tree needs to be constructed again.
   if( d_ready )
     d_ready = false;
-  /*
-  if( dimension_distribution->getDimension() == SPATIAL_INDEX_DIMENSION)
-  {
-    PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::initializeMesh();
-  }
-  else if( dimension_distribution->getDimension() == DIRECTION_INDEX_DIMENSION)
-  {
+}
 
-  }
-  */
+// Set a mesh index dimension distribution
+/*! \details This will destroy the current dependency tree. You will not be
+ * able to evaluate or sample from the particle distribution until the
+ * dependency tree has been constructed again. If multiple dimension
+ * distributions must be set, construct the tree after setting all of them
+ * so that the tree isn't constructed multiple times. A separate method for
+ * this is necessary due to the underlying mesh object needed to be set
+ */
+void StandardParticleDistribution::setMeshIndexDimensionDistribution(
+                        const std::shared_ptr<PhaseSpaceDimensionDistribution>& dimension_distribution,
+                        const std::shared_ptr<Utility::StructuredHexMesh>& mesh_object )
+{
+  // Make sure that the distribution is valid
+  testPrecondition( dimension_distribution.get() &&
+                    dimension_distribution->getDimension() == SPATIAL_INDEX_DIMENSION );
+
+  // Add the distribution to the dimension distribution map
+  d_dimension_distributions[dimension_distribution->getDimension()] =
+    dimension_distribution;
+
+  PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::setMesh(mesh_object);
+
+  // The dependency tree needs to be constructed again.
+  if( d_ready )
+    d_ready = false;
+}
+
+// Set a direction index dimension distribution
+/*! \details This will destroy the current dependency tree. You will not be
+ * able to evaluate or sample from the particle distribution until the
+ * dependency tree has been constructed again. If multiple dimension
+ * distributions must be set, construct the tree after setting all of them
+ * so that the tree isn't constructed multiple times. A separate method for
+ * this is necessary due to the underlying mesh object needed to be set
+ */
+void StandardParticleDistribution::setDirectionIndexDimensionDistribution(
+                        const std::shared_ptr<PhaseSpaceDimensionDistribution>& dimension_distribution,
+                        const std::shared_ptr<Utility::PQLAQuadrature>& quadrature_pointer )
+{
+  // Make sure that the distribution is valid
+  testPrecondition( dimension_distribution.get() &&
+                    dimension_distribution->getDimension() == DIRECTION_INDEX_DIMENSION );
+
+  // Add the distribution to the dimension distribution map
+  d_dimension_distributions[dimension_distribution->getDimension()] =
+    dimension_distribution;
+
+  PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::setDirectionDiscretization(quadrature_pointer);
+
+  // The dependency tree needs to be constructed again.
+  if( d_ready )
+    d_ready = false;
 }
 
 // Set the energy that will be sampled by the distribution

@@ -164,6 +164,12 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,PRIMARY_SPATIAL_
 //! The weight dimension dependent primary spatial dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,PRIMARY_SPATIAL_DIMENSION> WeightDependentPrimarySpatialDimensionDistribution;
 
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,PRIMARY_SPATIAL_DIMENSION> SpatialIndexDependentPrimarySpatialDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,PRIMARY_SPATIAL_DIMENSION> DirectionIndexDependentPrimarySpatialDimensionDistribution;
+
 //---------------------------------------------------------------------------//
 // DependentSecondarySpatialDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -191,6 +197,12 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,SECONDARY_SPATIA
 
 //! The weight dimension dependent secondary spatial dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,SECONDARY_SPATIAL_DIMENSION> WeightDependentSecondarySpatialDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,SECONDARY_SPATIAL_DIMENSION> SpatialIndexDependentSecondarySpatialDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,SECONDARY_SPATIAL_DIMENSION> DirectionIndexDependentSecondarySpatialDimensionDistribution;
 
 //---------------------------------------------------------------------------//
 // DependentTertiarySpatialDimensionDistributions
@@ -220,6 +232,12 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,TERTIARY_SPATIAL
 //! The weight dimension dependent tertiary spatial dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,TERTIARY_SPATIAL_DIMENSION> WeightDependentTertiarySpatialDimensionDistribution;
 
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,TERTIARY_SPATIAL_DIMENSION> SpatialIndexDependentTertiarySpatialDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,TERTIARY_SPATIAL_DIMENSION> DirectionIndexDependentTertiarySpatialDimensionDistribution;
+
 //---------------------------------------------------------------------------//
 // DependentPrimaryDirectionalDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -247,6 +265,12 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,PRIMARY_DIRECTIO
 
 //! The weight dimension dependent primary directional dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,PRIMARY_DIRECTIONAL_DIMENSION> WeightDependentPrimaryDirectionalDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,PRIMARY_DIRECTIONAL_DIMENSION> SpatialIndexDependentPrimaryDirectionalDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,PRIMARY_DIRECTIONAL_DIMENSION> DirectionIndexDependentPrimaryDirectionalDimensionDistribution;
 
 //---------------------------------------------------------------------------//
 // DependentSecondaryDirectionalDimensionDistributions
@@ -276,6 +300,13 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,SECONDARY_DIRECT
 //! The weight dimension dependent secondary directional dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,SECONDARY_DIRECTIONAL_DIMENSION> WeightDependentSecondaryDirectionalDimensionDistribution;
 
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,SECONDARY_DIRECTIONAL_DIMENSION> SpatialIndexDependentSecondaryDirectionalDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,SECONDARY_DIRECTIONAL_DIMENSION> DirectionIndexDependentSecondaryDirectionalDimensionDistribution;
+
+
 //---------------------------------------------------------------------------//
 // DependentTertiaryDirectionalDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -303,6 +334,13 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,TERTIARY_DIRECTI
 
 //! The weight dimension dependent tertiary directional dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,TERTIARY_DIRECTIONAL_DIMENSION> WeightDependentTertiaryDirectionalDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,TERTIARY_DIRECTIONAL_DIMENSION> SpatialIndexDependentTertiaryDirectionalDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,TERTIARY_DIRECTIONAL_DIMENSION> DirectionIndexDependentTertiaryDirectionalDimensionDistribution;
+
 
 //---------------------------------------------------------------------------//
 // DependentEnergyDimensionDistributions
@@ -332,6 +370,13 @@ typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,ENERGY_DIMENSION
 //! The weight dimension dependent energy dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,ENERGY_DIMENSION> WeightDependentEnergyDimensionDistribution;
 
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,ENERGY_DIMENSION> SpatialIndexDependentEnergyDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,ENERGY_DIMENSION> DirectionIndexDependentEnergyDimensionDistribution;
+
+
 //---------------------------------------------------------------------------//
 // DependentTimeDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -360,6 +405,12 @@ typedef DependentPhaseSpaceDimensionDistribution<ENERGY_DIMENSION,TIME_DIMENSION
 //! The weight dimension dependent time dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,TIME_DIMENSION> WeightDependentTimeDimensionDistribution;
 
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,TIME_DIMENSION> SpatialIndexDependentTimeDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,TIME_DIMENSION> DirectionIndexDependentTimeDimensionDistribution;
+
 //---------------------------------------------------------------------------//
 // DependentWeightDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -387,6 +438,81 @@ typedef DependentPhaseSpaceDimensionDistribution<ENERGY_DIMENSION,WEIGHT_DIMENSI
 
 //! The time dimension dependent weight dimension distribution
 typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,WEIGHT_DIMENSION> TimeDependentWeightDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,WEIGHT_DIMENSION> SpatialIndexDependentWeightDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,WEIGHT_DIMENSION> DirectionIndexDependentWeightDimensionDistribution;
+
+//---------------------------------------------------------------------------//
+// DependentSpatialIndexDimensionDistributions
+//---------------------------------------------------------------------------//
+
+//! The primary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<PRIMARY_SPATIAL_DIMENSION,SPATIAL_INDEX_DIMENSION> PrimarySpatialDependentSpatialIndexDimensionDistribution;
+
+//! The secondary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SECONDARY_SPATIAL_DIMENSION,SPATIAL_INDEX_DIMENSION> SecondarySpatialDependentSpatialIndexDimensionDistribution;
+
+//! The tertiary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TERTIARY_SPATIAL_DIMENSION,SPATIAL_INDEX_DIMENSION> TertiarySpatialDependentSpatialIndexDimensionDistribution;
+
+//! The primary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<PRIMARY_DIRECTIONAL_DIMENSION,SPATIAL_INDEX_DIMENSION> PrimaryDirectionalDependentSpatialIndexDimensionDistribution;
+
+//! The secondary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SECONDARY_DIRECTIONAL_DIMENSION,SPATIAL_INDEX_DIMENSION> SecondaryDirectionalDependentSpatialIndexDimensionDistribution;
+
+//! The tertiary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TERTIARY_DIRECTIONAL_DIMENSION,SPATIAL_INDEX_DIMENSION> TertiaryDirectionalDependentSpatialIndexDimensionDistribution;
+
+//! The energy dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<ENERGY_DIMENSION,SPATIAL_INDEX_DIMENSION> EnergyDependentSpatialIndexDimensionDistribution;
+
+//! The time dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,SPATIAL_INDEX_DIMENSION> TimeDependentSpatialIndexDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,SPATIAL_INDEX_DIMENSION> WeightDependentSpatialIndexDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION,SPATIAL_INDEX_DIMENSION> DirectionIndexDependentSpatialIndexDimensionDistribution;
+
+//---------------------------------------------------------------------------//
+// DependentDirectionIndexDimensionDistributions
+//---------------------------------------------------------------------------//
+
+//! The primary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<PRIMARY_SPATIAL_DIMENSION,DIRECTION_INDEX_DIMENSION> PrimarySpatialDependentDirectionIndexDimensionDistribution;
+
+//! The secondary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SECONDARY_SPATIAL_DIMENSION,DIRECTION_INDEX_DIMENSION> SecondarySpatialDependentDirectionIndexDimensionDistribution;
+
+//! The tertiary spatial dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TERTIARY_SPATIAL_DIMENSION,DIRECTION_INDEX_DIMENSION> TertiarySpatialDependentDirectionIndexDimensionDistribution;
+
+//! The primary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<PRIMARY_DIRECTIONAL_DIMENSION,DIRECTION_INDEX_DIMENSION> PrimaryDirectionalDependentDirectionIndexDimensionDistribution;
+
+//! The secondary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SECONDARY_DIRECTIONAL_DIMENSION,DIRECTION_INDEX_DIMENSION> SecondaryDirectionalDependentDirectionIndexDimensionDistribution;
+
+//! The tertiary directional dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TERTIARY_DIRECTIONAL_DIMENSION,DIRECTION_INDEX_DIMENSION> TertiaryDirectionalDependentDirectionIndexDimensionDistribution;
+
+//! The energy dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<ENERGY_DIMENSION,DIRECTION_INDEX_DIMENSION> EnergyDependentDirectionIndexDimensionDistribution;
+
+//! The time dimension dependent weight dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<TIME_DIMENSION,DIRECTION_INDEX_DIMENSION> TimeDependentDirectionIndexDimensionDistribution;
+
+//! The spatial index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION,DIRECTION_INDEX_DIMENSION> WeightDependentDirectionIndexDimensionDistribution;
+
+//! The direction index dimension dependent primary spatial dimension distribution
+typedef DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION,DIRECTION_INDEX_DIMENSION> SpatialIndexDependentDirectionIndexDimensionDistribution;
+
 
 } // end MonteCarlo namespace
 
