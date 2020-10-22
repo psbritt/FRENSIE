@@ -15,6 +15,7 @@
 #include "Utility_DesignByContract.hpp"
 #include "Utility_StructuredHexMesh.hpp"
 #include "Utility_PQLAQuadrature.hpp"
+#include "Utility_ExceptionTestMacros.hpp"
 
 namespace MonteCarlo{
 
@@ -529,7 +530,14 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   static inline DimensionValueType getCoordinate( const ParticleState& point )
   {
     testPrecondition(s_mesh);
-    return s_mesh->whichElementIsPointIn(point.getPosition()); 
+    if(s_mesh->isPointInMesh(point.getPosition()))
+    {
+      return s_mesh->whichElementIsPointIn(point.getPosition()); 
+    }
+    else
+    {
+      THROW_EXCEPTION(std::runtime_error, "Particle is not inside source mesh");
+    }
   }
 
   //! Get the coordinate value
@@ -549,6 +557,7 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
     point.setPrimarySpatialCoordinate( position[0] );
     point.setSecondarySpatialCoordinate( position[1] );
     point.setTertiarySpatialCoordinate( position[2] );
+    point.setMeshIndexCoordinate(coord_value);
   }
 
   //! Get the coordinate weight
@@ -612,6 +621,7 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
     point.setPrimaryDirectionalCoordinate( direction[0] );
     point.setSecondaryDirectionalCoordinate( direction[1] );
     point.setTertiaryDirectionalCoordinate( direction[2] );
+    point.setDirectionIndexCoordinate(coord_value);
   }
 
   //! Get the coordinate weight
