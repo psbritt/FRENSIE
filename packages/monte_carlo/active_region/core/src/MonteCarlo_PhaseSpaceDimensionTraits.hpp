@@ -575,6 +575,8 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
     point.setMeshIndexCoordinateWeight( coord_weight ); 
   }
 
+  private:
+
   static std::shared_ptr<Utility::StructuredHexMesh> s_mesh;
 };
 
@@ -638,6 +640,8 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
     testPrecondition(s_direction_discretization);
     point.setDirectionIndexCoordinateWeight( coord_weight ); 
   }
+
+  private:
 
   static std::shared_ptr<Utility::PQLAQuadrature> s_direction_discretization;
 };

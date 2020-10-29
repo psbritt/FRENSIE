@@ -11,8 +11,8 @@
 
 namespace MonteCarlo{
   
-std::shared_ptr<Utility::StructuredHexMesh> PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::s_mesh;
-std::shared_ptr<Utility::PQLAQuadrature> PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::s_direction_discretization;
+  std::shared_ptr<Utility::StructuredHexMesh> PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::s_mesh;
+  std::shared_ptr<Utility::PQLAQuadrature> PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::s_direction_discretization;
 
 } // end MonteCarlo namespace
 

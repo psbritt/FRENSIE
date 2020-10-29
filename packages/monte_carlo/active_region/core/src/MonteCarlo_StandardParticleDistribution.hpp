@@ -195,6 +195,11 @@ private:
 
   // Determines if the distribution is ready for use
   bool d_ready;
+
+  // Cached values for archiving
+  std::shared_ptr<Utility::StructuredHexMesh> d_spatial_dimension_mesh;
+
+  std::shared_ptr<Utility::PQLAQuadrature> d_direction_dimension_discretization;
 };
 
 } // end MonteCarlo namespace

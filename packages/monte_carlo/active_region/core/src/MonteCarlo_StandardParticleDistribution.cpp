@@ -118,6 +118,8 @@ void StandardParticleDistribution::setMeshIndexDimensionDistribution(
   d_dimension_distributions[dimension_distribution->getDimension()] =
     dimension_distribution;
 
+  d_spatial_dimension_mesh = mesh_object;
+
   PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::setMesh(mesh_object);
 
   // The dependency tree needs to be constructed again.
@@ -144,6 +146,8 @@ void StandardParticleDistribution::setDirectionIndexDimensionDistribution(
   // Add the distribution to the dimension distribution map
   d_dimension_distributions[dimension_distribution->getDimension()] =
     dimension_distribution;
+
+  d_direction_dimension_discretization = quadrature_pointer;
 
   PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::setDirectionDiscretization(quadrature_pointer);
 
