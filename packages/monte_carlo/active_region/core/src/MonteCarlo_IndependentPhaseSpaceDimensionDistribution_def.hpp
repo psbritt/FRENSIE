@@ -110,7 +110,7 @@ template<PhaseSpaceDimension dimension>
 void IndependentPhaseSpaceDimensionDistribution<dimension>::sampleWithoutCascade(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
-  const double sample = d_dimension_distribution->sample();
+  const DimensionValueType sample = d_dimension_distribution->sample();
   
   MonteCarlo::setCoordinate<dimension>( phase_space_sample, sample );
   MonteCarlo::setCoordinateWeight<dimension>( phase_space_sample, 1.0 );
@@ -122,7 +122,7 @@ void IndependentPhaseSpaceDimensionDistribution<dimension>::sampleAndRecordTrial
                                            PhaseSpacePoint& phase_space_sample,
                                            Counter& trials ) const
 {
-  const double sample =
+  const DimensionValueType sample =
     d_dimension_distribution->sampleAndRecordTrials( trials );
 
   MonteCarlo::setCoordinate<dimension>( phase_space_sample, sample );
@@ -136,7 +136,7 @@ void IndependentPhaseSpaceDimensionDistribution<dimension>::sampleAndRecordTrial
 template<PhaseSpaceDimension dimension>
 void IndependentPhaseSpaceDimensionDistribution<dimension>::setDimensionValueAndApplyWeight(
                                            PhaseSpacePoint& phase_space_sample,
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
   double weight = this->evaluatePDFWithoutCascade( dimension_value );
 
@@ -153,7 +153,7 @@ void IndependentPhaseSpaceDimensionDistribution<dimension>::setDimensionValueAnd
 // Evaluate the PDF of this dimension distribution
 template<PhaseSpaceDimension dimension>
 double IndependentPhaseSpaceDimensionDistribution<dimension>::evaluatePDFWithoutCascade(
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
   return d_dimension_distribution->evaluatePDF( dimension_value );
 }

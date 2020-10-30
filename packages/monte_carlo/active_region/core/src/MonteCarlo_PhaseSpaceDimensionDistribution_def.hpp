@@ -16,7 +16,8 @@
 namespace MonteCarlo{
 
 // Constructor
-PhaseSpaceDimensionDistribution::PhaseSpaceDimensionDistribution()
+template<PhaseSpaceDimension dimension_type>
+PhaseSpaceDimensionDistribution<dimension_type>::PhaseSpaceDimensionDistribution()
   : d_parent_distribution(),
     d_dependent_dimension_distributions()
 { /* ... */ }
@@ -25,7 +26,8 @@ PhaseSpaceDimensionDistribution::PhaseSpaceDimensionDistribution()
 /*! \details The default implementation of this method is simply uses
  * the hasForm method with the Utility::UNIFORM_DISTRIBUTION value.
  */
-bool PhaseSpaceDimensionDistribution::isUniform() const
+template<PhaseSpaceDimension dimension_type>
+bool PhaseSpaceDimensionDistribution<dimension_type>::isUniform() const
 {
   return this->hasForm( Utility::UNIFORM_DISTRIBUTION );
 }
@@ -34,7 +36,8 @@ bool PhaseSpaceDimensionDistribution::isUniform() const
 /*! \details The evaluation process will cascade to all of the dependent
  * dimensions as well (the results are then multiplied).
  */
-double PhaseSpaceDimensionDistribution::evaluateWithCascade(
+template<PhaseSpaceDimension dimension_type>
+double PhaseSpaceDimensionDistribution<dimension_type>::evaluateWithCascade(
                                const PhaseSpacePoint& phase_space_point ) const
 {
   // Evaluate this dimension distribution only
@@ -46,12 +49,13 @@ double PhaseSpaceDimensionDistribution::evaluateWithCascade(
 }
 
 // Evaluate the dependent dimension dists. at the desired phase space point
-double PhaseSpaceDimensionDistribution::evaluateDependentDistributions(
+template<PhaseSpaceDimension dimension_type>
+double PhaseSpaceDimensionDistribution<dimension_type>::evaluateDependentDistributions(
                                const PhaseSpacePoint& phase_space_point ) const
 {
   double dependent_value = 1.0;
 
-  DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
+  typename DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
     d_dependent_dimension_distributions.begin();
 
   while( dimension_dep_dist_it != d_dependent_dimension_distributions.end() )
@@ -69,7 +73,8 @@ double PhaseSpaceDimensionDistribution::evaluateDependentDistributions(
 /*! \details The sampling process will cascade to all of the dependent
  * dimensions as well (they will use the value sampled for this dimension).
  */
-void PhaseSpaceDimensionDistribution::sampleWithCascade(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleWithCascade(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
   // Sample a value for this dimension
@@ -80,10 +85,11 @@ void PhaseSpaceDimensionDistribution::sampleWithCascade(
 }
 
 // Sample from all of the dependent dimensions using this dimension value
-void PhaseSpaceDimensionDistribution::sampleFromDependentDistributions(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleFromDependentDistributions(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
-  DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
+  typename DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
     d_dependent_dimension_distributions.begin();
 
   while( dimension_dep_dist_it != d_dependent_dimension_distributions.end() )
@@ -98,7 +104,8 @@ void PhaseSpaceDimensionDistribution::sampleFromDependentDistributions(
 /*! \details The sampling process will cascade to all of the dependent
  * dimensions as well (they will use the value sampled for this dimension).
  */
-void PhaseSpaceDimensionDistribution::sampleAndRecordTrialsWithCascade(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleAndRecordTrialsWithCascade(
                                            PhaseSpacePoint& phase_space_sample,
                                            DimensionCounterMap& trials ) const
 {
@@ -115,11 +122,12 @@ void PhaseSpaceDimensionDistribution::sampleAndRecordTrialsWithCascade(
 }
 
 // Sample from all of the dependent dimensions and record trials
-void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsAndRecordTrials(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleFromDependentDistributionsAndRecordTrials(
                                            PhaseSpacePoint& phase_space_sample,
                                            DimensionCounterMap& trials ) const
 {
-  DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
+  typename DimensionDependentDistributionMap::const_iterator dimension_dep_dist_it =
     d_dependent_dimension_distributions.begin();
 
   while( dimension_dep_dist_it != d_dependent_dimension_distributions.end() )
@@ -132,10 +140,11 @@ void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsAndRecordT
 }
 
 // Sample a dimension value and cascade to the dependent distributions
-void PhaseSpaceDimensionDistribution::sampleWithCascadeUsingDimensionValue(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleWithCascadeUsingDimensionValue(
                                         PhaseSpacePoint& phase_space_sample,
                                         const PhaseSpaceDimension dimension,
-                                        const double dimension_value ) const
+                                        const DimensionValueType dimension_value ) const
 {
   // Check if this is the dimension that should use the specified value instead
   // of sampling (a weight will be calculated and applied if so)
@@ -158,12 +167,13 @@ void PhaseSpaceDimensionDistribution::sampleWithCascadeUsingDimensionValue(
 }
 
 // Sample from all of the dependent dimensions using the dimension value
-void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsUsingDimensionValue(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleFromDependentDistributionsUsingDimensionValue(
                                            PhaseSpacePoint& phase_space_sample,
                                            const PhaseSpaceDimension dimension,
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
-  DimensionDependentDistributionMap::const_iterator dependent_dim_dist_it =
+  typename DimensionDependentDistributionMap::const_iterator dependent_dim_dist_it =
     d_dependent_dimension_distributions.begin();
 
   while( dependent_dim_dist_it != d_dependent_dimension_distributions.end() )
@@ -178,11 +188,12 @@ void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsUsingDimen
 }
 
 // Set the dimension value, weight appropriately and record the trials
-void PhaseSpaceDimensionDistribution::sampleAndRecordTrialsWithCascadeUsingDimensionValue(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleAndRecordTrialsWithCascadeUsingDimensionValue(
                                            PhaseSpacePoint& phase_space_sample,
                                            DimensionCounterMap& trials,
                                            const PhaseSpaceDimension dimension,
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
   // Make sure the trial counter map is valid
   testPrecondition( trials.count( this->getDimension() ) );
@@ -211,13 +222,14 @@ void PhaseSpaceDimensionDistribution::sampleAndRecordTrialsWithCascadeUsingDimen
 }
 
 // Sample from all of the dependent dims. and record trials using dim. value
-void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsAndRecordTrialsUsingDimensionValue(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::sampleFromDependentDistributionsAndRecordTrialsUsingDimensionValue(
                                            PhaseSpacePoint& phase_space_sample,
                                            DimensionCounterMap& trials,
                                            const PhaseSpaceDimension dimension,
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
-  DimensionDependentDistributionMap::const_iterator dependent_dim_dist_it =
+  typename DimensionDependentDistributionMap::const_iterator dependent_dim_dist_it =
     d_dependent_dimension_distributions.begin();
 
   while( dependent_dim_dist_it != d_dependent_dimension_distributions.end() )
@@ -233,13 +245,15 @@ void PhaseSpaceDimensionDistribution::sampleFromDependentDistributionsAndRecordT
 }
 
 // Check if the distribution has a parent
-bool PhaseSpaceDimensionDistribution::hasParentDistribution() const
+template<PhaseSpaceDimension dimension_type>
+bool PhaseSpaceDimensionDistribution<dimension_type>::hasParentDistribution() const
 {
   return d_parent_distribution.use_count() > 0;
 }
 
 // Get the parent distribution
-const PhaseSpaceDimensionDistribution& PhaseSpaceDimensionDistribution::getParentDistribution() const
+template<PhaseSpaceDimension dimension_type>
+auto&& PhaseSpaceDimensionDistribution<dimension_type>::getParentDistribution() const
 {
   // Make sure that there is a parent distribution
   testPrecondition( this->hasParentDistribution() );
@@ -248,7 +262,8 @@ const PhaseSpaceDimensionDistribution& PhaseSpaceDimensionDistribution::getParen
 }
 
 // Add a dependent distribution
-void PhaseSpaceDimensionDistribution::addDependentDistribution(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::addDependentDistribution(
                        const std::shared_ptr<PhaseSpaceDimensionDistribution>&
                        dependent_dimension )
 {
@@ -278,16 +293,17 @@ void PhaseSpaceDimensionDistribution::addDependentDistribution(
     dependent_dimension;
 
   // Set this distribution as the parent of the dependent distribution
-  dependent_dimension->d_parent_distribution = shared_from_this();
+  dependent_dimension->d_parent_distribution = this->shared_from_this();
 }
 
 // Remove dependent distributions
-void PhaseSpaceDimensionDistribution::removeDependentDistributions()
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::removeDependentDistributions()
 {
-  DimensionDependentDistributionMap::iterator dep_dist_it =
+  typename DimensionDependentDistributionMap::iterator dep_dist_it =
     d_dependent_dimension_distributions.begin();
 
-  DimensionDependentDistributionMap::iterator dep_dist_end =
+  typename DimensionDependentDistributionMap::iterator dep_dist_end =
     d_dependent_dimension_distributions.end();
 
   while( dep_dist_it != dep_dist_end )
@@ -303,13 +319,14 @@ void PhaseSpaceDimensionDistribution::removeDependentDistributions()
 }
 
 // Get the dependent dimensions
-void PhaseSpaceDimensionDistribution::getDependentDimensions(
+template<PhaseSpaceDimension dimension_type>
+void PhaseSpaceDimensionDistribution<dimension_type>::getDependentDimensions(
                             DependentDimensionSet& dependent_dimensions ) const
 {
-  DimensionDependentDistributionMap::const_iterator dimension_it =
+  typename DimensionDependentDistributionMap::const_iterator dimension_it =
     d_dependent_dimension_distributions.begin();
 
-  DimensionDependentDistributionMap::const_iterator dimension_end =
+  typename DimensionDependentDistributionMap::const_iterator dimension_end =
     d_dependent_dimension_distributions.end();
 
   while( dimension_it != dimension_end )
@@ -320,7 +337,6 @@ void PhaseSpaceDimensionDistribution::getDependentDimensions(
   }
 }
 
-EXPLICIT_CLASS_SAVE_LOAD_INST( PhaseSpaceDimensionDistribution  );
   
 } // end MonteCarlo namespace
 

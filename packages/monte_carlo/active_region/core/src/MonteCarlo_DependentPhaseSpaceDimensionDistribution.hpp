@@ -37,13 +37,17 @@ class DependentPhaseSpaceDimensionDistribution :
 #if !defined SWIG
 public DependentPhaseSpaceDimensionDistributionHelper<parent_dimension,dimension, typename std::enable_if<parent_dimension!=dimension>::type>,
 #endif // end !defined SWIG
- public PhaseSpaceDimensionDistribution
+ public PhaseSpaceDimensionDistribution<dimension>
 {
 
 public:
 
   //! The trial counter type
-  typedef PhaseSpaceDimensionDistribution::Counter Counter;
+  typedef typename PhaseSpaceDimensionDistribution<dimension>::Counter Counter;
+
+  typedef typename PhaseSpaceDimensionTraits<parent_dimension>::DimensionValueType ParentDimensionValueType;
+
+  typedef typename PhaseSpaceDimensionDistribution<dimension>::DimensionValueType DimensionValueType;
 
   //! Constructor
   DependentPhaseSpaceDimensionDistribution(
@@ -104,7 +108,7 @@ public:
   //! Set the dimension value (weight appropriately)
   void setDimensionValueAndApplyWeight(
                            PhaseSpacePoint& phase_space_sample,
-                           const double dimension_value ) const final override;
+                           const DimensionValueType dimension_value ) const final override;
 
 protected:
 
@@ -113,8 +117,8 @@ protected:
   { /* ... */ }
 
   //! Evaluate the PDF of this dimension distribution
-  double evaluatePDFWithoutCascade( const double parent_dimension_value,
-                                    const double dimension_value ) const;
+  double evaluatePDFWithoutCascade( const ParentDimensionValueType parent_dimension_value,
+                                    const DimensionValueType dimension_value ) const;
 
 private:
 

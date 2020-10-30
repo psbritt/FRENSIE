@@ -509,6 +509,7 @@ struct PhaseSpaceDimensionTraits<SOURCE_WEIGHT_DIMENSION>
   }
 };
 
+//! NOTE: DimensionValueType should be size_t, but due to constraints with the distribution classes must be double for now (large refactor required to fix)
 template<>
 struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
 {
@@ -553,11 +554,11 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   { 
     testPrecondition(s_mesh);
     double position[3];
-    s_mesh->getRandomPointInHex(coord_value, position);
+    s_mesh->getRandomPointInHex(coord_value , position);
     point.setPrimarySpatialCoordinate( position[0] );
     point.setSecondarySpatialCoordinate( position[1] );
     point.setTertiarySpatialCoordinate( position[2] );
-    point.setMeshIndexCoordinate(coord_value);
+    point.setMeshIndexCoordinate(coord_value );
   }
 
   //! Get the coordinate weight

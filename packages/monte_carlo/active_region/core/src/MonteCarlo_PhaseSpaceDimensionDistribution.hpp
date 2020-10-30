@@ -25,6 +25,7 @@
 #include "MonteCarlo_PhaseSpaceDimension.hpp"
 #include "MonteCarlo_PhaseSpaceDimensionClass.hpp"
 #include "MonteCarlo_PhaseSpacePoint.hpp"
+#include "MonteCarlo_PhaseSpaceDimensionTraits.hpp"
 #include "Utility_UnivariateDistributionType.hpp"
 #include "Utility_DistributionTraits.hpp"
 #include "Utility_ExplicitSerializationTemplateInstantiationMacros.hpp"
@@ -40,7 +41,8 @@ namespace MonteCarlo{
  * through std::shared_ptr. Failure to do this will result in undefined
  * behavior.
  */
-class PhaseSpaceDimensionDistribution : public std::enable_shared_from_this<PhaseSpaceDimensionDistribution>
+template<PhaseSpaceDimension dimension_type>
+class PhaseSpaceDimensionDistribution : public std::enable_shared_from_this<PhaseSpaceDimensionDistribution<dimension_type>>
 {
 
 public:
@@ -53,6 +55,8 @@ public:
 
   //! The dependent dimension set
   typedef std::set<PhaseSpaceDimension> DependentDimensionSet;
+
+  typedef typename PhaseSpaceDimensionTraits<dimension_type>::DimensionValueType DimensionValueType;
 
   //! Constructor
   PhaseSpaceDimensionDistribution();
@@ -118,25 +122,25 @@ public:
   void sampleWithCascadeUsingDimensionValue(
                                         PhaseSpacePoint& phase_space_sample,
                                         const PhaseSpaceDimension dimension,
-                                        const double dimension_value ) const;
+                                        const DimensionValueType dimension_value ) const;
 
   //! Set the dimension value, weight appropriately and record the trials
   void sampleAndRecordTrialsWithCascadeUsingDimensionValue(
                                           PhaseSpacePoint& phase_space_sample,
                                           DimensionCounterMap& trials,
                                           const PhaseSpaceDimension dimension,
-                                          const double dimension_value ) const;
+                                          const DimensionValueType dimension_value ) const;
 
   //! Set the dimension value (weight appropriately)
   virtual void setDimensionValueAndApplyWeight(
                                       PhaseSpacePoint& phase_space_sample,
-                                      const double dimension_value ) const = 0;
+                                      const DimensionValueType dimension_value ) const = 0;
 
   //! Check if the distribution has a parent
   bool hasParentDistribution() const;
 
   //! Get the parent distribution
-  const PhaseSpaceDimensionDistribution& getParentDistribution() const;
+  auto&& getParentDistribution() const;
 
   //! Add a dependent distribution
   void addDependentDistribution(
@@ -168,14 +172,14 @@ private:
   void sampleFromDependentDistributionsUsingDimensionValue(
                                           PhaseSpacePoint& phase_space_sample,
                                           const PhaseSpaceDimension dimension,
-                                          const double dimension_value ) const;
+                                          const DimensionValueType dimension_value ) const;
 
   // Sample from all of the dependent dims. and record trials using dim. value
   void sampleFromDependentDistributionsAndRecordTrialsUsingDimensionValue(
                                           PhaseSpacePoint& phase_space_sample,
                                           DimensionCounterMap& trials,
                                           const PhaseSpaceDimension dimension,
-                                          const double dimension_value ) const;
+                                          const DimensionValueType dimension_value ) const;
 
   // Save the state to an archive
   template<typename Archive>
@@ -184,8 +188,6 @@ private:
   // Load the data from an archive
   template<typename Archive>
   void load( Archive& ar, const unsigned version );
-
-  BOOST_SERIALIZATION_SPLIT_MEMBER();
 
   // Declare the boost serialization access object as a friend
   friend class boost::serialization::access;
@@ -198,30 +200,16 @@ private:
   DimensionDependentDistributionMap d_dependent_dimension_distributions;
 };
 
-// Save the state to an archive
-template<typename Archive>
-void PhaseSpaceDimensionDistribution::save( Archive& ar,
-                                            const unsigned version ) const
-{
-  ar & BOOST_SERIALIZATION_NVP( d_parent_distribution );
-  ar & BOOST_SERIALIZATION_NVP( d_dependent_dimension_distributions );
-}
-
-// Load the data from an archive
-template<typename Archive>
-void PhaseSpaceDimensionDistribution::load( Archive& ar,
-                                            const unsigned version )
-{
-  ar & BOOST_SERIALIZATION_NVP( d_parent_distribution );
-  ar & BOOST_SERIALIZATION_NVP( d_dependent_dimension_distributions );
-}
 
 } // end MonteCarlo namespace
 
+//---------------------------------------------------------------------------//
+// Template Includes.
+//---------------------------------------------------------------------------//
 
-BOOST_SERIALIZATION_ASSUME_ABSTRACT_CLASS( PhaseSpaceDimensionDistribution, MonteCarlo );
-BOOST_SERIALIZATION_CLASS_VERSION( PhaseSpaceDimensionDistribution, MonteCarlo, 0 );
-EXTERN_EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo, PhaseSpaceDimensionDistribution );
+#include "MonteCarlo_PhaseSpaceDimensionDistribution_def.hpp"
+
+//---------------------------------------------------------------------------//
 
 #endif // end MONTE_CARLO_PHASE_SPACE_DIMENSION_DISTRIBUTION_HPP
 

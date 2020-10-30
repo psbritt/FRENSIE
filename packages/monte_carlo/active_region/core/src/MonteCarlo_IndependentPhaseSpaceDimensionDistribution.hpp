@@ -24,6 +24,8 @@ template<PhaseSpaceDimension dimension>
 class IndependentPhaseSpaceDimensionDistribution : public PhaseSpaceDimensionDistribution
 {
 
+  typedef typename PhaseSpaceDimensionTraits<dimension>::DimensionValueType DimensionValueType;
+
 public:
 
   //! The trial counter type
@@ -82,7 +84,7 @@ public:
   //! Set the dimension value (weight appropriately)
   void setDimensionValueAndApplyWeight(
                            PhaseSpacePoint& phase_space_sample,
-                           const double dimension_value ) const final override;
+                           const DimensionValueType dimension_value ) const final override;
   
 protected:
 
@@ -91,7 +93,7 @@ protected:
   { /* ... */ }
 
   //! Evaluate the PDF of this dimension distribution
-  double evaluatePDFWithoutCascade( const double dimension_value ) const;
+  double evaluatePDFWithoutCascade( const DimensionValueType dimension_value ) const;
 
 private:
 

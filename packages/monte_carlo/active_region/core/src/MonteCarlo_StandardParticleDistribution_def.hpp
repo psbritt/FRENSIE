@@ -9,6 +9,8 @@
 #ifndef MONTE_CARLO_STANDARD_PARTICLE_DISTRIBUTION_DEF_HPP
 #define MONTE_CARLO_STANDARD_PARTICLE_DISTRIBUTION_DEF_HPP
 
+#include "MonteCarlo_PhaseSpaceDimensionTraits.hpp"
+
 namespace MonteCarlo{
 
 // Sample the particle state using the desired dimension sampling functor

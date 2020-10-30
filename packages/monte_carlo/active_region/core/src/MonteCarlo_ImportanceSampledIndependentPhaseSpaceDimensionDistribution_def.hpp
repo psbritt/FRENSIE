@@ -57,7 +57,7 @@ void ImportanceSampledIndependentPhaseSpaceDimensionDistribution<dimension>::sam
                                            PhaseSpacePoint& phase_space_sample,
                                            Counter& trials ) const
 {
-  const double sample =
+  const DimensionValueType sample =
     d_dimension_importance_distribution->sampleAndRecordTrials( trials );
 
   const double weight = this->calculateSampleWeight( sample );
@@ -69,7 +69,7 @@ void ImportanceSampledIndependentPhaseSpaceDimensionDistribution<dimension>::sam
 // Calculate the weight of a sample
 template<PhaseSpaceDimension dimension>
 double ImportanceSampledIndependentPhaseSpaceDimensionDistribution<dimension>::calculateSampleWeight(
-                                          const double dimension_sample ) const
+                                          const DimensionValueType dimension_sample ) const
 {
   const double weight_numerator =
     this->evaluatePDFWithoutCascade( dimension_sample );

@@ -22,6 +22,10 @@ class ImportanceSampledDependentPhaseSpaceDimensionDistribution : public Depende
   // Typedef for the base type
   typedef DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension> BaseType;
 
+  typedef typename PhaseSpaceDimensionTraits<parent_dimension>::DimensionValueType ParentDimensionValueType;
+
+  typedef typename PhaseSpaceDimensionTraits<dimension>::DimensionValueType DimensionValueType;
+
 public:
 
   //! The trial counter type
@@ -54,8 +58,8 @@ private:
   { /* ... */ }
 
   // Calculate the weight of a sample
-  double calculateSampleWeight( const double indep_dimension_value,
-                                const double dep_dimension_sample ) const;
+  double calculateSampleWeight( const ParentDimensionValueType indep_dimension_value,
+                                const DimensionValueType dep_dimension_sample ) const;
 
   // Save the data to an archive
   template<typename Archive>

@@ -137,7 +137,7 @@ template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampleWithoutCascade(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
-  const double sample =
+  const DimensionValueType sample =
     d_dimension_distribution->sampleSecondaryConditional(
            MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ) );
 
@@ -151,7 +151,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampl
                                   PhaseSpacePoint& phase_space_sample,
                                   Counter& trials ) const
 {
-  const double sample =
+  const DimensionValueType sample =
     d_dimension_distribution->sampleSecondaryConditionalAndRecordTrials(
              MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
              trials );
@@ -164,7 +164,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampl
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::setDimensionValueAndApplyWeight(
                                            PhaseSpacePoint& phase_space_sample,
-                                           const double dimension_value ) const
+                                           const DimensionValueType dimension_value ) const
 {
   const double weight = this->evaluatePDFWithoutCascade(
              MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
@@ -183,8 +183,8 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::setDi
 // Evaluate the PDF of this dimension distribution
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 double DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::evaluatePDFWithoutCascade(
-                                          const double parent_dimension_value,
-                                          const double dimension_value ) const
+                                          const ParentDimensionValueType parent_dimension_value,
+                                          const DimensionValueType dimension_value ) const
 {
   return d_dimension_distribution->evaluateSecondaryConditionalPDF(
                                      parent_dimension_value, dimension_value );

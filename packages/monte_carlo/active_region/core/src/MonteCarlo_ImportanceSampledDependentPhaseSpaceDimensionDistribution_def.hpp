@@ -38,7 +38,7 @@ template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 void ImportanceSampledDependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampleWithoutCascade(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
-  const double sample =
+  const DimensionValueType sample =
     d_dimension_importance_distribution->sampleSecondaryConditional(
            MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ) );
 
@@ -74,8 +74,8 @@ void ImportanceSampledDependentPhaseSpaceDimensionDistribution<parent_dimension,
 // Calculate the weight of a sample
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 double ImportanceSampledDependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::calculateSampleWeight(
-                                      const double parent_dimension_value,
-                                      const double dimension_sample ) const
+                                      const ParentDimensionValueType parent_dimension_value,
+                                      const ParentDimensionValueType dimension_sample ) const
 {
   const double weight_numerator =
     this->evaluatePDFWithoutCascade(
