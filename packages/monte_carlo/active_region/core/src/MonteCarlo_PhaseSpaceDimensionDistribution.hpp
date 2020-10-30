@@ -183,11 +183,19 @@ private:
 
   // Save the state to an archive
   template<typename Archive>
-  void save( Archive& ar, const unsigned version ) const;
+  void save( Archive& ar, const unsigned version ) const
+  {
+    ar & BOOST_SERIALIZATION_NVP( d_parent_distribution );
+    ar & BOOST_SERIALIZATION_NVP( d_dependent_dimension_distributions );
+  }
 
   // Load the data from an archive
   template<typename Archive>
-  void load( Archive& ar, const unsigned version );
+  void load( Archive& ar, const unsigned version )
+  {
+    ar & BOOST_SERIALIZATION_NVP( d_parent_distribution );
+    ar & BOOST_SERIALIZATION_NVP( d_dependent_dimension_distributions );
+  }
 
   // Declare the boost serialization access object as a friend
   friend class boost::serialization::access;

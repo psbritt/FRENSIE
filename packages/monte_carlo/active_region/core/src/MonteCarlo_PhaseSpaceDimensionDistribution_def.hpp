@@ -1,10 +1,13 @@
 //---------------------------------------------------------------------------//
 //!
-//! \file   MonteCarlo_PhaseSpaceDimensionDistribution.cpp
+//! \file   MonteCarlo_PhaseSpaceDimensionDistribution_def.hpp
 //! \author Alex Robinson
 //! \brief  Phase space dimension distribution class definition
 //!
 //---------------------------------------------------------------------------//
+
+#ifndef UTILITY_PHASE_SPACE_DIMENSION_DISTRIBUTION_DEF_HPP
+#define UTILITY_PHASE_SPACE_DIMENSION_DISTRIBUTION_DEF_HPP
 
 // FRENSIE Includes
 #include "FRENSIE_Archives.hpp"
@@ -336,9 +339,10 @@ void PhaseSpaceDimensionDistribution<dimension_type>::getDependentDimensions(
     ++dimension_it;
   }
 }
-
   
 } // end MonteCarlo namespace
+
+#endif
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_PhaseSpaceDimensionDistribution.cpp
