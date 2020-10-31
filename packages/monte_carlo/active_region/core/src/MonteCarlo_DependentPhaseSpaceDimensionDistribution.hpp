@@ -33,7 +33,7 @@ class DependentPhaseSpaceDimensionDistributionHelper
  * \details This class will be used if parent_dimension != dimension.
  */
 template<PhaseSpaceDimension parent_dimension, PhaseSpaceDimension dimension>
-class DependentPhaseSpaceDimensionDistribution :
+class DependentPhaseSpaceDimensionDistributionBase :
 #if !defined SWIG
 public DependentPhaseSpaceDimensionDistributionHelper<parent_dimension,dimension, typename std::enable_if<parent_dimension!=dimension>::type>,
 #endif // end !defined SWIG
@@ -50,12 +50,12 @@ public:
   typedef typename PhaseSpaceDimensionDistribution<dimension>::DimensionValueType DimensionValueType;
 
   //! Constructor
-  DependentPhaseSpaceDimensionDistribution(
+  DependentPhaseSpaceDimensionDistributionBase(
               const std::shared_ptr<const Utility::BasicBivariateDistribution>&
               dimension_distribution );
 
   //! Destructor
-  virtual ~DependentPhaseSpaceDimensionDistribution()
+  virtual ~DependentPhaseSpaceDimensionDistributionBase()
   { /* ... */ }
 
   //! Return the phase space dimension
@@ -113,7 +113,7 @@ public:
 protected:
 
   //! Default constructor
-  DependentPhaseSpaceDimensionDistribution()
+  DependentPhaseSpaceDimensionDistributionBase()
   { /* ... */ }
 
   //! Evaluate the PDF of this dimension distribution

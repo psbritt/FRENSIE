@@ -18,7 +18,7 @@ namespace MonteCarlo{
 
 // Constructor
 template<PhaseSpaceDimension parent_dimension, PhaseSpaceDimension dimension>
-DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::DependentPhaseSpaceDimensionDistribution(
+DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::DependentPhaseSpaceDimensionDistributionBase(
               const std::shared_ptr<const Utility::BasicBivariateDistribution>&
               dimension_distribution )
   : d_dimension_distribution( dimension_distribution )
@@ -29,42 +29,42 @@ DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::DependentP
 
 // Return the phase space dimension
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-PhaseSpaceDimension DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::getDimension() const
+PhaseSpaceDimension DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::getDimension() const
 {
   return dimension;
 }
 
 // Return the phase space dimension class
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-PhaseSpaceDimensionClass DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::getDimensionClass() const
+PhaseSpaceDimensionClass DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::getDimensionClass() const
 {
   return PhaseSpaceDimensionTraits<dimension>::getClass();
 }
 
 // Return the independent phase space dimension
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-PhaseSpaceDimension DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::getParentDimension() const
+PhaseSpaceDimension DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::getParentDimension() const
 {
   return parent_dimension;
 }
 
 // Return the independent phase space dimension class
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-PhaseSpaceDimensionClass DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::getParentDimensionClass() const
+PhaseSpaceDimensionClass DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::getParentDimensionClass() const
 {
   return PhaseSpaceDimensionTraits<parent_dimension>::getClass();
 }
 
 // Check if the dimension distribution is independent
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isIndependent() const
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::isIndependent() const
 {
   return false;
 }
 
 // Check if the dimension is dependent on the dimension of interest
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isDependentOnDimension(
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::isDependentOnDimension(
                               const PhaseSpaceDimension other_dimension ) const
 {
   return parent_dimension == other_dimension;
@@ -77,7 +77,7 @@ bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isDep
  */
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isContinuous() const
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::isContinuous() const
 {
   return d_dimension_distribution->isPrimaryDimensionContinuous();
 }
@@ -88,7 +88,7 @@ bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isCon
  * distribution is tabular w.r.t. the dependent dimension.
  */
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isTabular() const
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::isTabular() const
 {
   return d_dimension_distribution->isPrimaryDimensionTabular();
 }
@@ -98,7 +98,7 @@ bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isTab
  * if the two-d distribution is constant everywhere that it is defined.
  */
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isUniform() const
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::isUniform() const
 {
   return false;
 }
@@ -109,7 +109,7 @@ bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::isUni
  * defined.
  */
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::hasForm(
+bool DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::hasForm(
                               const Utility::UnivariateDistributionType ) const
 {
   return false;
@@ -117,14 +117,14 @@ bool DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::hasFo
 
 // Get the distribution type name
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-std::string DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::getDistributionTypeName() const
+std::string DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::getDistributionTypeName() const
 {
   return "BasicBivariateDistribution";
 }
 
 // Evaluate the dimension distribution without cascade to dependent dists.
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-double DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::evaluateWithoutCascade(
+double DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::evaluateWithoutCascade(
                                const PhaseSpacePoint& phase_space_point ) const
 {
   return d_dimension_distribution->evaluate(
@@ -134,7 +134,7 @@ double DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::eva
 
 // Sample a dimension value without a cascade to the dependent dists.
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampleWithoutCascade(
+void DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::sampleWithoutCascade(
                                     PhaseSpacePoint& phase_space_sample ) const
 {
   const DimensionValueType sample =
@@ -147,7 +147,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampl
 
 // Sample a dimension value without a cascade to the dependent dists.
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampleAndRecordTrialsWithoutCascade(
+void DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::sampleAndRecordTrialsWithoutCascade(
                                   PhaseSpacePoint& phase_space_sample,
                                   Counter& trials ) const
 {
@@ -162,7 +162,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::sampl
 
 // Set the dimension value (weight appropriately)
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::setDimensionValueAndApplyWeight(
+void DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::setDimensionValueAndApplyWeight(
                                            PhaseSpacePoint& phase_space_sample,
                                            const DimensionValueType dimension_value ) const
 {
@@ -182,7 +182,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::setDi
 
 // Evaluate the PDF of this dimension distribution
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
-double DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::evaluatePDFWithoutCascade(
+double DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::evaluatePDFWithoutCascade(
                                           const ParentDimensionValueType parent_dimension_value,
                                           const DimensionValueType dimension_value ) const
 {
@@ -193,7 +193,7 @@ double DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::eva
 // Save the data to an archive
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 template<typename Archive>
-void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::save( Archive& ar, const unsigned version ) const
+void DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::save( Archive& ar, const unsigned version ) const
 {
   // Save the base class member data
   ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( PhaseSpaceDimensionDistribution );
@@ -205,7 +205,7 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::save(
 // Load the data from an archive
 template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
 template<typename Archive>
-void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::load( Archive& ar, const unsigned version )
+void DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>::load( Archive& ar, const unsigned version )
 {
   // Load the base class member data
   ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( PhaseSpaceDimensionDistribution );
@@ -214,6 +214,171 @@ void DependentPhaseSpaceDimensionDistribution<parent_dimension,dimension>::load(
   ar & BOOST_SERIALIZATION_NVP( d_dimension_distribution );
 }
 
+// Default template (no specialization)
+template<PhaseSpaceDimension parent_dimension,PhaseSpaceDimension dimension>
+class DependentPhaseSpaceDimensionDistribution: public DependentPhaseSpaceDimensionDistributionBase<parent_dimension,dimension>
+{
+  public:
+};
+
+// Specialized for spatial index dimension as child dimension
+template<PhaseSpaceDimension parent_dimension>
+class DependentPhaseSpaceDimensionDistribution<parent_dimension, SPATIAL_INDEX_DIMENSION>: public  DependentPhaseSpaceDimensionDistributionBase<parent_dimension, SPATIAL_INDEX_DIMENSION>
+{
+
+  // Evaluate the dimension distribution without cascade to dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  double DependentPhaseSpaceDimensionDistributionBase<parent_dimension, SPATIAL_INDEX_DIMENSION>::evaluateWithoutCascade(
+                                const PhaseSpacePoint& phase_space_point ) const
+  {
+    return d_dimension_distribution->evaluate(
+                MonteCarlo::getCoordinate<parent_dimension>( phase_space_point ),
+                MonteCarlo::getDoubleEquivalentCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_point ) );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<parent_dimension, SPATIAL_INDEX_DIMENSION>::sampleWithoutCascade(
+                                      PhaseSpacePoint& phase_space_sample ) const
+  {
+    size_t primary_index, secondary_index;
+    const DimensionValueType sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordBinIndices(
+            MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
+            primary_index,
+            secondary_index );
+
+    MonteCarlo::setCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_sample, secondary_index );
+    MonteCarlo::setCoordinateWeight<SPATIAL_INDEX_DIMENSION>( phase_space_sample, 1.0 );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<parent_dimension, SPATIAL_INDEX_DIMENSION>::sampleAndRecordTrialsWithoutCascade(
+                                    PhaseSpacePoint& phase_space_sample,
+                                    Counter& trials ) const
+  {
+    const double sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordTrials(
+              MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
+              trials );
+    size_t bin_index = MonteCarlo::convertDoubleCoordinateToIndexCoordinate<SPATIAL_INDEX_DIMENSION>(sample);
+    MonteCarlo::setCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_sample, bin_index );
+    MonteCarlo::setCoordinateWeight<SPATIAL_INDEX_DIMENSION>( phase_space_sample, 1.0 );
+  }
+
+};
+
+template<PhaseSpaceDimension parent_dimension>
+class DependentPhaseSpaceDimensionDistribution<parent_dimension, DIRECTION_INDEX_DIMENSION>: public  DependentPhaseSpaceDimensionDistributionBase<parent_dimension, DIRECTION_INDEX_DIMENSION>
+{
+
+  // Evaluate the dimension distribution without cascade to dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  double DependentPhaseSpaceDimensionDistributionBase<parent_dimension, DIRECTION_INDEX_DIMENSION>::evaluateWithoutCascade(
+                                const PhaseSpacePoint& phase_space_point ) const
+  {
+    return d_dimension_distribution->evaluate(
+                MonteCarlo::getCoordinate<parent_dimension>( phase_space_point ),
+                MonteCarlo::getDoubleEquivalentCoordinate<DIRECTION_INDEX_DIMENSION>( phase_space_point ) );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<parent_dimension, DIRECTION_INDEX_DIMENSION>::sampleWithoutCascade(
+                                      PhaseSpacePoint& phase_space_sample ) const
+  {
+    size_t primary_index, secondary_index;
+    const DimensionValueType sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordBinIndices(
+            MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
+            primary_index,
+            secondary_index );
+
+    MonteCarlo::setCoordinate<DIRECTION_INDEX_DIMENSION>( phase_space_sample, secondary_index );
+    MonteCarlo::setCoordinateWeight<DIRECTION_INDEX_DIMENSION>( phase_space_sample, 1.0 );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension parent_dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<parent_dimension, DIRECTION_INDEX_DIMENSION>::sampleAndRecordTrialsWithoutCascade(
+                                    PhaseSpacePoint& phase_space_sample,
+                                    Counter& trials ) const
+  {
+    const double sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordTrials(
+              MonteCarlo::getCoordinate<parent_dimension>( phase_space_sample ),
+              trials );
+    size_t bin_index = MonteCarlo::convertDoubleCoordinateToIndexCoordinate<DIRECTION_INDEX_DIMENSION>(sample);
+    MonteCarlo::setCoordinate<DIRECTION_INDEX_DIMENSION>( phase_space_sample, bin_index );
+    MonteCarlo::setCoordinateWeight<DIRECTION_INDEX_DIMENSION>( phase_space_sample, 1.0 );
+  }
+
+};
+
+template<PhaseSpaceDimension dimension>
+class DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION, dimension>: public DependentPhaseSpaceDimensionDistributionBase<SPATIAL_INDEX_DIMENSION, dimension>
+{
+
+  // Evaluate the dimension distribution without cascade to dependent dists.
+  template<PhaseSpaceDimension dimension>
+  double DependentPhaseSpaceDimensionDistributionBase<SPATIAL_INDEX_DIMENSION, dimension>::evaluateWithoutCascade(
+                                const PhaseSpacePoint& phase_space_point ) const
+  {
+    return d_dimension_distribution->evaluate(
+                MonteCarlo::getDoubleEquivalentCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_point ),
+                MonteCarlo::getCoordinate<dimension>( phase_space_point ) );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<SPATIAL_INDEX_DIMENSION, dimension>::sampleWithoutCascade(
+                                      PhaseSpacePoint& phase_space_sample ) const
+  {
+    size_t primary_index, secondary_index;
+    const DimensionValueType sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordBinIndices(
+            MonteCarlo::getDoubleEquivalentCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_sample ),
+            primary_index,
+            secondary_index );
+
+    MonteCarlo::setCoordinate<dimension>( phase_space_sample, sample );
+    MonteCarlo::setCoordinateWeight<dimension>( phase_space_sample, 1.0 );
+  }
+
+  // Sample a dimension value without a cascade to the dependent dists.
+  template<PhaseSpaceDimension dimension>
+  void DependentPhaseSpaceDimensionDistributionBase<SPATIAL_INDEX_DIMENSION, dimension>::sampleAndRecordTrialsWithoutCascade(
+                                    PhaseSpacePoint& phase_space_sample,
+                                    Counter& trials ) const
+  {
+    const double sample =
+      d_dimension_distribution->sampleSecondaryConditionalAndRecordTrials(
+              MonteCarlo::getDoubleEquivalentCoordinate<SPATIAL_INDEX_DIMENSION>( phase_space_sample ),
+              trials );
+    MonteCarlo::setCoordinate<dimension>( phase_space_sample, bin_index );
+    MonteCarlo::setCoordinateWeight<dimension>( phase_space_sample, 1.0 );
+  }
+
+};
+
+template<PhaseSpaceDimension dimension>
+class DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION, dimension>: public DependentPhaseSpaceDimensionDistributionBase<DIRECTION_INDEX_DIMENSION, dimension>
+{
+
+};
+
+template<>
+class DependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION, DIRECTION_INDEX_DIMENSION>: public DependentPhaseSpaceDimensionDistributionBase<SPATIAL_INDEX_DIMENSION, DIRECTION_INDEX_DIMENSION>
+{
+
+};
+
+template<>
+class DependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION, SPATIAL_INDEX_DIMENSION>: public DependentPhaseSpaceDimensionDistributionBase<DIRECTION_INDEX_DIMENSION, SPATIAL_INDEX_DIMENSION>
+{
+
+};
 } // end MonteCarlo namespace
 
 //---------------------------------------------------------------------------//
