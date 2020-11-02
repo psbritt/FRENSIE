@@ -9,6 +9,8 @@
 #ifndef MONTE_CARLO_STANDARD_PARTICLE_DISTRIBUTION_DEF_HPP
 #define MONTE_CARLO_STANDARD_PARTICLE_DISTRIBUTION_DEF_HPP
 
+#include "MonteCarlo_PhaseSpaceDimensionTraits.hpp"
+
 namespace MonteCarlo{
 
 // Sample the particle state using the desired dimension sampling functor
@@ -54,6 +56,8 @@ void StandardParticleDistribution::save( Archive& ar, const unsigned version ) c
   ar & BOOST_SERIALIZATION_NVP( d_independent_dimensions );
   ar & BOOST_SERIALIZATION_NVP( d_dimension_distributions );
   ar & BOOST_SERIALIZATION_NVP( d_ready );
+  ar & BOOST_SERIALIZATION_NVP( d_spatial_dimension_mesh );
+  ar & BOOST_SERIALIZATION_NVP( d_direction_dimension_discretization );  
 }
 
 // Load the data from an archive
@@ -69,6 +73,17 @@ void StandardParticleDistribution::load( Archive& ar, const unsigned version )
   ar & BOOST_SERIALIZATION_NVP( d_independent_dimensions );
   ar & BOOST_SERIALIZATION_NVP( d_dimension_distributions );
   ar & BOOST_SERIALIZATION_NVP( d_ready );
+  ar & BOOST_SERIALIZATION_NVP( d_spatial_dimension_mesh );
+  ar & BOOST_SERIALIZATION_NVP( d_direction_dimension_discretization ); 
+
+  if (d_spatial_dimension_mesh)
+  {
+    PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::setMesh(d_spatial_dimension_mesh);
+  }
+  if (d_direction_dimension_discretization)
+  {
+    PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::setDirectionDiscretization(d_direction_dimension_discretization);
+  }
 }
   
 } // end MonteCarlo namespace

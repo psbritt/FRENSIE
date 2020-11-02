@@ -12,6 +12,8 @@
 // FRENSIE Includes
 #include "MonteCarlo_PhaseSpaceDimensionTraitsDecl.hpp"
 #include "Utility_LoggingMacros.hpp"
+#include "Utility_StructuredHexMesh.hpp"
+#include "Utility_PQLAQuadrature.hpp"
 
 namespace MonteCarlo{
 
@@ -503,6 +505,144 @@ struct PhaseSpaceDimensionTraits<SOURCE_WEIGHT_DIMENSION>
                            "applied!" );
     }
   }
+};
+
+//! NOTE: DimensionValueType should be size_t, but due to constraints with the distribution classes must be double for now (large refactor required to fix)
+template<>
+struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
+{
+  //! The type associated with this dimension
+  typedef double DimensionValueType;
+
+  //! The type associated with this dimension weight
+  typedef double DimensionWeightType;
+
+  //! Set the mesh (can only be one source if mesh is used)
+  static void setMesh( std::shared_ptr<Utility::StructuredHexMesh> mesh)
+  { s_mesh = mesh; }
+
+  //! Get the dimension class type
+  static inline PhaseSpaceDimensionClass getClass()
+  { return SPATIAL_DIMENSION_CLASS; }
+
+  //! Get the coordinate value
+  static inline DimensionValueType getCoordinate( const ParticleState& point )
+  {
+    testPrecondition(s_mesh);
+    if(s_mesh->isPointInMesh(point.getPosition()))
+    {
+      return static_cast<DimensionValueType>(s_mesh->whichElementIsPointIn(point.getPosition())); 
+    }
+    else
+    {
+      THROW_EXCEPTION(std::runtime_error, "Particle is not inside source mesh");
+    }
+  }
+
+  //! Get the coordinate value
+  static inline DimensionValueType getCoordinate( const PhaseSpacePoint& point )
+  {
+    testPrecondition(s_mesh);
+    return point.getMeshIndexCoordinate();
+  }
+
+  //! Set the coordinate value
+  static inline void setCoordinate( PhaseSpacePoint& point,
+                                    const DimensionValueType coord_value )
+  { 
+    testPrecondition(s_mesh);
+    double position[3];
+    s_mesh->getRandomPointInHex(static_cast<size_t>(coord_value) , position);
+    point.setPrimarySpatialCoordinate( position[0] );
+    point.setSecondarySpatialCoordinate( position[1] );
+    point.setTertiarySpatialCoordinate( position[2] );
+    point.setMeshIndexCoordinate(coord_value );
+  }
+
+  //! Get the coordinate weight
+  static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
+  {
+    testPrecondition(s_mesh);
+    point.getMeshIndexCoordinateWeight();
+  }
+
+  //! Set the coordinate weight
+  static inline void setCoordinateWeight( PhaseSpacePoint& point,
+                                          const DimensionWeightType coord_weight )
+  { 
+    testPrecondition(s_mesh);
+    point.setMeshIndexCoordinateWeight( coord_weight ); 
+  }
+
+  private:
+
+  static std::shared_ptr<Utility::StructuredHexMesh> s_mesh;
+};
+
+template<>
+struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
+{
+  //! The type associated with this dimension
+  typedef double DimensionValueType;
+
+  //! The type associated with this dimension weight
+  typedef double DimensionWeightType;
+
+  //! Set the mesh (can only be one source if mesh is used)
+  static void setDirectionDiscretization( std::shared_ptr<Utility::PQLAQuadrature> direction_discretization)
+  { s_direction_discretization = direction_discretization; }
+
+  //! Get the dimension class type
+  static inline PhaseSpaceDimensionClass getClass()
+  { return DIRECTIONAL_DIMENSION_CLASS; }
+
+  //! Get the coordinate value
+  static inline DimensionValueType getCoordinate( const ParticleState& point )
+  {
+    testPrecondition(s_direction_discretization);
+    return static_cast<DimensionValueType>(s_direction_discretization->findTriangleBin(point.getXDirection(),
+                                                       point.getYDirection(),
+                                                       point.getZDirection())); 
+  }
+
+  //! Get the coordinate value
+  static inline DimensionValueType getCoordinate( const PhaseSpacePoint& point )
+  {
+    testPrecondition(s_direction_discretization);
+    return point.getDirectionIndexCoordinate();
+  }
+
+  //! Set the coordinate value
+  static inline void setCoordinate( PhaseSpacePoint& point,
+                                    const DimensionValueType coord_value )
+  { 
+    testPrecondition(s_direction_discretization);
+    std::array<double, 3> direction;
+    s_direction_discretization->sampleIsotropicallyFromTriangle(direction, static_cast<size_t>(coord_value) );
+    point.setPrimaryDirectionalCoordinate( direction[0] );
+    point.setSecondaryDirectionalCoordinate( direction[1] );
+    point.setTertiaryDirectionalCoordinate( direction[2] );
+    point.setDirectionIndexCoordinate(coord_value);
+  }
+
+  //! Get the coordinate weight
+  static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
+  {
+    testPrecondition(s_direction_discretization);
+    point.getDirectionIndexCoordinateWeight();
+  }
+
+  //! Set the coordinate weight
+  static inline void setCoordinateWeight( PhaseSpacePoint& point,
+                                          const DimensionWeightType coord_weight )
+  { 
+    testPrecondition(s_direction_discretization);
+    point.setDirectionIndexCoordinateWeight( coord_weight ); 
+  }
+
+  private:
+
+  static std::shared_ptr<Utility::PQLAQuadrature> s_direction_discretization;
 };
 
 } // end MonteCarlo namespace

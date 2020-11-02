@@ -167,6 +167,30 @@ public:
   //! Set the time coordinate weight
   void setTimeCoordinateWeight( const double weight );
 
+  //! Return the mesh index coordinate of the phase space point
+  size_t getMeshIndexCoordinate() const;
+
+  //! Set the mesh index coordinate of the phase space point
+  void setMeshIndexCoordinate(const size_t mesh_index_coord);
+
+  //! Return the mesh index coordinate weight;
+  double getMeshIndexCoordinateWeight() const;
+
+  //! Set the mesh coordinate weight
+  void setMeshIndexCoordinateWeight( const double weight );
+
+    //! Return the mesh index coordinate of the phase space point
+  size_t getDirectionIndexCoordinate() const;
+
+  //! Set the mesh index coordinate of the phase space point
+  void setDirectionIndexCoordinate(const size_t direction_index_coord);
+
+  //! Return the mesh index coordinate weight;
+  double getDirectionIndexCoordinateWeight() const;
+
+  //! Set the mesh coordinate weight
+  void setDirectionIndexCoordinateWeight( const double weight );
+
   //! Return the weight coordinate of the phase space point
   double getWeightCoordinate() const;
 
@@ -239,6 +263,24 @@ private:
 
   // The weight coordinate
   double d_weight_coord;
+
+  // Bool to check if mesh index is defined
+  bool d_is_mesh_index_defined;
+
+  // Mesh coordinate
+  size_t d_mesh_index_coord;
+
+  // Mesh index weight
+  double d_mesh_index_coord_weight;
+
+  // Bool to check if direction index is defined
+  bool d_is_direction_index_defined;
+
+  // Direction discretization index
+  size_t d_direction_index_coord;
+
+  // Direction discretization index weight
+  double d_direction_index_coord_weight;
 };
 
 // Convert spatial coordinates to Cartesian coordinates

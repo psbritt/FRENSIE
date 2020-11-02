@@ -47,6 +47,15 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledIndependentWeightDime
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledIndependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledIndependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledIndependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+
 //---------------------------------------------------------------------------//
 // end MonteCarlo_ImportanceSampledIndependentPhaseSpaceDimensionDistribution.cpp
 //---------------------------------------------------------------------------//

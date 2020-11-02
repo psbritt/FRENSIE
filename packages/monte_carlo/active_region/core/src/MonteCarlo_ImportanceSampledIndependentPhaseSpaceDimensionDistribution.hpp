@@ -101,6 +101,12 @@ typedef ImportanceSampledIndependentPhaseSpaceDimensionDistribution<TIME_DIMENSI
 
 //! The importance sampled independent weight phase space dimension distribution
 typedef ImportanceSampledIndependentPhaseSpaceDimensionDistribution<WEIGHT_DIMENSION> ImportanceSampledIndependentWeightDimensionDistribution;
+
+//! The importance sampled independent time phase space dimension distribution
+typedef ImportanceSampledIndependentPhaseSpaceDimensionDistribution<SPATIAL_INDEX_DIMENSION> ImportanceSampledIndependentSpatialIndexDimensionDistribution;
+
+//! The importance sampled independent weight phase space dimension distribution
+typedef ImportanceSampledIndependentPhaseSpaceDimensionDistribution<DIRECTION_INDEX_DIMENSION> ImportanceSampledIndependentDirectionIndexDimensionDistribution;
   
 } // end MonteCarlo namespace
 

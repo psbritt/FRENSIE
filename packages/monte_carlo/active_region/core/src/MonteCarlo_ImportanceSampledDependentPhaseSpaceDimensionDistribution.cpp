@@ -47,6 +47,14 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentPrimar
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentPrimarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentPrimarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::PRIMARY_SPATIAL_DIMENSION> );
+
 //---------------------------------------------------------------------------//
 // DependentSecondarySpatialDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -82,6 +90,14 @@ EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceD
 BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentSecondarySpatialDimensionDistribution );
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentSecondarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentSecondarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SECONDARY_SPATIAL_DIMENSION> );
 
 //---------------------------------------------------------------------------//
 // DependentTertiarySpatialDimensionDistributions
@@ -119,6 +135,14 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentTertia
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentTertiarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentTertiarySpatialDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TERTIARY_SPATIAL_DIMENSION> );
+
 //---------------------------------------------------------------------------//
 // DependentPrimaryDirectionalDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -154,6 +178,14 @@ EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceD
 BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentPrimaryDirectionalDimensionDistribution );
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentPrimaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentPrimaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION> );
 
 //---------------------------------------------------------------------------//
 // DependentSecondaryDirectionalDimensionDistributions
@@ -191,6 +223,14 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentSecond
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentSecondaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentSecondaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION> );
+
 //---------------------------------------------------------------------------//
 // DependentTertiaryDirectionalDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -226,6 +266,14 @@ EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceD
 BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentTertiaryDirectionalDimensionDistribution );
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentTertiaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentTertiaryDirectionalDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION> );
 
 //---------------------------------------------------------------------------//
 // DependentEnergyDimensionDistributions
@@ -263,6 +311,14 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentEnergy
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentEnergyDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentEnergyDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::ENERGY_DIMENSION> );
+
 //---------------------------------------------------------------------------//
 // DependentTimeDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -299,6 +355,14 @@ BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentTimeDi
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TIME_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::TIME_DIMENSION> );
 
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentTimeDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TIME_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::TIME_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentTimeDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TIME_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::TIME_DIMENSION> );
+
 //---------------------------------------------------------------------------//
 // DependentWeightDimensionDistributions
 //---------------------------------------------------------------------------//
@@ -334,6 +398,102 @@ EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceD
 BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTimeDependentWeightDimensionDistribution );
 EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
 EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentWeightDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentWeightDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::WEIGHT_DIMENSION> );
+
+//---------------------------------------------------------------------------//
+// DependentSpatialIndexDimensionDistributions
+//---------------------------------------------------------------------------//
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledPrimarySpatialDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSecondarySpatialDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTertiarySpatialDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_SPATIAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledPrimaryDirectionalDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSecondaryDirectionalDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTertiaryDirectionalDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledEnergyDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::ENERGY_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::ENERGY_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTimeDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledDirectionIndexDependentSpatialIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::DIRECTION_INDEX_DIMENSION,MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+
+//---------------------------------------------------------------------------//
+// DependentDirectionIndexDimensionDistributions
+//---------------------------------------------------------------------------//
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledPrimarySpatialDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSecondarySpatialDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTertiarySpatialDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_SPATIAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledPrimaryDirectionalDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::PRIMARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSecondaryDirectionalDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SECONDARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTertiaryDirectionalDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TERTIARY_DIRECTIONAL_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledEnergyDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::ENERGY_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::ENERGY_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledTimeDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::TIME_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledWeightDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::WEIGHT_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+
+BOOST_CLASS_EXPORT_IMPLEMENT( MonteCarlo::ImportanceSampledSpatialIndexDependentDirectionIndexDimensionDistribution );
+EXPLICIT_TEMPLATE_CLASS_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
+EXPLICIT_CLASS_SAVE_LOAD_INST( MonteCarlo::ImportanceSampledDependentPhaseSpaceDimensionDistribution<MonteCarlo::SPATIAL_INDEX_DIMENSION,MonteCarlo::DIRECTION_INDEX_DIMENSION> );
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_ImportanceSampledDependentPhaseSpaceDimensionDistribution.cpp
