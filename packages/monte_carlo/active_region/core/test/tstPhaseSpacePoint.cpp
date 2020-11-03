@@ -17,6 +17,7 @@
 #include "MonteCarlo_PhotonState.hpp"
 #include "MonteCarlo_NeutronState.hpp"
 #include "MonteCarlo_ElectronState.hpp"
+#include "MonteCarlo_PhaseSpaceDimensionTraits.hpp"
 #include "Utility_BasicCartesianCoordinateConversionPolicy.hpp"
 #include "Utility_GeneralCartesianSpatialCoordinateConversionPolicy.hpp"
 #include "Utility_GeneralCylindricalSpatialCoordinateConversionPolicy.hpp"
@@ -141,6 +142,30 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, setWeightCoordinate )
   point.setWeightCoordinate( 0.5 );
 
   FRENSIE_CHECK_EQUAL( point.getWeightCoordinate(), 0.5 );
+}
+
+//---------------------------------------------------------------------------//
+// Check that the spatial index coordinate can be set
+FRENSIE_UNIT_TEST( PhaseSpacePoint, setSpatialIndexCoordinate )
+{
+  MonteCarlo::PhaseSpacePoint point( spatial_coord_conversion_policy,
+                                     directional_coord_conversion_policy );
+
+  point.setMeshIndexCoordinate( 2 );
+
+  FRENSIE_CHECK_EQUAL( point.getMeshIndexCoordinate(), 2 );
+}
+
+//---------------------------------------------------------------------------//
+// Check that the direction index coordinate can be set
+FRENSIE_UNIT_TEST( PhaseSpacePoint, setDirectionIndexCoordinate )
+{
+  MonteCarlo::PhaseSpacePoint point( spatial_coord_conversion_policy,
+                                     directional_coord_conversion_policy );
+
+  point.setDirectionIndexCoordinate( 2 );
+
+  FRENSIE_CHECK_EQUAL( point.getDirectionIndexCoordinate(), 2 );
 }
 
 //---------------------------------------------------------------------------//
@@ -375,6 +400,32 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, setTimeCoordinateWeight )
 }
 
 //---------------------------------------------------------------------------//
+// Check that the spatial mesh index coordinate weight can be set
+FRENSIE_UNIT_TEST( PhaseSpacePoint, setMeshIndexCoordinateWeight )
+{
+  MonteCarlo::PhaseSpacePoint point( spatial_coord_conversion_policy,
+                                     directional_coord_conversion_policy );
+  // Index needs to be defined for weight to be defined - protection from non-existant phase space dimension mesh.
+  point.setMeshIndexCoordinate(1);
+  point.setMeshIndexCoordinateWeight( 0.2 );
+
+  FRENSIE_CHECK_EQUAL( point.getMeshIndexCoordinateWeight(), 0.2 );
+}
+
+//---------------------------------------------------------------------------//
+// Check that the direction index coordinate weight can be set
+FRENSIE_UNIT_TEST( PhaseSpacePoint, setDirectionIndexCoordinateWeight )
+{
+  MonteCarlo::PhaseSpacePoint point( spatial_coord_conversion_policy,
+                                     directional_coord_conversion_policy );
+  // Index needs to be defined for weight to be defined - protection from non-existant phase space dimension mesh.
+  point.setDirectionIndexCoordinate(2);
+  point.setDirectionIndexCoordinateWeight( 0.3 );
+
+  FRENSIE_CHECK_EQUAL( point.getDirectionIndexCoordinateWeight(), 0.3 );
+}
+
+//---------------------------------------------------------------------------//
 // Check that the weight of all spatial coordinates can be returned
 FRENSIE_UNIT_TEST( PhaseSpacePoint, getWeightOfSpatialCoordinates )
 {
@@ -408,6 +459,10 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, getWeightOfCoordinates )
 {
   MonteCarlo::PhaseSpacePoint point( spatial_coord_conversion_policy,
                                      directional_coord_conversion_policy );
+  point.setMeshIndexCoordinate(1);
+  point.setMeshIndexCoordinateWeight(3.0);
+  point.setDirectionIndexCoordinate(2);
+  point.setDirectionIndexCoordinateWeight(1.1);
 
   point.setPrimarySpatialCoordinateWeight( 0.1 );
   point.setSecondarySpatialCoordinateWeight( 0.2 );
@@ -420,8 +475,8 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, getWeightOfCoordinates )
   point.setWeightCoordinate( 0.78 );
 
   FRENSIE_CHECK_FLOATING_EQUALITY( point.getWeightOfCoordinates(),
-                          0.0005281848,
-                          1e-12 );
+                          0.00174300984,
+                          1e-15 );
 }
 
 //---------------------------------------------------------------------------//
@@ -936,6 +991,29 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, state_constructor_spherical )
   FRENSIE_CHECK_EQUAL( point->getTimeCoordinateWeight(), 1.0 );
   FRENSIE_CHECK_EQUAL( point->getWeightCoordinate(), 0.0005281848 );
 }
+
+//---------------------------------------------------------------------------//
+// Custom setup
+//---------------------------------------------------------------------------//
+FRENSIE_CUSTOM_UNIT_TEST_SETUP_BEGIN();
+
+FRENSIE_CUSTOM_UNIT_TEST_INIT()
+{
+  // Set up relevant index dimension objects
+  std::vector<double> x_planes( {0.0, 0.5, 1.0} ),
+                      y_planes( {0.0, 0.5} ),
+                      z_planes( {0.0, 0.5} );
+
+  std::shared_ptr<Utility::StructuredHexMesh> hex_mesh = std::make_shared<Utility::StructuredHexMesh>(x_planes, y_planes, z_planes);
+
+  std::shared_ptr<Utility::PQLAQuadrature> direction_discretization = std::make_shared<Utility::PQLAQuadrature>(2);
+
+  MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::SPATIAL_INDEX_DIMENSION>::setMesh(hex_mesh);
+
+  MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::DIRECTION_INDEX_DIMENSION>::setDirectionDiscretization(direction_discretization);
+}
+
+FRENSIE_CUSTOM_UNIT_TEST_SETUP_END();
 
 //---------------------------------------------------------------------------//
 // end tstPhaseSpacePoint.cpp
