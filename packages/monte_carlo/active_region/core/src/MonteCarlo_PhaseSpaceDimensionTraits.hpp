@@ -14,6 +14,7 @@
 #include "Utility_LoggingMacros.hpp"
 #include "Utility_StructuredHexMesh.hpp"
 #include "Utility_PQLAQuadrature.hpp"
+#include "Utility_ExceptionTestMacros.hpp"
 
 namespace MonteCarlo{
 
@@ -551,12 +552,13 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
                                     const DimensionValueType coord_value )
   { 
     testPrecondition(s_mesh);
+    TEST_FOR_EXCEPTION(!s_mesh->isElementHandleValid(coord_value), std::runtime_error, "Invalid hex ID given for phase space point");
     double position[3];
     s_mesh->getRandomPointInHex(static_cast<size_t>(coord_value) , position);
     point.setPrimarySpatialCoordinate( position[0] );
     point.setSecondarySpatialCoordinate( position[1] );
     point.setTertiarySpatialCoordinate( position[2] );
-    point.setMeshIndexCoordinate(coord_value );
+    point.setMeshIndexCoordinate(static_cast<size_t>( coord_value ) );
   }
 
   //! Get the coordinate weight
@@ -617,12 +619,13 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
                                     const DimensionValueType coord_value )
   { 
     testPrecondition(s_direction_discretization);
+    TEST_FOR_EXCEPTION(!s_direction_discretization->isTriangleIDValid(coord_value), std::runtime_error, "Invalid direction triangle ID given for phase space point");
     std::array<double, 3> direction;
     s_direction_discretization->sampleIsotropicallyFromTriangle(direction, static_cast<size_t>(coord_value) );
     point.setPrimaryDirectionalCoordinate( direction[0] );
     point.setSecondaryDirectionalCoordinate( direction[1] );
     point.setTertiaryDirectionalCoordinate( direction[2] );
-    point.setDirectionIndexCoordinate(coord_value);
+    point.setDirectionIndexCoordinate(static_cast<size_t>( coord_value ));
   }
 
   //! Get the coordinate weight

@@ -419,6 +419,7 @@ size_t PhaseSpacePoint::getMeshIndexCoordinate() const
 // Set the mesh index coordinate of the phase space point
 void PhaseSpacePoint::setMeshIndexCoordinate(const size_t mesh_index_coord)
 {
+  std::cout << "Spatial index coordinate: " << mesh_index_coord << std::endl;
   // Set the mesh index as defined
   d_is_mesh_index_defined = true;
 
@@ -455,6 +456,7 @@ size_t PhaseSpacePoint::getDirectionIndexCoordinate() const
 // Set the mesh index coordinate of the phase space point
 void PhaseSpacePoint::setDirectionIndexCoordinate(const size_t direction_index_coord)
 {
+  std::cout << "Direction index coordinate: " << direction_index_coord << std::endl;
   // Set the direction index as defined
   d_is_direction_index_defined = true;
 

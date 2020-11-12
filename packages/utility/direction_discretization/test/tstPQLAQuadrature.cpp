@@ -50,6 +50,22 @@ FRENSIE_UNIT_TEST( PQLAQuadrature, constructor )
 
 }
 
+
+//---------------------------------------------------------------------------//
+// test the isTriangleIDValid method.
+FRENSIE_UNIT_TEST( PQLAQuadrature, isTriangleIDValid )
+{
+  std::shared_ptr<Utility::PQLAQuadrature> PQLAQuadrature(
+              new Utility::PQLAQuadrature( quadrature_order ) );
+  
+  FRENSIE_CHECK(!PQLAQuadrature->isTriangleIDValid(-1));
+  FRENSIE_CHECK(!PQLAQuadrature->isTriangleIDValid(72));
+
+  for(size_t triangle_id = 0; triangle_id < 72; ++triangle_id)
+  {
+    FRENSIE_CHECK(PQLAQuadrature->isTriangleIDValid(triangle_id));
+  }
+}
 //---------------------------------------------------------------------------//
 // Test the findTriangleBin method
 FRENSIE_UNIT_TEST( PQLAQuadrature, findTriangleBin )

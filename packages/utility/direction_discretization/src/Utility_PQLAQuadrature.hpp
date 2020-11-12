@@ -85,6 +85,9 @@ class PQLAQuadrature
   ~PQLAQuadrature()
   { /* ... */ }
 
+  //! Find whether or not a triangle id is valid
+  bool isTriangleIDValid( const size_t triangle_id) const;
+
   //! Find which triangle bin a direction vector is in
   size_t findTriangleBin( const std::array<double, 3>& direction) const;
 

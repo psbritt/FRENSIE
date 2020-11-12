@@ -109,6 +109,19 @@ PQLAQuadrature::PQLAQuadrature(unsigned quadrature_order)
   }
 }
 
+bool PQLAQuadrature::isTriangleIDValid( const size_t triangle_id) const
+{
+  if( triangle_id < 0 || triangle_id > this->getNumberOfTriangles()-1)
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+  
+}
+
 // Find which triangle bin a direction vector is in
 size_t PQLAQuadrature::findTriangleBin(const std::array<double, 3>& direction) const
 {

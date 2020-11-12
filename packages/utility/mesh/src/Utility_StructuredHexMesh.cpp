@@ -78,6 +78,19 @@ StructuredHexMesh::StructuredHexMesh( const std::vector<double>& x_planes,
 #endif // end HAVE_FRENSIE_MOAB
 }
 
+bool StructuredHexMesh::isElementHandleValid(const ElementHandle h) const
+{
+  if( h < 0 || h > this->getNumberOfElements()-1)
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+  
+}
+
 // Get the mesh type name
 std::string StructuredHexMesh::getMeshTypeName() const
 {

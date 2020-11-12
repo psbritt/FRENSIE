@@ -1,4 +1,4 @@
 FRENSIE_SETUP_PACKAGE(utility_mesh
   MPI_LIBRARIES ${MPI_CXX_LIBRARIES}
-  NON_MPI_LIBRARIES ${MOAB} utility_core utility_archive 
+  NON_MPI_LIBRARIES ${MOAB} utility_core utility_archive utility_prng
   SET_VERBOSE ${CMAKE_VERBOSE_CONFIGURE})

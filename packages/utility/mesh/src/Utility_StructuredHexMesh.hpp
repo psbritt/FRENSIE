@@ -63,6 +63,9 @@ public:
   ~StructuredHexMesh()
   { /* ... */ }
 
+  //! Check if a hex ID is valid
+  bool isElementHandleValid(const ElementHandle h) const;
+
   //! Get the mesh type name
   std::string getMeshTypeName() const final override;
 
