@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------//
 //!
-//! \file   tstIndependentPhaseSpaceDimensionDistribution_indexDimension.cpp
-//! \author Alex Robinson
+//! \file   tstIndependentPhaseSpaceDimensionDistribution_indexDimensions.cpp
+//! \author Philip Britt
 //! \brief  Independent phase space dimension distribution unit tests
 //!
 //---------------------------------------------------------------------------//
@@ -31,9 +31,7 @@ using namespace MonteCarlo;
 
 typedef std::tuple<std::integral_constant<PhaseSpaceDimension,SPATIAL_INDEX_DIMENSION>,
                    std::integral_constant<PhaseSpaceDimension,DIRECTION_INDEX_DIMENSION>
-                  > TestPhaseSpaceDimensionsNoWeight;
-
-typedef decltype(std::tuple_cat(TestPhaseSpaceDimensionsNoWeight(),std::make_tuple(std::integral_constant<PhaseSpaceDimension,WEIGHT_DIMENSION>()))) TestPhaseSpaceDimensions;
+                  > TestPhaseSpaceDimensions;
 
 typedef TestArchiveHelper::TestArchives TestArchives;
 
@@ -252,7 +250,7 @@ FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDime
 // Test if the distribution can be evaluated without a cascade
 FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDimension,
                             evaluateWithoutCascade,
-                            TestPhaseSpaceDimensionsNoWeight )
+                            TestPhaseSpaceDimensions )
 {
   FETCH_TEMPLATE_PARAM( 0, WrappedDimension );
   constexpr PhaseSpaceDimension Dimension = WrappedDimension::value;
@@ -292,7 +290,7 @@ FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDime
 // Test if the distribution can be sampled without a cascade
 FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDimension,
                             sampleWithoutCascade,
-                            TestPhaseSpaceDimensionsNoWeight )
+                            TestPhaseSpaceDimensions )
 {
   FETCH_TEMPLATE_PARAM( 0, WrappedDimension );
   constexpr PhaseSpaceDimension Dimension = WrappedDimension::value;
@@ -332,7 +330,7 @@ FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDime
 // trials can be counted
 FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDimension,
                             sampleAndRecordTrialsWithoutCascade,
-                            TestPhaseSpaceDimensionsNoWeight )
+                            TestPhaseSpaceDimensions )
 {
   FETCH_TEMPLATE_PARAM( 0, WrappedDimension );
   constexpr PhaseSpaceDimension Dimension = WrappedDimension::value;
@@ -374,7 +372,7 @@ FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDime
 // Test that the dimension value can be set and weighted appropriately
 FRENSIE_UNIT_TEST_TEMPLATE( IndependentPhaseSpaceDimensionDistribution_indexDimension,
                             setDimensionValueAndApplyWeight,
-                            TestPhaseSpaceDimensionsNoWeight )
+                            TestPhaseSpaceDimensions )
 {
   FETCH_TEMPLATE_PARAM( 0, WrappedDimension );
   constexpr PhaseSpaceDimension Dimension = WrappedDimension::value;
