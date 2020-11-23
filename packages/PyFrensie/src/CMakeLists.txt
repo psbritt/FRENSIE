@@ -54,8 +54,11 @@ SET(UTILITY_PACKAGES ${UTILITY_PACKAGES} Coordinate)
 SET(PyFrensie_MODULES ${PyFrensie_MODULES} Utility.Mesh)
 SET(UTILITY_PACKAGES ${UTILITY_PACKAGES} Mesh)
 
+SET(PyFrensie_MODULES ${PyFrensie_MODULES} Utility.DirectionDiscretization)
+SET(UTILITY_PACKAGES ${UTILITY_PACKAGES} DirectionDiscretization)
+
 # SET(PyFrensie_MODULES ${PyFrensie_MODULES} Utility.Interpolation)
-SET(UTILITY_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} utility_core utility_dist utility_system utility_mesh pyfrensie_cpp)
+SET(UTILITY_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} utility_core utility_dist utility_system utility_mesh utility_direction_discretization pyfrensie_cpp)
 
 # Add the Data package
 SET(DATA_MODULE_DOCSTRING "is the python interface to the FRENSIE data package.")

@@ -109,6 +109,7 @@ class PQLAQuadrature
   void sampleIsotropicallyFromTriangle(std::array<double, 3>& direction_vector, 
                                        const size_t triangle_index) const;
 
+  //! Used for archive testing
   const std::vector<SphericalTriangle>& getSphericalTriangleVector() const;
 
   private:

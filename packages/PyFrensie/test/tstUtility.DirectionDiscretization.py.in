@@ -1,0 +1,13 @@
+#! ${PYTHON_EXECUTABLE}
+#-----------------------------------------------------------------------------#
+## Utility.DirectionDiscretization classes unit tests
+#  \file   tstUtility.DirectionDiscretization.py
+#  \author Philip Britt
+#  \brief  Unit tests for the Utility.DirectionDiscretization classes
+#-----------------------------------------------------------------------------#
+
+# System imports
+import sys
+import unittest
+from argparse import *
+import numpy as np

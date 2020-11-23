@@ -120,6 +120,10 @@ PyFrensie_MAKE_TEST(Utility.Mesh)
 PyFrensie_ADD_TEST(Utility.Mesh
   EXTRA_ARGS --tet_mesh_file=${CMAKE_CURRENT_SOURCE_DIR}/test_files/test_unit_cube_tets-6.vtk)
 
+# Add the Utility.DirectionDiscretization unit tests
+PyFrensie_MAKE_TEST(Utility.DirectionDiscretization)
+PyFrensie_ADD_TEST(Utility.DirectionDiscretization)
+
 # Add the Data.AtomProperties unit tests
 PyFrensie_MAKE_TEST(Data.AtomProperties)
 PyFrensie_ADD_TEST(Data.AtomProperties)

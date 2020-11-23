@@ -80,7 +80,7 @@ using namespace Utility;
 typedef unsigned long int uint64_t;
 
 // Add typemaps for converting double[3] to and from Python array
-%typemap(in) const double[3] (std::array<double,3ul> temp){
+%typemap(in) const std::array<double,3ul> (std::array<double,3ul> temp){
   temp = PyFrensie::convertFromPython<std::array<double,3ul> >( $input );
 
   $1 = temp.data();
