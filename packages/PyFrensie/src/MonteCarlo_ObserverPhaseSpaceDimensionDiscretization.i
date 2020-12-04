@@ -25,6 +25,8 @@
 #include "MonteCarlo_ObserverParticleStateWrapper.hpp"
 #include "MonteCarlo_ObserverPhaseSpaceDimension.hpp"
 #include "MonteCarlo_ObserverPhaseSpaceDimensionDiscretization.hpp"
+#include "MonteCarlo_ObserverDirectionDimensionDiscretization.hpp"
+#include "MonteCarlo_PQLATypeObserverDirectionDimensionDiscretization.hpp"
 #include "MonteCarlo_TypedObserverPhaseSpaceDimensionDiscretization.hpp"
 #include "MonteCarlo_OrderedTypedObserverPhaseSpaceDimensionDiscretization.hpp"
 #include "MonteCarlo_FloatingPointOrderedTypedObserverPhaseSpaceDimensionDiscretization.hpp"
@@ -107,6 +109,23 @@ using namespace MonteCarlo;
 
 %shared_ptr( MonteCarlo::ObserverPhaseSpaceDimensionDiscretization )
 %include "MonteCarlo_ObserverPhaseSpaceDimensionDiscretization.hpp"
+
+// ---------------------------------------------------------------------------//
+// Add ObserverDirectionDimensionDiscretization support
+// ---------------------------------------------------------------------------//
+
+%ignore MonteCarlo::ObserverDirectionDimensionDiscretization::ObserverDirectionDimensionDiscretization();
+%shared_ptr( MonteCarlo::ObserverDirectionDimensionDiscretization )
+%include "MonteCarlo_ObserverDirectionDimensionDiscretization.hpp"
+
+// ---------------------------------------------------------------------------//
+// Add PQLATypeObserverDirectionDimensionDiscretization support
+// ----------------------------------------------------------------
+
+%ignore MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization::PQLATypeObserverDirectionDimensionDiscretization();
+%shared_ptr( MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization )
+%include "MonteCarlo_PQLATypeObserverDirectionDimensionDiscretization.hpp"
+
 
 // ---------------------------------------------------------------------------//
 // Add TypedObserverPhaseSpaceDimensionDiscretization support

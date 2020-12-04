@@ -99,8 +99,8 @@ private:
   
 } // end MonteCarlo namespace
 
-BOOST_CLASS_VERSION( MonteCarlo::PopulationControl, 0 );
-BOOST_SERIALIZATION_ASSUME_ABSTRACT( MonteCarlo::PopulationControl );
+BOOST_SERIALIZATION_CLASS_VERSION( PopulationControl, MonteCarlo, 0 );
+BOOST_SERIALIZATION_ASSUME_ABSTRACT_CLASS( PopulationControl, MonteCarlo );
 EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, PopulationControl );
 
 #endif // end MONTE_CARLO_POPULATION_CONTROL_HPP

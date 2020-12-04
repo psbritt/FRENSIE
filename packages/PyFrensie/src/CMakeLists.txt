@@ -58,7 +58,12 @@ SET(PyFrensie_MODULES ${PyFrensie_MODULES} Utility.DirectionDiscretization)
 SET(UTILITY_PACKAGES ${UTILITY_PACKAGES} DirectionDiscretization)
 
 # SET(PyFrensie_MODULES ${PyFrensie_MODULES} Utility.Interpolation)
-SET(UTILITY_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} utility_core utility_dist utility_system utility_mesh utility_direction_discretization pyfrensie_cpp)
+SET(UTILITY_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} utility_core 
+                                                       utility_dist 
+                                                       utility_system 
+                                                       utility_mesh 
+                                                       utility_direction_discretization 
+                                                       pyfrensie_cpp)
 
 # Add the Data package
 SET(DATA_MODULE_DOCSTRING "is the python interface to the FRENSIE data package.")
@@ -96,7 +101,9 @@ SET(DATA_GEN_PACKAGES ${DATA_GEN_PACKAGES} ElectronPhoton)
 SET(PyFrensie_MODULES ${PyFrensie_MODULES} DataGen.ENDL)
 SET(DATA_GEN_PACKAGES ${DATA_GEN_PACKAGES} ENDL)
 
-SET(DATA_GEN_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} data_gen_electron_photon data_gen_endl pyfrensie_cpp)
+SET(DATA_GEN_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} data_gen_electron_photon 
+                                                        data_gen_endl 
+                                                        pyfrensie_cpp)
 
 # Add the Geometry package
 SET(GEOMETRY_MODULE_DOCSTRING "is the python interface to the FRENSIE geometry package")
@@ -158,7 +165,22 @@ SET(MONTE_CARLO_PACKAGES ${MONTE_CARLO_PACKAGES} Event)
 SET(PyFrensie_MODULES ${PyFrensie_MODULES} MonteCarlo.Manager)
 SET(MONTE_CARLO_PACKAGES ${MONTE_CARLO_PACKAGES} Manager)
 
-SET(MONTE_CARLO_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} monte_carlo_core monte_carlo_collision_core monte_carlo_collision_neutron monte_carlo_collision_photon monte_carlo_collision_electron monte_carlo_collision_kernel monte_carlo_active_region_core monte_carlo_active_region_response monte_carlo_active_region_source monte_carlo_event_core monte_carlo_event_estimator monte_carlo_event_particle_tracker monte_carlo_event_dispatcher monte_carlo_manager pyfrensie_cpp)
+SET(MONTE_CARLO_PACKAGE_LINK_LIBRARIES ${PYTHON_LIBRARIES} ${Boost_LIBRARIES} monte_carlo_core 
+                                                                              monte_carlo_collision_core 
+                                                                              monte_carlo_collision_neutron 
+                                                                              monte_carlo_collision_photon 
+                                                                              monte_carlo_collision_electron 
+                                                                              monte_carlo_collision_kernel 
+                                                                              monte_carlo_active_region_core 
+                                                                              monte_carlo_active_region_response 
+                                                                              monte_carlo_active_region_source 
+                                                                              monte_carlo_event_core 
+                                                                              monte_carlo_event_estimator 
+                                                                              monte_carlo_event_particle_tracker 
+                                                                              monte_carlo_event_dispatcher 
+                                                                              monte_carlo_manager
+                                                                              monte_carlo_event_population_control 
+                                                                              pyfrensie_cpp)
 
 # Add the PyFrensie subdirectory
 ADD_SUBDIRECTORY(PyFrensie)

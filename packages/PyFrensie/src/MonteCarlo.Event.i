@@ -74,6 +74,9 @@ monte_carlo/event subpackage.
  // Add CollisionForcer support
 %include "MonteCarlo_CollisionForcer.i"
 
+// Add population control support
+%include "MonteCarlo_PopulationControl.i"
+
 //---------------------------------------------------------------------------//
 // Turn off the exception handling
 //---------------------------------------------------------------------------//

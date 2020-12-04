@@ -9,5 +9,87 @@
 # System imports
 import sys
 import unittest
-from argparse import *
+import argparse
 import numpy as np
+import math
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbosity", type=int, dest="verbosity", default=2,
+                  help="set the verbosity level [default 2]")
+args = parser.parse_args()
+
+from testingHelpers import importPyFrensieModuleFromBuildDir
+DirectionDiscretization = importPyFrensieModuleFromBuildDir('Utility.DirectionDiscretization')
+
+class DirectionDiscretizationTestCase(unittest.TestCase):
+    "TestCase class for Utility.DirectionDiscretization.DirectionDiscretization class"
+
+    def testConstructor(self):
+        "*Test Utility.DirectionDiscretization constructor"
+
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 2 )
+        self.assertEqual( direction_discretization.getNumberOfTriangles(), 32 )
+
+    def testIsTriangleIDValid(self):
+        "*Test Utility.DirectionDiscretization isTriangleIDValid method"
+
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 2 )
+        self.assertTrue(direction_discretization.isTriangleIDValid(31))
+        self.assertFalse(direction_discretization.isTriangleIDValid(33))
+        # This number can't be negative. Not sure how to make it return false instead of throwing overflow errors. Due to size_t type for C++ variable.
+        #self.assertFalse(direction_discretization.isTriangleIDValid(-2))
+
+    def testFindTriangleBin(self):
+        "*Test Utility.DirectionDiscretization findTriangleBin method"
+
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 2 )
+        direction = [1.0/math.sqrt(3.0), 1.0/math.sqrt(3.0), 1.0/math.sqrt(3.0)]
+        self.assertEqual(direction_discretization.findTriangleBin(direction), 1)
+        self.assertEqual(direction_discretization.findTriangleBin(1.0/math.sqrt(3.0), 1.0/math.sqrt(3.0), 1.0/math.sqrt(3.0)), 1)
+
+    def testGetQuadratureOrder(self):
+        "*Test Utility.DirectionDiscretization getQuadratureOrder method"
+
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 3 )
+        self.assertEqual(direction_discretization.getQuadratureOrder(), 3)
+
+    def testGetTriangleArea(self):
+        "*Test Utility.DirectionDiscretization getTriangleArea method"
+
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 2 )
+        area_sum = 0.0
+        for triangle in range(0, 4):
+          area_sum = area_sum + direction_discretization.getTriangleArea(triangle)
+        self.assertAlmostEqual(area_sum, math.pi/2, 1.0e-14)
+
+#-----------------------------------------------------------------------------#
+# Custom main
+#-----------------------------------------------------------------------------#
+if __name__ == "__main__":
+
+    # Create the test suite object
+    suite = unittest.TestSuite()
+
+    # Add the test cases to the test suite
+    suite.addTest(unittest.makeSuite(DirectionDiscretizationTestCase))
+
+    print >>sys.stderr, \
+        "\n****************************\n" + \
+        "Testing Utility.DirectionDiscretization \n" + \
+        "****************************\n"
+    result = unittest.TextTestRunner(verbosity=args.verbosity).run(suite)
+
+    errs_plus_fails = len(result.errors) + len(result.failures)
+
+    if errs_plus_fails == 0:
+        print "End Result: TEST PASSED"
+
+    # Delete the suite
+    del suite
+
+    # Exit
+    sys.exit(errs_plus_fails)
+
+#-----------------------------------------------------------------------------#
+# end tstUtility.DirectionDiscretization.py
+#-----------------------------------------------------------------------------#

@@ -53,8 +53,8 @@ private:
 
 } // end MonteCarlo namespace
 
-BOOST_CLASS_VERSION( MonteCarlo::Importance, 0 );
-BOOST_SERIALIZATION_ASSUME_ABSTRACT( MonteCarlo::Importance );
+BOOST_SERIALIZATION_CLASS_VERSION( Importance, MonteCarlo, 0 );
+BOOST_SERIALIZATION_ASSUME_ABSTRACT_CLASS( Importance, MonteCarlo );
 EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, Importance );
 
 #endif // end MONTE_CARLO_WEIGHT_WINDOW_HPP

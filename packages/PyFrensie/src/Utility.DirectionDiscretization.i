@@ -18,7 +18,7 @@ direction phase space exists on.
 
 %module(package   = "PyFrensie.Utility",
         autodoc   = "1",
-        docstring = %utility_direction_discretization_docstring) Mesh
+        docstring = %utility_direction_discretization_docstring) DirectionDiscretization
 
 %{
 // FRENSIE Includes
@@ -67,12 +67,13 @@ using namespace Utility;
   }
 }
 
-// Add typemaps for converting double[3] to and from Python array
+// Add typemaps for converting std::array to and from Python array
 %typemap(in) const std::array<double,3>{
   $1 = PyFrensie::convertFromPython<std::array<double,3> >( $input );
 }
 
 %ignore *::getSphericalTriangleVector();
+%ignore *::sampleIsotropicallyFromTriangle();
 
 
 %template(DirectionArray) std::array<double, 3>;

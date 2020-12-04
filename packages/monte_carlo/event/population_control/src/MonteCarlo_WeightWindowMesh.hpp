@@ -75,7 +75,7 @@ private:
 } // end MonteCarlo namespace
 
   
-BOOST_CLASS_VERSION( MonteCarlo::WeightWindowMesh, 0 );
+BOOST_SERIALIZATION_CLASS_VERSION( WeightWindowMesh,MonteCarlo, 0 );
 EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, WeightWindowMesh );
 
 #endif // end MONTE_CARLO_WEIGHT_WINDOW_MESH_HPP
