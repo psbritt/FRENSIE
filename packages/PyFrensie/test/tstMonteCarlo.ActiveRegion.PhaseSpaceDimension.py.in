@@ -27,6 +27,8 @@ Distribution = importPyFrensieModuleFromBuildDir('Utility.Distribution')
 Coordinate = importPyFrensieModuleFromBuildDir('Utility.Coordinate')
 MonteCarlo = importPyFrensieModuleFromBuildDir('MonteCarlo')
 ActiveRegion = importPyFrensieModuleFromBuildDir('MonteCarlo.ActiveRegion')
+Mesh = importPyFrensieModuleFromBuildDir('Utility.Mesh')
+DirectionDiscretization = importPyFrensieModuleFromBuildDir('Utility.DirectionDiscretization')
 
 #-----------------------------------------------------------------------------#
 # Tests.
@@ -2214,6 +2216,57 @@ class ImportanceSampledDependentPhaseSpaceDimensionDistributionTestCase(unittest
         #     dimension_distribution.setDimensionValueAndApplyWeight( point, 0.1 )
 
 #-----------------------------------------------------------------------------#
+# Test the index dimensions
+class IndexDimensionTestCase(unittest.TestCase):
+    "TestCase class for the source index dimensions"
+
+    def testSetMesh(self):
+        "*Test MonteCarlo.ActiveRegion.PhaseSpaceSpatialIndexDimensionTraits setMesh"
+
+        # Set up a basic mesh
+        x_planes = [0, 1, 2]
+        y_planes = [0, 1]
+        z_planes = [0, 1]
+
+        hex_mesh = Mesh.StructuredHexMesh( x_planes, y_planes, z_planes )
+
+        ActiveRegion.PhaseSpaceSpatialIndexDimensionTraits.setMesh(hex_mesh)
+
+    def testSetDirectionDiscretization(self):
+        "*Test MonteCarlo.ActiveRegion.PhaseSpaceDirectionIndexDimensionTraits setDirectionDiscretization"
+
+        #Set up direction discretization object
+        direction_discretization = DirectionDiscretization.PQLAQuadrature( 2 )
+
+        ActiveRegion.PhaseSpaceDirectionIndexDimensionTraits.setDirectionDiscretization(direction_discretization)
+
+    def testIndexDistributions(self):
+        '*Test that index dimensions can be used with distributions'
+                # Create the distribution
+        primary_grid = ( 0.1, 0.5, 0.9 )
+
+        # Create the secondary distribution in the first bin
+        secondary_dist_0 = Distribution.UniformDistribution( 0.5, 0.9, 0.5 )
+
+        # Create the secondary distribution in the second bin
+        secondary_dist_1 = Distribution.ExponentialDistribution( 1.0, 1.0, 0.6, 0.8 )
+
+        secondary_dists = [secondary_dist_0, secondary_dist_1, secondary_dist_1]
+
+        local_raw_distribution = Distribution.HistogramPartiallyTabularBasicBivariateDistribution( primary_grid, secondary_dists )
+
+        local_raw_distribution.limitToPrimaryIndepLimits()
+
+        local_raw_importance_distribution = local_raw_distribution
+
+        dimension_distribution_1 = ActiveRegion.ImportanceSampledSpatialIndexDependentDirectionIndexDimensionDistribution(
+                                        local_raw_distribution,
+                                        local_raw_importance_distribution )
+
+        dimension_distribution_2 = ActiveRegion.ImportanceSampledDirectionIndexDependentEnergyDimensionDistribution(
+                                        local_raw_distribution,
+                                        local_raw_importance_distribution )
+#-----------------------------------------------------------------------------#
 # Custom main
 #-----------------------------------------------------------------------------#
 if __name__ == "__main__":
@@ -2230,6 +2283,7 @@ if __name__ == "__main__":
     suite.addTest(unittest.makeSuite(ImportanceSampledIndependentPhaseSpaceDimensionDistributionTestCase_Energy))
     suite.addTest(unittest.makeSuite(ImportanceSampledIndependentPhaseSpaceDimensionDistributionTestCase_Time))
     suite.addTest(unittest.makeSuite(ImportanceSampledIndependentPhaseSpaceDimensionDistributionTestCase_Weight))
+    suite.addTest(unittest.makeSuite(IndexDimensionTestCase))
 
     suite.addTest(unittest.makeSuite(ImportanceSampledDependentPhaseSpaceDimensionDistributionTestCase))
 

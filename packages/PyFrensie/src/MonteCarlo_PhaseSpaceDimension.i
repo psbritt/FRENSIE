@@ -77,6 +77,10 @@
 #include "Utility_ToStringTraits.hpp"
 #include "Utility_SerializationHelpers.hpp"
 
+#include "Utility_Mesh.hpp"
+#include "Utility_StructuredHexMesh.hpp"
+#include "Utility_TetMesh.hpp"
+
 using namespace MonteCarlo;
 %}
 
@@ -106,6 +110,7 @@ using namespace MonteCarlo;
 // ---------------------------------------------------------------------------//
 
 %include "MonteCarlo_PhaseSpaceDimensionTraitsDecl.hpp"
+
 
 // // The primary spatial PhaseSpaceDimension
 // %template(PhaseSpacePrimarySpatialDimensionTraits) MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::PRIMARY_SPATIAL_DIMENSION>;
@@ -139,6 +144,12 @@ using namespace MonteCarlo;
 // The weight PhaseSpaceDimension
 %template(PhaseSpaceWeightDimensionTraits) MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::WEIGHT_DIMENSION>;
 
+// The spatial mesh index PhaseSpaceDimension
+%template(PhaseSpaceSpatialIndexDimensionTraits) MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::SPATIAL_INDEX_DIMENSION>;
+
+// The spatial mesh index PhaseSpaceDimension
+%template(PhaseSpaceDirectionIndexDimensionTraits) MonteCarlo::PhaseSpaceDimensionTraits<MonteCarlo::DIRECTION_INDEX_DIMENSION>;
+
 // ---------------------------------------------------------------------------//
 // Add PhaseSpaceDimensionDistribution support
 // ---------------------------------------------------------------------------//
@@ -161,6 +172,8 @@ using namespace MonteCarlo;
   %shared_ptr( MonteCarlo::DISTRIBUTION<MonteCarlo::ENERGY_DIMENSION> );
   %shared_ptr( MonteCarlo::DISTRIBUTION<MonteCarlo::TIME_DIMENSION> );
   %shared_ptr( MonteCarlo::DISTRIBUTION<MonteCarlo::WEIGHT_DIMENSION> );
+  %shared_ptr( MonteCarlo::DISTRIBUTION<MonteCarlo::SPATIAL_INDEX_DIMENSION> );
+  %shared_ptr( MonteCarlo::DISTRIBUTION<MonteCarlo::DIRECTION_INDEX_DIMENSION> )
 
 %enddef
 

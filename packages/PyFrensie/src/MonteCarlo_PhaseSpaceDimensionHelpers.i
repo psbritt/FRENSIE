@@ -79,6 +79,12 @@
   // The DISTRIBUTION weight phase space dimension distribution
   %template( SPACE_DIST_RENAME(DISTRIBUTION, Weight) ) SPACE_DIST_NAME(DISTRIBUTION, MonteCarlo::WEIGHT_DIMENSION);
 
+  // The DISTRIBUTION spatial index phase space dimension distribution
+  %template( SPACE_DIST_RENAME(DISTRIBUTION, SpatialIndex) ) SPACE_DIST_NAME(DISTRIBUTION, MonteCarlo::SPATIAL_INDEX_DIMENSION);
+
+  // The DISTRIBUTION direction index phase space dimension distribution
+  %template( SPACE_DIST_RENAME(DISTRIBUTION, DirectionIndex) ) SPACE_DIST_NAME(DISTRIBUTION, MonteCarlo::DIRECTION_INDEX_DIMENSION);
+
 %enddef
 
 //---------------------------------------------------------------------------//
@@ -245,6 +251,10 @@
 
   %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Energy, ENERGY, Weight, WEIGHT, PARAMS )
 
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Energy, ENERGY, SpatialIndex, SPATIAL_INDEX, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Energy, ENERGY, DirectionIndex, DIRECTION_INDEX, PARAMS )
+
   %spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Energy, ENERGY, PARAMS )
 
   %directional_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Energy, ENERGY, PARAMS )
@@ -260,6 +270,10 @@
   %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Time, TIME, Energy, ENERGY, PARAMS )
 
   %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Time, TIME, Weight, WEIGHT, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Time, TIME, SpatialIndex, SPATIAL_INDEX, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Time, TIME, DirectionIndex, DIRECTION_INDEX, PARAMS )
 
   %spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Time, TIME, PARAMS )
 
@@ -277,9 +291,50 @@
 
   %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Weight, WEIGHT, Time, TIME, PARAMS )
 
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Weight, WEIGHT, SpatialIndex, SPATIAL_INDEX, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Weight, WEIGHT, DirectionIndex, DIRECTION_INDEX, PARAMS )
+
   %spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Weight, WEIGHT, PARAMS )
 
   %directional_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, Weight, WEIGHT, PARAMS )
+
+%enddef
+
+//---------------------------------------------------------------------------//
+// Helper macro for setting up spatial_index dependent distribution classes python interface
+//---------------------------------------------------------------------------//
+
+%define %spatial_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS... )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SpatialIndex, SPATIAL_INDEX, Energy, ENERGY, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SpatialIndex, SPATIAL_INDEX, Time, TIME, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SpatialIndex, SPATIAL_INDEX, Time, TIME, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SpatialIndex, SPATIAL_INDEX, DirectionIndex, DIRECTION_INDEX, PARAMS )
+
+  %directional_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SpatialIndex, SPATIAL_INDEX, PARAMS )
+
+%enddef
+
+//---------------------------------------------------------------------------//
+// Helper macro for setting up spatial_index dependent distribution classes python interface
+//---------------------------------------------------------------------------//
+
+%define %direction_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS... )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DirectionIndex, DIRECTION_INDEX, Energy, ENERGY, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DirectionIndex, DIRECTION_INDEX, Time, TIME, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DirectionIndex, DIRECTION_INDEX, Time, TIME, PARAMS )
+
+  %generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DirectionIndex, DIRECTION_INDEX, SpatialIndex, SPATIAL_INDEX, PARAMS )
+
+  %spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DirectionIndex, DIRECTION_INDEX, PARAMS )
+
 
 %enddef
 
@@ -300,6 +355,9 @@
   %energy_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS )
   %time_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS )
   %weight_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS )
+
+  %spatial_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS )
+  %direction_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, PARAMS )
 
 %enddef
 
@@ -460,6 +518,10 @@
 
   %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, ENERGY, WEIGHT )
 
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, ENERGY, SPATIAL_INDEX )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, ENERGY, DIRECTION_INDEX )
+
   %pre_spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, ENERGY )
 
   %pre_directional_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, ENERGY )
@@ -475,6 +537,10 @@
   %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, TIME, ENERGY )
 
   %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, TIME, WEIGHT )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, TIME, SPATIAL_INDEX )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, TIME, DIRECTION_INDEX )
 
   %pre_spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, TIME )
 
@@ -499,6 +565,38 @@
 %enddef
 
 //---------------------------------------------------------------------------//
+// Helper macro for setting up spatial index dependent distribution classes python interface
+//---------------------------------------------------------------------------//
+
+%define %pre_spatial_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SPATIAL_INDEX, ENERGY )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SPATIAL_INDEX, TIME )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SPATIAL_INDEX, DIRECTION_INDEX )
+
+  %pre_directional_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, SPATIAL_INDEX )
+
+%enddef
+
+//---------------------------------------------------------------------------//
+// Helper macro for setting up spatial index dependent distribution classes python interface
+//---------------------------------------------------------------------------//
+
+%define %pre_direction_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DIRECTION_INDEX, ENERGY )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DIRECTION_INDEX, TIME )
+
+  %pre_generic_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DIRECTION_INDEX, SPATIAL_INDEX )
+
+  %pre_spatial_dependent_phase_space_dimension_setup_helper( DISTRIBUTION, DIRECTION_INDEX )
+
+%enddef
+
+//---------------------------------------------------------------------------//
 // Helper macro for setting up a dependent distribution classes python interface
 //---------------------------------------------------------------------------//
 
@@ -515,6 +613,9 @@
   %pre_energy_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
   %pre_time_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
   %pre_weight_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
+
+  %pre_spatial_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
+  %pre_direction_index_dependent_phase_space_dimension_setup_helper( DISTRIBUTION )
 
 %enddef
 
