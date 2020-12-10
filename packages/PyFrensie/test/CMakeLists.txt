@@ -592,6 +592,10 @@ PyFrensie_ADD_TEST(MonteCarlo.Event.CollisionForcer
   EXTRA_ARGS
   --database_path=${COLLISION_DATABASE_XML_FILE})
 
+# Add the MonteCarlo.Event.PopulationControl unit tests
+PyFrensie_MAKE_TEST(MonteCarlo.Event.PopulationControl)
+PyFrensie_ADD_TEST(MonteCarlo.Event.PopulationControl)
+
 # Add the MonteCarlo.Manager.ParticleSimulationManagerFactory unit tests
 PyFrensie_MAKE_TEST(MonteCarlo.Manager.ParticleSimulationManagerFactory
   TARGET_DEPENDS ${COLLISION_DATABASE_XML_FILE_TARGET})

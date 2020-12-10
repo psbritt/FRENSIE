@@ -1,0 +1,190 @@
+#! ${PYTHON_EXECUTABLE}
+#-----------------------------------------------------------------------------#
+## MonteCarlo.Event.PopulationControl class unit tests
+#  \file   tstMonteCarlo.Event.Importancemesh.py
+#  \author Philip Britt
+#  \brief  Unit tests for the MonteCarlo.Event.PopulationControl class
+#-----------------------------------------------------------------------------#
+
+# System imports
+import sys
+import unittest
+import argparse
+import numpy as np
+import math
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbosity", type=int, dest="verbosity", default=2,
+                  help="set the verbosity level [default 2]")
+args = parser.parse_args()
+
+from testingHelpers import importPyFrensieModuleFromBuildDir
+Mesh = importPyFrensieModuleFromBuildDir('Utility.Mesh')
+MonteCarlo = importPyFrensieModuleFromBuildDir('MonteCarlo')
+Event = importPyFrensieModuleFromBuildDir('MonteCarlo.Event')
+
+#---------------------------------------------------------------------------#
+# Tests.
+#---------------------------------------------------------------------------#
+#
+# Test the ImportanceMesh class
+class ImportanceMeshTestCase(unittest.TestCase):
+    "TestCase class for MonteCarlo.Event.ImportanceMesh class"
+
+    def setUp(self):
+        # Set up a basic mesh
+        x_planes = [0, 1, 2]
+        y_planes = [0, 1]
+        z_planes = [0, 1]
+
+        self.hex_mesh = Mesh.StructuredHexMesh( x_planes, y_planes, z_planes )
+    
+    def testConstructor(self):
+        "*Test MonteCarlo.Event.ImportanceMesh constructor"
+
+        importance_handler = Event.ImportanceMesh()
+
+    def testSetMesh(self):
+        "*Test MonteCarlo.Event.ImportanceMesh setMesh"
+
+        importance_handler = Event.ImportanceMesh()
+        importance_handler.setMesh(self.hex_mesh)
+        test_mesh = importance_handler.getMesh()
+        self.assertEqual(test_mesh.getNumberOfElements(), 2)
+
+    def testSetImportanceMap(self):
+        "*Test MonteCarlo.Event.ImportanceMesh setImportanceMap"
+
+        importance_handler = Event.ImportanceMesh()
+        importance_handler.setMesh(self.hex_mesh)
+
+        energy_bin_boundaries = [None] *( 3 )
+        energy_bin_boundaries[0] = 0.0
+        energy_bin_boundaries[1] = 0.1
+        energy_bin_boundaries[2] = 1.0
+        importance_handler.setEnergyDiscretization( energy_bin_boundaries )
+
+        importance_vector_1 = np.array([1.0, 2.0])
+        importance_vector_2 = np.array([3.0, 4.0])
+        importance_map = Event.ImportanceMap({0: importance_vector_1, 1: importance_vector_2})
+
+        importance_handler.setImportanceMap(importance_map)
+        test_importance_map = importance_handler.getImportanceMap()
+
+        self.assertEqual(test_importance_map[0][0], 1.0)
+        self.assertEqual(test_importance_map[0][1], 2.0)
+        self.assertEqual(test_importance_map[1][0], 3.0)
+        self.assertEqual(test_importance_map[1][1], 4.0)
+
+class WeightWindowMeshTestCase(unittest.TestCase):
+    "TestCase class for MonteCarlo.Event.WeightWindowMesh class"
+
+    def setUp(self):
+        # Set up a basic mesh
+        x_planes = [0, 1, 2]
+        y_planes = [0, 1]
+        z_planes = [0, 1]
+
+        self.hex_mesh = Mesh.StructuredHexMesh( x_planes, y_planes, z_planes )
+
+    def testConstructor(self):
+        "*Test MonteCarlo.Event.WeightWindowMesh constructor"
+
+        weight_window_handler = Event.WeightWindowMesh()
+
+    def testSetWeightWindowMap(self):
+        "*Test MonteCarlo.Event.WeightWindowMesh setWeightWindowMap"
+
+        weight_window_handler = Event.WeightWindowMesh()
+        weight_window_handler.setMesh(self.hex_mesh)
+
+        energy_bin_boundaries = [None] *( 3 )
+        energy_bin_boundaries[0] = 0.0
+        energy_bin_boundaries[1] = 0.1
+        energy_bin_boundaries[2] = 1.0
+        weight_window_handler.setEnergyDiscretization( energy_bin_boundaries )
+
+        weight_window_1 = Event.WeightWindow()
+        weight_window_1.lower_weight = 1.0
+        weight_window_1.survival_weight = 2.0
+        weight_window_1.upper_weight = 3.0
+
+        weight_window_2 = Event.WeightWindow()
+        weight_window_2.lower_weight = 2.0
+        weight_window_2.survival_weight = 3.0
+        weight_window_2.upper_weight = 4.0
+
+        weight_window_vector_1 = Event.WeightWindowVector()
+        weight_window_vector_1.push_back(weight_window_1)
+        weight_window_vector_1.push_back(weight_window_2)
+
+        weight_window_3 = Event.WeightWindow()
+        weight_window_3.lower_weight = 3.0
+        weight_window_3.survival_weight = 4.0
+        weight_window_3.upper_weight = 5.0
+
+        weight_window_4 = Event.WeightWindow()
+        weight_window_4.lower_weight = 4.0
+        weight_window_4.survival_weight = 5.0
+        weight_window_4.upper_weight = 6.0
+
+        weight_window_vector_2 = Event.WeightWindowVector()
+        weight_window_vector_2.push_back(weight_window_3)
+        weight_window_vector_2.push_back(weight_window_4)
+
+        weight_window_map = Event.WeightWindowMap({0: weight_window_vector_1, 1: weight_window_vector_2})
+
+        weight_window_handler.setWeightWindowMap(weight_window_map)
+
+        test_weight_window_map = weight_window_handler.getWeightWindowMap()
+
+        self.assertEqual(test_weight_window_map[0][0].lower_weight, 1.0)
+        self.assertEqual(test_weight_window_map[0][0].survival_weight, 2.0)
+        self.assertEqual(test_weight_window_map[0][0].upper_weight, 3.0)
+
+        self.assertEqual(test_weight_window_map[0][1].lower_weight, 2.0)
+        self.assertEqual(test_weight_window_map[0][1].survival_weight, 3.0)
+        self.assertEqual(test_weight_window_map[0][1].upper_weight, 4.0)
+
+        self.assertEqual(test_weight_window_map[1][0].lower_weight, 3.0)
+        self.assertEqual(test_weight_window_map[1][0].survival_weight, 4.0)
+        self.assertEqual(test_weight_window_map[1][0].upper_weight, 5.0)
+
+        self.assertEqual(test_weight_window_map[1][1].lower_weight, 4.0)
+        self.assertEqual(test_weight_window_map[1][1].survival_weight, 5.0)
+        self.assertEqual(test_weight_window_map[1][1].upper_weight, 6.0)
+
+
+#-----------------------------------------------------------------------------#
+# Custom main
+#-----------------------------------------------------------------------------#
+if __name__ == "__main__":
+
+    # Create the testSuite object
+    suite = unittest.TestSuite()
+
+    # Add the test cases to the testSuite
+    suite.addTest(unittest.makeSuite(ImportanceMeshTestCase))
+    suite.addTest(unittest.makeSuite(WeightWindowMeshTestCase))
+
+
+    print >>sys.stderr, \
+        "\n**************************************\n" + \
+        "Testing MonteCarlo.Model \n" + \
+        "**************************************\n"
+    result = unittest.TextTestRunner(verbosity=args.verbosity).run(suite)
+
+    errs_plus_fails = len(result.errors) + len(result.failures)
+
+    if errs_plus_fails == 0:
+        print "End Result: TEST PASSED"
+
+    # Delete the suite
+    del suite
+
+    # Exit
+    sys.exit(errs_plus_fails)
+
+#-----------------------------------------------------------------------------#
+# end tstMonteCarlo.Event.PopulationControl.py
+#-----------------------------------------------------------------------------#

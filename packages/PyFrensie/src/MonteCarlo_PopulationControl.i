@@ -22,13 +22,12 @@
 #include "MonteCarlo_Importance.hpp"
 #include "MonteCarlo_ImportanceMesh.hpp"
 
-using namespace MonteCarlo;
 %}
 
 // C++ STL support
 %include <stl.i>
 %include <std_shared_ptr.i>
-%include <std_map.i>
+%include <std_unordered_map.i>
 %include <std_vector.i>
 
 // Include typemaps support
@@ -45,19 +44,20 @@ using namespace MonteCarlo;
 %shared_ptr(MonteCarlo::Importance)
 %include "MonteCarlo_Importance.hpp"
 
-%typemap(in,numinputs=0) std::unordered_map<Utility::Mesh::ElementHandle,std::vector<double> >& importance_map (std::unordered_map<Utility::Mesh::ElementHandle,std::vector<double> > temp) "$1 = &temp;"
+%template(ImportanceMap) std::unordered_map<Utility::Mesh::ElementHandle, std::vector<double>>;
 
 %shared_ptr(MonteCarlo::ImportanceMesh)
 %include "MonteCarlo_ImportanceMesh.hpp"
 
 %shared_ptr(MonteCarlo::WeightWindowBase)
-%shared_ptr(MonteCarlo::WeightWindow)
 %include "MonteCarlo_WeightWindow.hpp"
-
-%typemap(in,numinputs=0) std::unordered_map<Utility::Mesh::ElementHandle,std::vector<MonteCarlo::WeightWindow> >& importance_map (std::unordered_map<Utility::Mesh::ElementHandle,std::vector<MonteCarlo::WeightWindow> > temp) "$1 = &temp;"
 
 %shared_ptr(MonteCarlo::WeightWindowMesh)
 %include "MonteCarlo_WeightWindowMesh.hpp"
+
+%template(WeightWindowVector) std::vector<MonteCarlo::WeightWindow>;
+%template(WeightWindowMap) std::unordered_map<Utility::Mesh::ElementHandle, std::vector<MonteCarlo::WeightWindow>>;
+
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_PopulationControl.i
