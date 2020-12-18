@@ -60,6 +60,9 @@ protected:
   //! Terminate particle
   void terminateParticle( ParticleState& particle,
                          double termination_probability) const; 
+                         
+  //! Maximum number of particles that a population controller can split a particle into
+  unsigned d_max_split;
 
 private:
 
@@ -84,7 +87,7 @@ private:
                    const int root_process ) final override;
 
   void printSummary( std::ostream& os ) const final override;
-                         
+
   // Serialize the data
   template<typename Archive>
   void serialize( Archive& ar, const unsigned version )
@@ -94,6 +97,7 @@ private:
 
   // Declare the boost serialization access object as a friend
   friend class boost::serialization::access;
+
 
 };
   

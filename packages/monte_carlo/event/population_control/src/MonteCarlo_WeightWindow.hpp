@@ -41,8 +41,7 @@ class WeightWindowBase: public PopulationControl
 public:
 
   //! Constructor
-  WeightWindowBase()
-  { /* ... */ }
+  WeightWindowBase();
 
   //! Destructor
   ~WeightWindowBase()
@@ -50,6 +49,8 @@ public:
 
   void checkParticleWithPopulationController( ParticleState& particle, 
                                               ParticleBank& bank) const;
+
+  void setMaxSplit( const unsigned max_split_integer );
 
   virtual const WeightWindow& getWeightWindow( const ParticleState& particle ) const = 0;
 

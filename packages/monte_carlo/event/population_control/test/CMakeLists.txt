@@ -9,4 +9,7 @@ FRENSIE_ADD_TEST(WeightWindowMesh)
 FRENSIE_ADD_TEST_EXECUTABLE(ImportanceMesh DEPENDS tstImportanceMesh.cpp)
 FRENSIE_ADD_TEST(ImportanceMesh)
 
+FRENSIE_ADD_TEST_EXECUTABLE(WeightImportanceMesh DEPENDS tstWeightImportanceMesh.cpp)
+FRENSIE_ADD_TEST(WeightImportanceMesh)
+
 FRENSIE_FINALIZE_PACKAGE_TESTS(monte_carlo_event_population_control)

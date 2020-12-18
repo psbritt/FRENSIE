@@ -16,6 +16,11 @@
 
 namespace MonteCarlo{
 
+WeightWindowBase::WeightWindowBase()
+{ 
+  d_max_split = 5;
+}
+
 // Update the particle state and bank
 void WeightWindowBase::checkParticleWithPopulationController( ParticleState& particle,
                                                               ParticleBank& bank ) const
@@ -31,8 +36,8 @@ void WeightWindowBase::checkParticleWithPopulationController( ParticleState& par
     if(weight > window.upper_weight)
     {
       // return number after decimal
-      double weight_fraction = weight/window.upper_weight;
       unsigned number_of_particles = static_cast<unsigned>(floor(weight/window.upper_weight) + 1);
+      if( number_of_particles > d_max_split ) number_of_particles = d_max_split;
       this->splitParticle(particle, bank, number_of_particles);
     }
     else if(weight < window.lower_weight)
@@ -42,6 +47,12 @@ void WeightWindowBase::checkParticleWithPopulationController( ParticleState& par
     }
 
   }
+}
+
+void WeightWindowBase::setMaxSplit( const unsigned max_split_integer )
+{
+  testPrecondition( max_split_integer > 0 );
+  d_max_split = max_split_integer;
 }
 
 } // end MonteCarlo namespace

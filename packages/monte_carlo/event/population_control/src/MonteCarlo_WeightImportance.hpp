@@ -1,13 +1,13 @@
 //---------------------------------------------------------------------------//
 //!
-//! \file   MonteCarlo_Importance.hpp
+//! \file   MonteCarlo_WeightImportance.hpp
 //! \author Philip Britt
-//! \brief  Importance class declaration
+//! \brief  Weight importance class declaration
 //!
 //---------------------------------------------------------------------------//
 
-#ifndef MONTE_CARLO_IMPORTANCE_HPP
-#define MONTE_CARLO_IMPORTANCE_HPP
+#ifndef MONTE_CARLO_WEIGHT_IMPORTANCE_HPP
+#define MONTE_CARLO_WEIGHT_IMPORTANCE_HPP
 
 // FRENSIE Includes
 #include "MonteCarlo_PopulationControl.hpp"
@@ -15,18 +15,17 @@
 
 namespace MonteCarlo{
 
-//! The importance base class
-class Importance: public PopulationControl
+//! The weight importance base class
+class WeightImportance: public PopulationControl
 {
 
 public:
 
   //! Constructor
-  Importance()
-  { /* ... */ }
+  WeightImportance();
 
   //! Destructor
-  virtual ~Importance()
+  virtual ~WeightImportance()
   { /* ... */ }
 
   void checkParticleWithPopulationController( ParticleState& particle, 
@@ -34,9 +33,9 @@ public:
 
   void setMaxSplit( const unsigned max_split_integer );
 
-  virtual double getImportance( ParticleState& particle ) const = 0;
+  virtual double getWeightImportance( ParticleState& particle ) const = 0;
 
-  virtual bool isParticleInImportanceDiscretization( ParticleState& particle ) const = 0;
+  virtual bool isParticleInWeightImportanceDiscretization( ParticleState& particle ) const = 0;
 
 private:
 
@@ -51,19 +50,17 @@ private:
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( PopulationControl );
   }
 
-  //! max splitting value may not be recommended for importances in all cases.
-  bool d_is_max_split_set;
-
+  double d_weight_importance_tolerance = 1e-13;
 };
 
 } // end MonteCarlo namespace
 
-BOOST_SERIALIZATION_CLASS_VERSION( Importance, MonteCarlo, 0 );
-BOOST_SERIALIZATION_ASSUME_ABSTRACT_CLASS( Importance, MonteCarlo );
-EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, Importance );
+BOOST_SERIALIZATION_CLASS_VERSION( WeightImportance, MonteCarlo, 0 );
+BOOST_SERIALIZATION_ASSUME_ABSTRACT_CLASS( WeightImportance, MonteCarlo );
+EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, WeightImportance );
 
-#endif // end MONTE_CARLO_WEIGHT_WINDOW_HPP
+#endif // end MONTE_CARLO_WEIGHT_IMPORTANCE_HPP
 
 //---------------------------------------------------------------------------//
-// end MonteCarlo_Importance.hpp
+// end MonteCarlo_WeightImportance.hpp
 //---------------------------------------------------------------------------//

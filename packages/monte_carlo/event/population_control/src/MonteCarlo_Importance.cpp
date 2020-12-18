@@ -46,21 +46,31 @@ void Importance::checkParticleWithPopulationController( ParticleState& particle,
       if(importance_fraction > 1)
       {
         double rounded_importance_fraction;
-        // Split particle into lower possible number of emergent particles
-        if( Utility::RandomNumberGenerator::getRandomNumber<double>() < 1-std::fmod(importance_fraction, 1))
+
+        // Check if the importance fraction exceeds max split parameter
+        if( d_is_max_split_set && importance_fraction > d_max_split)
         {
-          rounded_importance_fraction = std::floor(importance_fraction);
+          this->splitParticle( particle,
+                               bank,
+                               d_max_split );
         }
-        // Split particle into greater possible number of emergent particles
         else
         {
-          rounded_importance_fraction = std::ceil(importance_fraction);
+          // Split particle into lower possible number of emergent particles
+          if( Utility::RandomNumberGenerator::getRandomNumber<double>() < 1-std::fmod(importance_fraction, 1))
+          {
+            rounded_importance_fraction = std::floor(importance_fraction);
+          }
+          // Split particle into greater possible number of emergent particles
+          else
+          {
+            rounded_importance_fraction = std::ceil(importance_fraction);
+          }
+          this->splitParticle(particle,
+                              bank,
+                              static_cast<unsigned>(rounded_importance_fraction),
+                              1/importance_fraction);
         }
-        this->splitParticle(particle,
-                            bank,
-                            static_cast<unsigned>(rounded_importance_fraction),
-                            1/importance_fraction);
-
       }
       else
       {
@@ -75,6 +85,13 @@ void Importance::checkParticleWithPopulationController( ParticleState& particle,
       particle.setInitialImportance(this->getImportance(particle));
     }
   }
+}
+
+void Importance::setMaxSplit( const unsigned max_split_integer )
+{
+  testPrecondition( max_split_integer > 0 );
+  d_is_max_split_set = true;
+  d_max_split = max_split_integer;
 }
 
 } // end MonteCarlo namespace

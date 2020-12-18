@@ -67,7 +67,30 @@ FRENSIE_UNIT_TEST( WeightWindowMesh, checkParticleWithPopulationController_split
   FRENSIE_CHECK_CLOSE(photon.getWeight(), split_weight,  1e-15);
   FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), split_weight, 1e-15);
   particle_bank.pop();
-  FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), split_weight, 1e-15);  
+  FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), split_weight, 1e-15);
+  particle_bank.pop();
+
+  // Check to make sure default max_split is working
+  photon.setWeight(100.0);
+  split_weight = 100.0/5.0;
+  weight_window_mesh->checkParticleWithPopulationController(photon, particle_bank);
+  FRENSIE_CHECK_EQUAL(particle_bank.size(), 4);
+  FRENSIE_CHECK_CLOSE(photon.getWeight(), split_weight,  1e-15);
+  FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), split_weight, 1e-15);
+
+  for( unsigned i = 0; i < 4; ++i )
+  {
+    particle_bank.pop();
+  }
+
+  weight_window_mesh->setMaxSplit( 10 );
+  // Check to make sure default max_split is working
+  photon.setWeight( 100.0 );
+  split_weight = 100.0/10.0;
+  weight_window_mesh->checkParticleWithPopulationController(photon, particle_bank);
+  FRENSIE_CHECK_EQUAL(particle_bank.size(), 9);
+  FRENSIE_CHECK_CLOSE(photon.getWeight(), split_weight,  1e-15);
+  FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), split_weight, 1e-15);
 }
 
 FRENSIE_UNIT_TEST(WeightWindowMesh, checkParticleWithPopulationController_terminate)

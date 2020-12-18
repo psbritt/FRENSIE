@@ -120,10 +120,7 @@ FRENSIE_UNIT_TEST( ImportanceMesh, checkParticleWithPopulationController_split)
       FRENSIE_CHECK_CLOSE(particle_bank.top().getWeight(), expected_updated_weight, 1e-15);
       FRENSIE_CHECK_EQUAL(particle_bank.size(), 1);
     }
-
   }
-  
-  
   Utility::RandomNumberGenerator::unsetFakeStream(); 
 }
 
@@ -158,7 +155,35 @@ FRENSIE_UNIT_TEST(ImportanceMesh, checkParticleWithPopulationController_terminat
     }
   }
   Utility::RandomNumberGenerator::unsetFakeStream();
-  
+}
+
+FRENSIE_UNIT_TEST( ImportanceMesh, setMaxSplit )
+{
+  importance_mesh->setMaxSplit(2);
+  MonteCarlo::PhotonState photon(0);
+  MonteCarlo::ParticleBank particle_bank;
+
+  photon.setEnergy( 1e-2);
+  photon.setPosition(0.5, 0.5, 0.5);
+  photon.setWeight(6.0);
+
+  // Fake probability stream
+  std::vector<double> fake_stream = {0.44, 0.42};
+  Utility::RandomNumberGenerator::setFakeStream(fake_stream);
+
+
+  importance_mesh->checkParticleWithPopulationController(photon, particle_bank);
+
+  photon.setEnergy( 2.0 );
+  photon.setPosition(1.5, 0.5, 0.5);
+  photon.incrementCollisionNumber();
+
+  importance_mesh->checkParticleWithPopulationController(photon, particle_bank);
+
+  FRENSIE_CHECK_EQUAL( particle_bank.size(), 1 );
+  FRENSIE_CHECK_EQUAL( photon.getWeight(), 3.0 );
+
+  Utility::RandomNumberGenerator::unsetFakeStream();
 }
 
 //---------------------------------------------------------------------------//

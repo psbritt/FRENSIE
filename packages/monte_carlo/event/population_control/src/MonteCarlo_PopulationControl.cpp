@@ -55,7 +55,6 @@ void PopulationControl::splitParticle( ParticleState& particle,
                                        unsigned number_of_particles ) const
 {
   particle.multiplyWeight(1/static_cast<double>(number_of_particles));
-
   this->pushSplitParticlesToBank(particle,
                                  bank,
                                  number_of_particles);
