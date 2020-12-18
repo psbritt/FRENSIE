@@ -19,6 +19,8 @@
 #include "MonteCarlo_PopulationControl.hpp"
 #include "MonteCarlo_WeightWindow.hpp"
 #include "MonteCarlo_WeightWindowMesh.hpp"
+#include "MonteCarlo_WeightImportance.hpp"
+#include "MonteCarlo_WeightImportanceMesh.hpp"
 #include "MonteCarlo_Importance.hpp"
 #include "MonteCarlo_ImportanceMesh.hpp"
 
@@ -48,6 +50,16 @@
 
 %shared_ptr(MonteCarlo::ImportanceMesh)
 %include "MonteCarlo_ImportanceMesh.hpp"
+
+%shared_ptr(MonteCarlo::WeightImportance)
+%include "MonteCarlo_WeightImportance.hpp"
+
+/* Technically already defined above, but redefining it so a separate python class exists that has a 
+ * recognizable name is formed
+ */
+
+%shared_ptr(MonteCarlo::WeightImportanceMesh)
+%include "MonteCarlo_WeightImportanceMesh.hpp"
 
 %shared_ptr(MonteCarlo::WeightWindowBase)
 %include "MonteCarlo_WeightWindow.hpp"

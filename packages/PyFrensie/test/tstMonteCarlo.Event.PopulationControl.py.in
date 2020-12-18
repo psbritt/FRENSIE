@@ -76,6 +76,57 @@ class ImportanceMeshTestCase(unittest.TestCase):
         self.assertEqual(test_importance_map[1][0], 3.0)
         self.assertEqual(test_importance_map[1][1], 4.0)
 
+# Test the WeightImportanceMesh class
+class WeightImportanceMeshTestCase(unittest.TestCase):
+    "TestCase class for MonteCarlo.Event.WeightImportanceMesh class"
+
+    def setUp(self):
+        # Set up a basic mesh
+        x_planes = [0, 1, 2]
+        y_planes = [0, 1]
+        z_planes = [0, 1]
+
+        self.hex_mesh = Mesh.StructuredHexMesh( x_planes, y_planes, z_planes )
+    
+    def testConstructor(self):
+        "*Test MonteCarlo.Event.WeightImportanceMesh constructor"
+
+        weight_importance_handler = Event.WeightImportanceMesh()
+
+    def testSetMesh(self):
+        "*Test MonteCarlo.Event.WeightImportanceMesh setMesh"
+
+        weight_importance_handler = Event.WeightImportanceMesh()
+        weight_importance_handler.setMesh(self.hex_mesh)
+        test_mesh = weight_importance_handler.getMesh()
+        self.assertEqual(test_mesh.getNumberOfElements(), 2)
+
+    def testSetWeightImportanceMap(self):
+        "*Test MonteCarlo.Event.WeightImportanceMesh setWeightImportanceMap"
+
+        weight_importance_handler = Event.WeightImportanceMesh()
+        weight_importance_handler.setMesh(self.hex_mesh)
+
+        energy_bin_boundaries = [None] *( 3 )
+        energy_bin_boundaries[0] = 0.0
+        energy_bin_boundaries[1] = 0.1
+        energy_bin_boundaries[2] = 1.0
+        weight_importance_handler.setEnergyDiscretization( energy_bin_boundaries )
+
+        weight_importance_vector_1 = np.array([1.0, 2.0])
+        weight_importance_vector_2 = np.array([3.0, 4.0])
+
+        # This object needs to be used for both importances and weight importances since it can't be redefined in swig file
+        weight_importance_map = Event.ImportanceMap({0: weight_importance_vector_1, 1: weight_importance_vector_2})
+
+        weight_importance_handler.setWeightImportanceMap(weight_importance_map)
+        test_weight_importance_map = weight_importance_handler.getWeightImportanceMap()
+
+        self.assertEqual(test_weight_importance_map[0][0], 1.0)
+        self.assertEqual(test_weight_importance_map[0][1], 2.0)
+        self.assertEqual(test_weight_importance_map[1][0], 3.0)
+        self.assertEqual(test_weight_importance_map[1][1], 4.0)
+
 class WeightWindowMeshTestCase(unittest.TestCase):
     "TestCase class for MonteCarlo.Event.WeightWindowMesh class"
 
@@ -165,6 +216,7 @@ if __name__ == "__main__":
 
     # Add the test cases to the testSuite
     suite.addTest(unittest.makeSuite(ImportanceMeshTestCase))
+    suite.addTest(unittest.makeSuite(WeightImportanceMeshTestCase))
     suite.addTest(unittest.makeSuite(WeightWindowMeshTestCase))
 
 
