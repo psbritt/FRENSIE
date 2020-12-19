@@ -46,6 +46,7 @@
 %shared_ptr(MonteCarlo::Importance)
 %include "MonteCarlo_Importance.hpp"
 
+// USE FOR BOTH IMPORTANCES AND WEIGHT IMPORTANCES
 %template(ImportanceMap) std::unordered_map<Utility::Mesh::ElementHandle, std::vector<double>>;
 
 %shared_ptr(MonteCarlo::ImportanceMesh)
@@ -53,10 +54,6 @@
 
 %shared_ptr(MonteCarlo::WeightImportance)
 %include "MonteCarlo_WeightImportance.hpp"
-
-/* Technically already defined above, but redefining it so a separate python class exists that has a 
- * recognizable name is formed
- */
 
 %shared_ptr(MonteCarlo::WeightImportanceMesh)
 %include "MonteCarlo_WeightImportanceMesh.hpp"

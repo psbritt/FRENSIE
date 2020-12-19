@@ -33,6 +33,8 @@ public:
 
   void setMaxSplit( const unsigned max_split_integer );
 
+  void setICWeightTransform( const bool use_IC_weight_transform);
+
   virtual double getWeightImportance( ParticleState& particle ) const = 0;
 
   virtual bool isParticleInWeightImportanceDiscretization( ParticleState& particle ) const = 0;
@@ -51,6 +53,8 @@ private:
   }
 
   double d_weight_importance_tolerance = 1e-13;
+
+  bool d_use_IC_weight_transforms;
 };
 
 } // end MonteCarlo namespace

@@ -44,6 +44,8 @@ void StandardAdjointParticleCollisionKernel<_FilledGeometryModelType>::collideWi
         // line energy before the collision
         particle.multiplyWeight( weight_factor );
 
+        particle.multiplyICWeightTransform( weight_factor );
+
         cell_material.collideAtLineEnergy( particle, bank );
 
         collision_complete = true;
@@ -63,6 +65,8 @@ void StandardAdjointParticleCollisionKernel<_FilledGeometryModelType>::collideWi
       // Multiply the particle weight by the adjoint weight factor before the
       // collision
       particle.multiplyWeight( weight_factor );
+
+      particle.multiplyICWeightTransform( weight_factor );
 
       BaseType::collideWithCellMaterial( particle, bank );
     }

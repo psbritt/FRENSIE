@@ -273,6 +273,9 @@ FRENSIE_UNIT_TEST( CollisionKernel, collideWithCellMaterial_adjoint_photon_mode 
     FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getWeight(),
                                      1.8606465722488712,
                                      1e-15 );
+    FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getICWeightTransform(),
+                                     1.8606465722488712,
+                                     1e-15 );
 
     // Sample the pair production reaction
     std::vector<double> fake_stream( 5 );
@@ -298,6 +301,9 @@ FRENSIE_UNIT_TEST( CollisionKernel, collideWithCellMaterial_adjoint_photon_mode 
     FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getWeight(),
                                      3.804939079352169351,
                                      1e-15 );
+    FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getICWeightTransform(),
+                                     3.804939079352169351,
+                                     1e-15 );
     FRENSIE_REQUIRE_EQUAL( bank->size(), 1 );
     FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getEnergy(),
                                      2*Utility::PhysicalConstants::electron_rest_mass_energy,
@@ -305,6 +311,9 @@ FRENSIE_UNIT_TEST( CollisionKernel, collideWithCellMaterial_adjoint_photon_mode 
     FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getWeight(),
                                      3.804939079352169351,
                                      1e-15 );
+    FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getICWeightTransform(),
+                                     3.804939079352169351,
+                                     1e-15 );                                     
 
     bank->pop();
 
@@ -329,11 +338,17 @@ FRENSIE_UNIT_TEST( CollisionKernel, collideWithCellMaterial_adjoint_photon_mode 
     FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getWeight(),
                                      3.804939079352169351,
                                      1e-15 );
+    FRENSIE_CHECK_FLOATING_EQUALITY( adjoint_photon->getICWeightTransform(),
+                                     3.804939079352169351,
+                                     1e-15 );
     FRENSIE_REQUIRE_EQUAL( bank->size(), 1 );
     FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getEnergy(),
                                      4*Utility::PhysicalConstants::electron_rest_mass_energy,
                                      1e-15 );
     FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getWeight(),
+                                     3.804939079352169351,
+                                     1e-15 );
+    FRENSIE_CHECK_FLOATING_EQUALITY( bank->top().getICWeightTransform(),
                                      3.804939079352169351,
                                      1e-15 );
 

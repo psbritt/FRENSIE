@@ -558,6 +558,7 @@ FRENSIE_UNIT_TEST( Photoatom, collideSurvivalBias )
 
   FRENSIE_CHECK( !photon->isGone() );
   FRENSIE_CHECK_FLOATING_EQUALITY( photon->getWeight(), 0.9999996542347203, 1e-15 );
+  FRENSIE_CHECK_FLOATING_EQUALITY( photon->getICWeightTransform(), 0.9999996542347203, 1e-15)
   FRENSIE_CHECK_EQUAL( bank.size(), 2 );
   FRENSIE_CHECK_FLOATING_EQUALITY( bank.top().getWeight(), 0.9999996542347203, 1e-15 );
 }

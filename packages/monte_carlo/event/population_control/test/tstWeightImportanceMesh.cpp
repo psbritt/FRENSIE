@@ -84,6 +84,7 @@ FRENSIE_UNIT_TEST( WeightImportanceMesh, checkParticleWithPopulationController_s
   particle_bank.pop();
   FRENSIE_CHECK_CLOSE( particle_bank.top().getWeight(), 2.0, 1e-15 );
   Utility::RandomNumberGenerator::unsetFakeStream();
+  
 }
 
 FRENSIE_UNIT_TEST(WeightImportanceMesh, checkParticleWithPopulationController_terminate)
@@ -140,6 +141,37 @@ FRENSIE_UNIT_TEST( WeightImportanceMesh, setMaxSplit )
   FRENSIE_CHECK_CLOSE( photon.getWeight(), 20.0/6.0, 1e-15 );
   FRENSIE_CHECK_EQUAL( particle_bank.size(), 5 );
 
+}
+
+FRENSIE_UNIT_TEST( WeightImportanceMesh, setICWeightTransform )
+{
+  MonteCarlo::PhotonState photon( 0 );
+  MonteCarlo::ParticleBank particle_bank;
+  photon.setEnergy( 1.0 );
+  photon.setPosition( 0.5, 0.5, 0.5 );
+  photon.setWeight( 2.5 );
+
+  // Doing this should set the weight value to 4.0, original was 2.0, should terminate instead of split
+  photon.multiplyICWeightTransform(2.0);
+
+  weight_importance_mesh->setICWeightTransform(true);
+
+  std::vector<double> fake_stream = { 0.3750001, 0.3749999 };
+  Utility::RandomNumberGenerator::setFakeStream( fake_stream );
+
+  weight_importance_mesh->checkParticleWithPopulationController( photon, particle_bank );
+
+  FRENSIE_CHECK_CLOSE( photon.getWeight(), 4.0, 1e-15 );
+  FRENSIE_CHECK_EQUAL( particle_bank.size(), 0 );
+
+  photon.setWeight( 2.5 );
+
+  weight_importance_mesh->checkParticleWithPopulationController( photon, particle_bank );
+
+  FRENSIE_CHECK( photon.isGone() );
+  FRENSIE_CHECK_EQUAL( particle_bank.size(), 0 );
+
+  Utility::RandomNumberGenerator::unsetFakeStream();
 }
 
 //---------------------------------------------------------------------------//

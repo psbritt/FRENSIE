@@ -22,6 +22,7 @@ WeightImportance::WeightImportance()
 {
   // Set default value for max split parameter (able to be changed)
   d_max_split = 5;
+  d_use_IC_weight_transforms = false;
 }
 
 // Update the particle state and bank
@@ -31,6 +32,10 @@ void WeightImportance::checkParticleWithPopulationController( ParticleState& par
   if( this->isParticleInWeightImportanceDiscretization( particle ) )
   {
     double weight_importance = this->getWeightImportance(particle);
+    if( d_use_IC_weight_transforms )
+    {
+      weight_importance *= particle.getICWeightTransform();
+    }
     double particle_weight = particle.getWeight();
 
     // Don't do anything if the weight is within a tolerance (Mostly to keep from splitting/terminating on birth)
@@ -79,6 +84,11 @@ void WeightImportance::setMaxSplit( const unsigned max_split_integer )
 {
   testPrecondition( max_split_integer > 0 );
   d_max_split = max_split_integer;
+}
+
+void WeightImportance::setICWeightTransform( const bool use_IC_weight_transform)
+{
+  d_use_IC_weight_transforms = use_IC_weight_transform;
 }
 
 } // end MonteCarlo namespace
