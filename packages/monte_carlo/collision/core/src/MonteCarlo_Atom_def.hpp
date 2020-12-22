@@ -515,7 +515,6 @@ void Atom<AtomCore>::collideSurvivalBias( ParticleStateType& particle,
       ParticleStateType particle_copy( particle, false, false );
 
       particle.multiplyWeight( survival_prob );
-      particle.multiplyICWeightTransform( survival_prob );
 
       this->sampleScatteringReaction(
             Utility::RandomNumberGenerator::getRandomNumber<double>()*

@@ -22,7 +22,7 @@ WeightImportance::WeightImportance()
 {
   // Set default value for max split parameter (able to be changed)
   d_max_split = 5;
-  d_use_IC_weight_transforms = false;
+  d_use_non_importance_weight_transforms = false;
 }
 
 // Update the particle state and bank
@@ -32,9 +32,9 @@ void WeightImportance::checkParticleWithPopulationController( ParticleState& par
   if( this->isParticleInWeightImportanceDiscretization( particle ) )
   {
     double weight_importance = this->getWeightImportance(particle);
-    if( d_use_IC_weight_transforms )
+    if( d_use_non_importance_weight_transforms )
     {
-      weight_importance *= particle.getICWeightTransform();
+      weight_importance *= particle.getWeight()/particle.getImportanceWeightTransform();
     }
     double particle_weight = particle.getWeight();
 
@@ -46,7 +46,6 @@ void WeightImportance::checkParticleWithPopulationController( ParticleState& par
       // Split probabilistically
       if( weight_importance_fraction > 1 )
       {
-        double rounded_weight_importance_fraction;
         // Split particle into lower possible number of emergent particles
         if( weight_importance_fraction > d_max_split )
         {
@@ -56,19 +55,9 @@ void WeightImportance::checkParticleWithPopulationController( ParticleState& par
         }
         else
         {
-          if( Utility::RandomNumberGenerator::getRandomNumber<double>() < 1-std::fmod(weight_importance_fraction, 1))
-          {
-            rounded_weight_importance_fraction = std::floor(weight_importance_fraction);
-          }
-          // Split particle into greater possible number of emergent particles
-          else
-          {
-            rounded_weight_importance_fraction = std::ceil(weight_importance_fraction);
-          }
           this->splitParticle(particle,
                               bank,
-                              static_cast<unsigned>(rounded_weight_importance_fraction),
-                              1/weight_importance_fraction);
+                              weight_importance_fraction);
         }
       }
       // Terminate
@@ -86,9 +75,9 @@ void WeightImportance::setMaxSplit( const unsigned max_split_integer )
   d_max_split = max_split_integer;
 }
 
-void WeightImportance::setICWeightTransform( const bool use_IC_weight_transform)
+void WeightImportance::setNonImportanceWeightTransform( const bool use_non_importance_weight_transforms)
 {
-  d_use_IC_weight_transforms = use_IC_weight_transform;
+  d_use_non_importance_weight_transforms = use_non_importance_weight_transforms;
 }
 
 } // end MonteCarlo namespace

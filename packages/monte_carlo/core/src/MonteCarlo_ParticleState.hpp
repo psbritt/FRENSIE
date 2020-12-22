@@ -117,9 +117,11 @@ public:
 
   const std::pair<double, double>& getImportancePair() const;
 
-  void multiplyICWeightTransform( const double local_ic_weight_transform );
+  void setImportanceWeightTransform( const double importance_weight_transform );
 
-  const double getICWeightTransform() const;
+  void multiplyImportanceWeightTransform( const double local_importance_weight_transform );
+
+  const double getImportanceWeightTransform() const;
 
   //! Return the id of the source that created the particle (history)
   sourceIdType getSourceId() const;
@@ -369,8 +371,8 @@ private:
   // The importance pair of the phase space transitions of a particle <old_importance, new_importance>
   std::pair<double, double> d_importance_pair;
 
-  // Aggregate weight transform from implicit capture
-  double d_implicit_capture_weight_transform;
+  // Aggregate weight transform from implicit capture (rename to non-importance weight transform)
+  double d_importance_weight_transform;
 
   // The ray safety distance (i.e. distance to the closest boundary)
   raySafetyDistanceType d_ray_safety_distance;

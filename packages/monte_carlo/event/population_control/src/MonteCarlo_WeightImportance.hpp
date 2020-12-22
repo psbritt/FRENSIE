@@ -32,8 +32,9 @@ public:
                                               ParticleBank& bank) const;
 
   void setMaxSplit( const unsigned max_split_integer );
-
-  void setICWeightTransform( const bool use_IC_weight_transform);
+  
+  // Change IC because not capturing only IC
+  void setNonImportanceWeightTransform( const bool use_non_importance_weight_transforms );
 
   virtual double getWeightImportance( ParticleState& particle ) const = 0;
 
@@ -54,7 +55,7 @@ private:
 
   double d_weight_importance_tolerance = 1e-13;
 
-  bool d_use_IC_weight_transforms;
+  bool d_use_non_importance_weight_transforms;
 };
 
 } // end MonteCarlo namespace
