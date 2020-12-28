@@ -55,6 +55,7 @@ void PopulationControl::splitParticle( ParticleState& particle,
                                        unsigned number_of_particles ) const
 {
   particle.multiplyWeight(1/static_cast<double>(number_of_particles));
+  particle.multiplyImportanceWeightTransform(1/static_cast<double>(number_of_particles));
   this->pushSplitParticlesToBank(particle,
                                  bank,
                                  number_of_particles);
@@ -64,15 +65,29 @@ void PopulationControl::splitParticle( ParticleState& particle,
 // Method that splits particles with weights based on the expectation weight of particles
 void PopulationControl::splitParticle( ParticleState& particle,
                                        ParticleBank& bank,
-                                       unsigned number_of_particles,
-                                       double weight_factor) const
+                                       double inverse_weight_factor) const
 {
 
-  particle.multiplyWeight(weight_factor);
+  double rounded_inverse_weight_factor;
+
+  // inverse_weight_factor is actually what's used to determine the number of particles to split into
+  // Split into lesser possible number of emergent particles
+  if( Utility::RandomNumberGenerator::getRandomNumber<double>() < 1-std::fmod(inverse_weight_factor, 1))
+  {
+    rounded_inverse_weight_factor = std::floor(inverse_weight_factor);
+  }
+  // Split particle into greater possible number of emergent particles
+  else
+  {
+    rounded_inverse_weight_factor = std::ceil(inverse_weight_factor);
+  }
+
+  particle.multiplyWeight(1/inverse_weight_factor);
+  particle.multiplyImportanceWeightTransform(1/inverse_weight_factor);
 
   this->pushSplitParticlesToBank(particle,
                                  bank,
-                                 number_of_particles);
+                                 static_cast<unsigned>( rounded_inverse_weight_factor ));
 
 }
 
@@ -88,6 +103,7 @@ void PopulationControl::terminateParticle( ParticleState& particle,
   }else
   {
     particle.multiplyWeight(1/(1-termination_probability));
+    particle.multiplyImportanceWeightTransform(1/(1-termination_probability));
   }
 }
 

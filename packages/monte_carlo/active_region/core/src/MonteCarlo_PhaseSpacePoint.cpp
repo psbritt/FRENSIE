@@ -538,6 +538,8 @@ void PhaseSpacePoint::setParticleState( ParticleState& particle ) const
   particle.setTime( d_time_coord );
   particle.setSourceWeight( this->getWeightOfCoordinates() );
   particle.setWeight( particle.getSourceWeight() );
+  // Equal to weight since this method initializes particles
+  particle.setImportanceWeightTransform( particle.getSourceWeight() );
 }
   
 } // end MonteCarlo namespace

@@ -41,7 +41,7 @@ ParticleState::ParticleState()
     d_model( new Geometry::InfiniteMediumModel( d_source_cell ) ),
     d_navigator( d_model->createNavigatorAdvanced( this->createAdvanceCompleteCallback() ) ),
     d_importance_pair( std::make_pair( 1.0, 1.0 ) ),
-    d_implicit_capture_weight_transform( 1.0 )
+    d_importance_weight_transform( 1.0 )
 { /* ... */ }
 
 // Constructor
@@ -68,7 +68,7 @@ ParticleState::ParticleState(
     d_model( new Geometry::InfiniteMediumModel( d_source_cell ) ),
     d_navigator( d_model->createNavigatorAdvanced( this->createAdvanceCompleteCallback() ) ),
     d_importance_pair( std::make_pair( 1.0, 1.0 ) ),
-    d_implicit_capture_weight_transform( 1.0 )
+    d_importance_weight_transform( 1.0 )
 { /* ... */ }
 
 // Copy constructor
@@ -102,7 +102,7 @@ ParticleState::ParticleState( const ParticleState& existing_base_state,
     d_model( existing_base_state.d_model ),
     d_navigator( existing_base_state.d_navigator->clone( this->createAdvanceCompleteCallback() ) ),
     d_importance_pair( existing_base_state.d_importance_pair ),
-    d_implicit_capture_weight_transform( existing_base_state.d_implicit_capture_weight_transform )
+    d_importance_weight_transform( existing_base_state.d_importance_weight_transform )
 {
   // Increment the generation number if requested
   if( increment_generation_number )
@@ -187,14 +187,19 @@ const std::pair<double, double>& ParticleState::getImportancePair() const
   return d_importance_pair;
 }
 
-void ParticleState::multiplyICWeightTransform( const double local_ic_weight_transform)
+void ParticleState::setImportanceWeightTransform( const double importance_weight_transform)
 {
-  d_implicit_capture_weight_transform *= local_ic_weight_transform;
+  d_importance_weight_transform = importance_weight_transform;
 }
 
-const double ParticleState::getICWeightTransform() const
+void ParticleState::multiplyImportanceWeightTransform( const double local_importance_weight_transform)
 {
-  return d_implicit_capture_weight_transform;
+  d_importance_weight_transform *= local_importance_weight_transform;
+}
+
+const double ParticleState::getImportanceWeightTransform() const
+{
+  return d_importance_weight_transform;
 }
 
 // Return the source id that created the particle (history)

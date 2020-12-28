@@ -385,7 +385,6 @@ void Nuclide::collideSurvivalBias( NeutronState& neutron,
   if( survival_prob > 0.0 )
   {
     neutron.multiplyWeight( survival_prob );
-    neutron.multiplyICWeightTransform(survival_prob);
     
     sampleScatteringReaction( random_number*scattering_cross_section,
 			      neutron,

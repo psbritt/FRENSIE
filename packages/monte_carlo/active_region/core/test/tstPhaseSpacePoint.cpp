@@ -530,6 +530,7 @@ FRENSIE_UNIT_TEST( PhaseSpacePoint, setParticleState_cartesian )
   FRENSIE_CHECK_EQUAL( photon.getTime(), 1.0 );
   FRENSIE_CHECK_FLOATING_EQUALITY( photon.getSourceWeight(), 0.0005281848, 1e-12 );
   FRENSIE_CHECK_FLOATING_EQUALITY( photon.getWeight(), 0.0005281848, 1e-12 );
+  FRENSIE_CHECK_FLOATING_EQUALITY( photon.getImportanceWeightTransform(), 0.0005281848, 1e-12 );
 
   // Off-axis Cartesian spatial coordinate system,
   // Cartesian directional coordinate system

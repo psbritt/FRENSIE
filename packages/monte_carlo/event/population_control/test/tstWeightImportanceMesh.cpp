@@ -152,9 +152,9 @@ FRENSIE_UNIT_TEST( WeightImportanceMesh, setICWeightTransform )
   photon.setWeight( 2.5 );
 
   // Doing this should set the weight value to 4.0, original was 2.0, should terminate instead of split
-  photon.multiplyICWeightTransform(2.0);
+  photon.multiplyImportanceWeightTransform( (2.0*2.5)/4.0 );
 
-  weight_importance_mesh->setICWeightTransform(true);
+  weight_importance_mesh->setNonImportanceWeightTransform(true);
 
   std::vector<double> fake_stream = { 0.3750001, 0.3749999 };
   Utility::RandomNumberGenerator::setFakeStream( fake_stream );
@@ -163,12 +163,18 @@ FRENSIE_UNIT_TEST( WeightImportanceMesh, setICWeightTransform )
 
   FRENSIE_CHECK_CLOSE( photon.getWeight(), 4.0, 1e-15 );
   FRENSIE_CHECK_EQUAL( particle_bank.size(), 0 );
+  FRENSIE_CHECK_EQUAL( photon.getImportanceWeightTransform(), ((2.0*2.5)/4.0)*(4.0/2.5) );
 
   photon.setWeight( 2.5 );
 
   weight_importance_mesh->checkParticleWithPopulationController( photon, particle_bank );
 
-  FRENSIE_CHECK( photon.isGone() );
+  FRENSIE_CHECK_FLOATING_EQUALITY( photon.getWeight(), 2.5, 1e-15 );
+  FRENSIE_CHECK_EQUAL( particle_bank.size(), 0 );
+
+  photon.setImportanceWeightTransform( (2.0*2.5)/4.0 );
+  weight_importance_mesh->checkParticleWithPopulationController( photon, particle_bank );
+  FRENSIE_CHECK(photon.isGone());
   FRENSIE_CHECK_EQUAL( particle_bank.size(), 0 );
 
   Utility::RandomNumberGenerator::unsetFakeStream();
