@@ -203,6 +203,8 @@ public:
   //! Set a particle state
   void setParticleState( ParticleState& particle ) const;
 
+  double getCoordinate( PhaseSpaceDimension dimension ) const;
+
 private:
 
   // The spatial coordinate conversion policy
@@ -281,6 +283,9 @@ private:
 
   // Direction discretization index weight
   double d_direction_index_coord_weight;
+
+  //! Object to easily reference coordinate values
+  std::map< PhaseSpaceDimension, double > d_dimension_coordinate_map;
 };
 
 // Convert spatial coordinates to Cartesian coordinates

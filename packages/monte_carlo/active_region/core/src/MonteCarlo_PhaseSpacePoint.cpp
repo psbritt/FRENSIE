@@ -42,7 +42,8 @@ PhaseSpacePoint::PhaseSpacePoint(
     d_mesh_index_coord_weight(1.0),
     d_is_direction_index_defined(false),
     d_direction_index_coord(0),
-    d_direction_index_coord_weight(1.0)
+    d_direction_index_coord_weight(1.0),
+    d_dimension_coordinate_map()
 { /* ... */ }
 
 // Constructor (particle state initialization)
@@ -76,7 +77,8 @@ PhaseSpacePoint::PhaseSpacePoint(
     d_mesh_index_coord_weight(1.0),
     d_is_direction_index_defined(false),
     d_direction_index_coord(0),
-    d_direction_index_coord_weight(1.0)
+    d_direction_index_coord_weight(1.0),
+    d_dimension_coordinate_map()
 {
   // Convert the particle's Cartesian spatial coordinates to the spatial
   // coordinates of the phase space
@@ -113,6 +115,8 @@ void PhaseSpacePoint::setPrimarySpatialCoordinate(
   testPrecondition( d_spatial_coord_conversion_policy->isPrimarySpatialCoordinateValid( primary_spatial_coord ) );
   
   d_primary_spatial_coord = primary_spatial_coord;
+
+  d_dimension_coordinate_map[PRIMARY_SPATIAL_DIMENSION] = primary_spatial_coord;
 }
 
 // Return the primary spatial coordinate weight
@@ -145,6 +149,8 @@ void PhaseSpacePoint::setSecondarySpatialCoordinate(
   testPrecondition( d_spatial_coord_conversion_policy->isSecondarySpatialCoordinateValid( secondary_spatial_coord ) );
   
   d_secondary_spatial_coord = secondary_spatial_coord;
+
+  d_dimension_coordinate_map[SECONDARY_SPATIAL_DIMENSION] = secondary_spatial_coord;
 }
 
 // Return the secondary spatial coordinate weight
@@ -177,6 +183,9 @@ void PhaseSpacePoint::setTertiarySpatialCoordinate(
   testPrecondition( d_spatial_coord_conversion_policy->isTertiarySpatialCoordinateValid( tertiary_spatial_coord ) );
   
   d_tertiary_spatial_coord = tertiary_spatial_coord;
+
+  d_dimension_coordinate_map[TERTIARY_SPATIAL_DIMENSION] = tertiary_spatial_coord;
+
 }
 
 // Return the tertiary spatial coordinate weight
@@ -231,6 +240,8 @@ void PhaseSpacePoint::setPrimaryDirectionalCoordinate(
   testPrecondition( d_directional_coord_conversion_policy->isPrimaryDirectionalCoordinateValid( primary_directional_coord ) );
 
   d_primary_directional_coord = primary_directional_coord;
+
+  d_dimension_coordinate_map[PRIMARY_DIRECTIONAL_DIMENSION] = primary_directional_coord;
 }
 
 // Return the primary Directional coordinate weight
@@ -263,6 +274,8 @@ void PhaseSpacePoint::setSecondaryDirectionalCoordinate(
   testPrecondition( d_directional_coord_conversion_policy->isSecondaryDirectionalCoordinateValid( secondary_directional_coord ) );
 
   d_secondary_directional_coord = secondary_directional_coord;
+
+  d_dimension_coordinate_map[SECONDARY_DIRECTIONAL_DIMENSION] = secondary_directional_coord;
 }
 
 // Return the secondary Directional coordinate weight
@@ -295,6 +308,8 @@ void PhaseSpacePoint::setTertiaryDirectionalCoordinate(
   testPrecondition( d_directional_coord_conversion_policy->isTertiaryDirectionalCoordinateValid( tertiary_directional_coord ) );
 
   d_tertiary_directional_coord = tertiary_directional_coord;
+
+  d_dimension_coordinate_map[TERTIARY_DIRECTIONAL_DIMENSION] = tertiary_directional_coord;
 }
 
 // Return the tertiary Directional coordinate weight
@@ -360,6 +375,8 @@ void PhaseSpacePoint::setEnergyCoordinate( const double energy_coord )
   testPrecondition( energy_coord > 0.0 );
 
   d_energy_coord = energy_coord;
+
+  d_dimension_coordinate_map[ENERGY_DIMENSION] = energy_coord;
 }
 
 // Return the energy coordinate weight
@@ -390,6 +407,8 @@ void PhaseSpacePoint::setTimeCoordinate( const double time_coord )
   testPrecondition( time_coord >= 0.0 );
   
   d_time_coord = time_coord;
+
+  d_dimension_coordinate_map[TIME_DIMENSION] = time_coord;
 }
 
 // Return the time coordinate weight
@@ -419,11 +438,12 @@ size_t PhaseSpacePoint::getMeshIndexCoordinate() const
 // Set the mesh index coordinate of the phase space point
 void PhaseSpacePoint::setMeshIndexCoordinate(const size_t mesh_index_coord)
 {
-  std::cout << "Spatial index coordinate: " << mesh_index_coord << std::endl;
   // Set the mesh index as defined
   d_is_mesh_index_defined = true;
 
   d_mesh_index_coord = mesh_index_coord;
+
+  d_dimension_coordinate_map[SPATIAL_INDEX_DIMENSION] = mesh_index_coord;
 }
 
 // Return the mesh index coordinate weight;
@@ -456,11 +476,12 @@ size_t PhaseSpacePoint::getDirectionIndexCoordinate() const
 // Set the mesh index coordinate of the phase space point
 void PhaseSpacePoint::setDirectionIndexCoordinate(const size_t direction_index_coord)
 {
-  std::cout << "Direction index coordinate: " << direction_index_coord << std::endl;
   // Set the direction index as defined
   d_is_direction_index_defined = true;
 
   d_direction_index_coord = direction_index_coord;
+
+  d_dimension_coordinate_map[DIRECTION_INDEX_DIMENSION] = direction_index_coord;
 }
 
 // Return the mesh index coordinate weight;
@@ -540,6 +561,11 @@ void PhaseSpacePoint::setParticleState( ParticleState& particle ) const
   particle.setWeight( particle.getSourceWeight() );
   // Equal to weight since this method initializes particles
   particle.setImportanceWeightTransform( particle.getSourceWeight() );
+}
+
+double PhaseSpacePoint::getCoordinate( PhaseSpaceDimension dimension ) const
+{
+  return d_dimension_coordinate_map.find(dimension)->second;
 }
   
 } // end MonteCarlo namespace
