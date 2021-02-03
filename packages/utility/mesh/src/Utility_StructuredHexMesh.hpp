@@ -59,6 +59,7 @@ public:
   StructuredHexMesh( const std::vector<double>& x_planes,
                      const std::vector<double>& y_planes,
                      const std::vector<double>& z_planes );
+
   //! Destructor
   ~StructuredHexMesh()
   { /* ... */ }
@@ -77,6 +78,12 @@ public:
 
   //! Get the end iterator of the hex element list.
   ElementHandleIterator getEndElementHandleIterator() const final override;
+
+  std::vector<double> getXPlanesCopy();
+
+  std::vector<double> getYPlanesCopy();
+
+  std::vector<double> getZPlanesCopy();
 
   void getRandomPointInHex(const ElementHandle h,
                            double point[3]) const;

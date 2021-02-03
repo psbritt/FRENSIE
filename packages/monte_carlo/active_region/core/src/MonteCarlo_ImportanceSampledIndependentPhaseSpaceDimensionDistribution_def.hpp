@@ -46,7 +46,6 @@ void ImportanceSampledIndependentPhaseSpaceDimensionDistribution<dimension>::sam
   const double sample = d_dimension_importance_distribution->sample();
 
   const double weight = this->calculateSampleWeight( sample );
-
   MonteCarlo::setCoordinate<dimension>( phase_space_sample, sample );
   MonteCarlo::setCoordinateWeight<dimension>( phase_space_sample, weight );
 }

@@ -440,7 +440,7 @@ void PhaseSpacePoint::setMeshIndexCoordinate(const size_t mesh_index_coord)
 {
   // Set the mesh index as defined
   d_is_mesh_index_defined = true;
-
+  
   d_mesh_index_coord = mesh_index_coord;
 
   d_dimension_coordinate_map[SPATIAL_INDEX_DIMENSION] = mesh_index_coord;
@@ -478,7 +478,7 @@ void PhaseSpacePoint::setDirectionIndexCoordinate(const size_t direction_index_c
 {
   // Set the direction index as defined
   d_is_direction_index_defined = true;
-
+  
   d_direction_index_coord = direction_index_coord;
 
   d_dimension_coordinate_map[DIRECTION_INDEX_DIMENSION] = direction_index_coord;

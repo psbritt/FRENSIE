@@ -613,6 +613,11 @@ void StandardParticleDistribution::initializeDimensionCounters(
   trials[ENERGY_DIMENSION] = 0;
   trials[TIME_DIMENSION] = 0;
   trials[WEIGHT_DIMENSION] = 0;
+
+  if(d_spatial_dimension_mesh) trials[SPATIAL_INDEX_DIMENSION] = 0;
+
+  if(d_direction_dimension_discretization) trials[DIRECTION_INDEX_DIMENSION] = 0;
+
 }
 
 // Evaluate the distribution at the desired phase space point

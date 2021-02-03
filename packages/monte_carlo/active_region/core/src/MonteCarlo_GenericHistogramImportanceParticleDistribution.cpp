@@ -6,6 +6,9 @@
 //!
 //---------------------------------------------------------------------------//
 
+// std includes
+#include<iterator>
+
 // FRENSIE Includes
 #include "FRENSIE_Archives.hpp"
 #include "MonteCarlo_GenericHistogramImportanceParticleDistribution.hpp"
@@ -30,7 +33,9 @@ GenericHistogramImportanceParticleDistribution::GenericHistogramImportancePartic
 GenericHistogramImportanceParticleDistribution::GenericHistogramImportanceParticleDistribution( const std::string& name )
   : ParticleDistribution( name ),
     d_spatial_coord_conversion_policy( new Utility::BasicCartesianCoordinateConversionPolicy ),
-    d_directional_coord_conversion_policy( new Utility::BasicSphericalCoordinateConversionPolicy )
+    d_directional_coord_conversion_policy( new Utility::BasicCartesianCoordinateConversionPolicy ),
+    d_spatial_dimension_mesh(),
+    d_direction_dimension_discretization()
 { /* ... */ }
 
 // Set a dimension distribution
@@ -38,6 +43,8 @@ void GenericHistogramImportanceParticleDistribution::setIndependentDimensionDist
                         const std::shared_ptr< PhaseSpaceDimensionDistribution >& dimension_distribution,
                         const bool finished_with_independent  )
 {
+// Check that pointer is valid
+testPrecondition(dimension_distribution);
 
 d_dimension_order.push_back( dimension_distribution->getDimension() );
 
@@ -58,19 +65,34 @@ void GenericHistogramImportanceParticleDistribution::setImportanceDimensionDistr
 {
   for(auto vector_it = importance_distribution_order.begin(); vector_it != importance_distribution_order.end(); ++vector_it)
   {
+    auto current_distribution_vector = importance_sampled_distributions.find(*vector_it)->second;
+    auto current_distribution_boundary_vector = importance_distribution_boundaries.find(*vector_it)->second;
+    if( vector_it != importance_distribution_order.end() - 1)
+    {
+      auto next_distribution_vector = importance_sampled_distributions.find(*(std::next(vector_it)))->second;
+      // Defensive pre-processing to make sure distributions are right size
+      if( next_distribution_vector.size() != current_distribution_vector.size()*(current_distribution_boundary_vector.size()-1))
+        THROW_EXCEPTION(std::runtime_error, "Mismatched boundary/distribution vector size on" << *(std::next(vector_it)));
+    }
+
+
     d_dimension_order.push_back(*vector_it);
-    d_dimension_distributions[*vector_it] = importance_sampled_distributions.find(*vector_it)->second;
-    d_dimension_bounds[*vector_it] = importance_distribution_boundaries.find(*vector_it)->second;
+    d_dimension_distributions[*vector_it] = current_distribution_vector;
+    d_dimension_bounds[*vector_it] = current_distribution_boundary_vector;
   }
 }
 
-void GenericHistogramImportanceParticleDistribution::setMeshIndexDimensionDistributionObject( const std::shared_ptr<Utility::StructuredHexMesh>& mesh_object )
+void GenericHistogramImportanceParticleDistribution::setMeshIndexDimensionDistributionObject( std::shared_ptr< Utility::StructuredHexMesh> mesh_object )
 {
+  d_spatial_dimension_mesh = std::make_shared<Utility::StructuredHexMesh>( mesh_object->getXPlanesCopy(),
+                                                                           mesh_object->getYPlanesCopy(),
+                                                                           mesh_object->getZPlanesCopy() );
   PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>::setMesh(mesh_object);
 }
 
-void GenericHistogramImportanceParticleDistribution::setDirectionIndexDimensionDistributionObject( const std::shared_ptr<Utility::PQLAQuadrature>& quadrature_pointer )
+void GenericHistogramImportanceParticleDistribution::setDirectionIndexDimensionDistributionObject( std::shared_ptr< Utility::PQLAQuadrature> quadrature_pointer )
 {
+  d_direction_dimension_discretization = quadrature_pointer;
   PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>::setDirectionDiscretization(quadrature_pointer);
 }
 
@@ -118,6 +140,9 @@ void GenericHistogramImportanceParticleDistribution::initializeDimensionCounters
   trials[ENERGY_DIMENSION] = 0;
   trials[TIME_DIMENSION] = 0;
   trials[WEIGHT_DIMENSION] = 0;
+
+  trials[SPATIAL_INDEX_DIMENSION] = 0;
+  trials[DIRECTION_INDEX_DIMENSION] = 0;
 }
 
 // Evaluate the distribution at the desired phase space point

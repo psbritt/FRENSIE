@@ -78,6 +78,21 @@ StructuredHexMesh::StructuredHexMesh( const std::vector<double>& x_planes,
 #endif // end HAVE_FRENSIE_MOAB
 }
 
+std::vector<double> StructuredHexMesh::getXPlanesCopy()
+{
+  return d_x_planes;
+}
+
+std::vector<double> StructuredHexMesh::getYPlanesCopy()
+{
+  return d_y_planes;
+}
+
+std::vector<double> StructuredHexMesh::getZPlanesCopy()
+{
+  return d_z_planes;
+}
+
 bool StructuredHexMesh::isElementHandleValid(const ElementHandle h) const
 {
   if( h < 0 || h > this->getNumberOfElements()-1)

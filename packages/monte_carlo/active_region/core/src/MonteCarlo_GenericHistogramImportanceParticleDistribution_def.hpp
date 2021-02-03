@@ -28,25 +28,27 @@ inline void GenericHistogramImportanceParticleDistribution::sampleImpl(
   PhaseSpacePoint phase_space_sample( d_spatial_coord_conversion_policy,
                                       d_directional_coord_conversion_policy );
 
-  size_t distribution_index = 0;
+  size_t current_distribution_index = 0;
   for( auto order_it = d_dimension_order.begin(); order_it != d_dimension_order.end(); ++order_it)
   {
     auto distribution_vector = d_dimension_distributions.find(*order_it)->second;
     dimension_sampling_function(
-                *(distribution_vector[distribution_index]),
+                *(distribution_vector[current_distribution_index]),
                 phase_space_sample );
 
-    if( d_dimension_bounds.find(*order_it) != d_dimension_bounds.end() )
+    const std::vector<double>& dimension_boundaries_vector = d_dimension_bounds.find(*order_it)->second;
+    // check if next dimension has more than 1 distribution
+    if( dimension_boundaries_vector.size() > 2 && order_it != d_dimension_order.end()-1 )
     {
-      double sample_result = phase_space_sample.getCoordinate(*order_it);
-      std::vector<double> boundary_vector = d_dimension_bounds.find(*order_it)->second;
+      // Get the value of the sample so a search can be done
+      double sample_value = phase_space_sample.getCoordinate(*order_it);
       size_t temp_index = 0;
-      for( auto vector_it = boundary_vector.begin(); vector_it != boundary_vector.end() - 1; ++vector_it)
+      for(auto vec_it = dimension_boundaries_vector.begin(); vec_it != dimension_boundaries_vector.end()-1; ++vec_it)
       {
-        if( *vector_it <= sample_result && sample_result < *(vector_it + 1))
+        if( *vec_it <= sample_value && sample_value < *(std::next(vec_it)))
         {
-          distribution_index = temp_index + d_dimension_distributions.find(*(std::next(order_it)))->second.size()*distribution_index;
-          break;
+         current_distribution_index = temp_index + (dimension_boundaries_vector.size()-1)*current_distribution_index;
+         break;
         }
         temp_index += 1;
       }

@@ -61,9 +61,9 @@ public:
                         const std::vector< PhaseSpaceDimension > importance_distribution_order);
 
   //! Use these BEFORE you set a distribution for them
-  void setMeshIndexDimensionDistributionObject( const std::shared_ptr<Utility::StructuredHexMesh>& mesh_object );
+  void setMeshIndexDimensionDistributionObject( std::shared_ptr<  Utility::StructuredHexMesh> mesh_object );
   
-  void setDirectionIndexDimensionDistributionObject( const std::shared_ptr<Utility::PQLAQuadrature>& quadrature_pointer );
+  void setDirectionIndexDimensionDistributionObject( std::shared_ptr< Utility::PQLAQuadrature> quadrature_pointer );
 
   //! Return the dimension distribution type name
   std::string getDimensionDistributionTypeName(
@@ -126,11 +126,11 @@ private:
   friend class boost::serialization::access;
 
   // The spatial coordinate conversion policy
-  std::shared_ptr<const Utility::SpatialCoordinateConversionPolicy>
+  std::shared_ptr< Utility::SpatialCoordinateConversionPolicy>
   d_spatial_coord_conversion_policy;
 
   // The directional coordinate conversion policy
-  std::shared_ptr<const Utility::DirectionalCoordinateConversionPolicy>
+  std::shared_ptr< Utility::DirectionalCoordinateConversionPolicy>
   d_directional_coord_conversion_policy;
 
   bool d_independent_finished;
@@ -145,9 +145,9 @@ private:
   std::map< PhaseSpaceDimension, std::vector< double > > d_dimension_bounds;
 
   // Cached values for archiving
-  std::shared_ptr<Utility::StructuredHexMesh> d_spatial_dimension_mesh;
+  std::shared_ptr< Utility::StructuredHexMesh> d_spatial_dimension_mesh;
 
-  std::shared_ptr<Utility::PQLAQuadrature> d_direction_dimension_discretization;
+  std::shared_ptr< Utility::PQLAQuadrature> d_direction_dimension_discretization;
 };
 
 } // end MonteCarlo namespace

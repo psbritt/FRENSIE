@@ -44,6 +44,8 @@ std::shared_ptr< Utility::HistogramDistribution> energy_distribution;
 std::map< MonteCarlo::PhaseSpaceDimension, std::vector< double > > importance_distribution_boundaries;
 std::vector< MonteCarlo::PhaseSpaceDimension > phase_space_dimension_importance_order;
 
+std::shared_ptr< Utility::StructuredHexMesh > mesh_object;
+std::shared_ptr< Utility::PQLAQuadrature > direction_discretization_object;
 std::shared_ptr< MonteCarlo::PhaseSpaceDimensionDistribution > independent_time_distribution;
 std::map<  MonteCarlo::PhaseSpaceDimension, std::vector< std::shared_ptr<  MonteCarlo::PhaseSpaceDimensionDistribution> > > importance_dimension_map;
 
@@ -74,8 +76,104 @@ FRENSIE_UNIT_TEST( GenericHistogramImportanceParticleDistribution, setImportance
   distribution->setImportanceDimensionDistributions(importance_dimension_map,
                                                     importance_distribution_boundaries,
                                                     phase_space_dimension_importance_order);
-  
 
+  // Should be in mesh cell 1, direction cell 18, energy cell 3
+  std::vector<double> fake_random_stream = {0.5, 0.5, 0.5, 0.5,  // random numbers for mesh sampling
+                                            0.5, 0.5, 0.5,       // random numbers for direction sampling
+                                            0.7};                // random number for energy sampling
+  Utility::RandomNumberGenerator::setFakeStream(fake_random_stream);
+  MonteCarlo::PhotonState photon( 0 );
+  distribution->sample(photon);
+
+  FRENSIE_CHECK_EQUAL(photon.getXPosition(), 1.5);
+  FRENSIE_CHECK_EQUAL(photon.getYPosition(), 0.5);
+  FRENSIE_CHECK_EQUAL(photon.getZPosition(), 0.5);
+
+  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getWeight(), 7.525974025974025983e-01, 1e-15);
+
+  Utility::RandomNumberGenerator::unsetFakeStream();
+}
+
+FRENSIE_UNIT_TEST(GenericHistogramImportanceParticleDistribution, sampleAndRecordTrials)
+{
+
+  MonteCarlo::ParticleDistribution::DimensionCounterMap counter_map;
+
+  distribution->initializeDimensionCounters(counter_map);
+
+  std::vector<double> fake_random_stream = {0.5, 0.5, 0.5, 0.5,  // random numbers for mesh sampling
+                                            0.5, 0.5, 0.5,       // random numbers for direction sampling
+                                            0.7};                // random number for energy sampling
+  Utility::RandomNumberGenerator::setFakeStream(fake_random_stream);
+  MonteCarlo::PhotonState photon( 0 );
+  distribution->sampleAndRecordTrials(photon,
+                                      counter_map);
+
+  FRENSIE_CHECK_EQUAL(photon.getXPosition(), 1.5);
+  FRENSIE_CHECK_EQUAL(photon.getYPosition(), 0.5);
+  FRENSIE_CHECK_EQUAL(photon.getZPosition(), 0.5);
+
+  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getWeight(), 7.525974025974025983e-01, 1e-15);
+
+  Utility::RandomNumberGenerator::unsetFakeStream();
+}
+
+//---------------------------------------------------------------------------//
+// Check that the distribution can be archived
+FRENSIE_UNIT_TEST_TEMPLATE_EXPAND( StandardParticleDistribution,
+                                   archive,
+                                   TestArchives )
+{
+  FETCH_TEMPLATE_PARAM( 0, RawOArchive );
+  FETCH_TEMPLATE_PARAM( 1, RawIArchive );
+
+  typedef typename std::remove_pointer<RawOArchive>::type OArchive;
+  typedef typename std::remove_pointer<RawIArchive>::type IArchive;
+
+  std::string archive_base_name( "test_generic_histogram_importance_particle_distribution" );
+  std::ostringstream archive_ostream;
+
+  {
+    std::unique_ptr<OArchive> oarchive;
+
+    createOArchive( archive_base_name, archive_ostream, oarchive );
+
+    std::shared_ptr<const MonteCarlo::ParticleDistribution> copy_distribution = distribution;
+
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP(copy_distribution) );
+  }
+
+  // Copy the archive ostream to an istream
+  std::istringstream archive_istream( archive_ostream.str() );
+
+  // Load the archived distributions
+  std::unique_ptr<IArchive> iarchive;
+
+  createIArchive( archive_istream, iarchive );
+
+  std::shared_ptr<const MonteCarlo::ParticleDistribution> new_distribution;
+
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP(new_distribution) );
+
+  iarchive.reset();
+
+  // Set the random number generator stream
+  std::vector<double> fake_random_stream = {0.5, 0.5, 0.5, 0.5,  // random numbers for mesh sampling
+                                            0.5, 0.5, 0.5,       // random numbers for direction sampling
+                                            0.7};                // random number for energy sampling
+
+  Utility::RandomNumberGenerator::setFakeStream( fake_random_stream );
+
+  MonteCarlo::PhotonState photon( 0 );
+
+  new_distribution->sample( photon );
+
+  FRENSIE_CHECK_EQUAL(photon.getXPosition(), 1.5);
+  FRENSIE_CHECK_EQUAL(photon.getYPosition(), 0.5);
+  FRENSIE_CHECK_EQUAL(photon.getZPosition(), 0.5);
+
+  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getWeight(), 7.525974025974025983e-01, 1e-15);
+  Utility::RandomNumberGenerator::unsetFakeStream();
 }
 
 //---------------------------------------------------------------------------//
@@ -90,12 +188,12 @@ FRENSIE_CUSTOM_UNIT_TEST_INIT()
   std::vector<double> x_planes = {0.0, 1.0, 2.0};
   std::vector<double> y_planes = {0.0, 1.0};
   std::vector<double> z_planes = {0.0, 1.0};
-  std::shared_ptr< Utility::StructuredHexMesh > mesh = std::make_shared< Utility::StructuredHexMesh >(x_planes, y_planes, z_planes); 
+  mesh_object = std::make_shared< Utility::StructuredHexMesh >(x_planes, y_planes, z_planes); 
 
-  std::shared_ptr< Utility::PQLAQuadrature > direction_discretization = std::make_shared< Utility::PQLAQuadrature >(2);
+  direction_discretization_object = std::make_shared< Utility::PQLAQuadrature >(2);
 
-  distribution->setMeshIndexDimensionDistributionObject( mesh );
-  distribution->setDirectionIndexDimensionDistributionObject( direction_discretization );
+  distribution->setMeshIndexDimensionDistributionObject( mesh_object );
+  distribution->setDirectionIndexDimensionDistributionObject( direction_discretization_object );
 
   // Real time distribution
   time_distribution = std::make_shared< Utility::DeltaDistribution >(3.0);
@@ -150,7 +248,7 @@ FRENSIE_CUSTOM_UNIT_TEST_INIT()
       for( size_t energy_index = 0; energy_index < 3; ++energy_index)
       {
         direction_energy_elements.push_back( energy_index + 3*direction_index + 32*3*mesh_index + 1);
-        direction_element_integrated_energy += energy_values[energy_index]*(energy_boundaries[energy_index+1] - energy_boundaries[energy_index]);
+        direction_element_integrated_energy += direction_energy_elements[energy_index]*(energy_boundaries[energy_index+1] - energy_boundaries[energy_index]);
       }
       std::shared_ptr< Utility::HistogramDistribution > energy_importance_distribution = std::make_shared< Utility::HistogramDistribution >(energy_boundaries, direction_energy_elements);
       std::shared_ptr< MonteCarlo::PhaseSpaceDimensionDistribution > local_energy_importance_distribution = 
