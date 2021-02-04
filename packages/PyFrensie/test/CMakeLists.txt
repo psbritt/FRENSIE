@@ -495,6 +495,10 @@ PyFrensie_ADD_TEST(MonteCarlo.ActiveRegion.PhaseSpaceDimension)
 PyFrensie_MAKE_TEST(MonteCarlo.ActiveRegion.StandardParticleDistribution)
 PyFrensie_ADD_TEST(MonteCarlo.ActiveRegion.StandardParticleDistribution)
 
+# Add the MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution unit tests
+PyFrensie_MAKE_TEST(MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution)
+PyFrensie_ADD_TEST(MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution)
+
 # Add the MonteCarlo.ActiveRegion.ParticleResponse unit tests
 PyFrensie_MAKE_TEST(MonteCarlo.ActiveRegion.ParticleResponse
   TARGET_DEPENDS ${COLLISION_DATABASE_XML_FILE_TARGET})

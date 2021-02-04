@@ -11,6 +11,7 @@
 #include "PyFrensie_PythonTypeTraits.hpp"
 #include "MonteCarlo_ParticleDistribution.hpp"
 #include "MonteCarlo_StandardParticleDistribution.hpp"
+#include "MonteCarlo_GenericHistogramImportanceParticleDistribution.hpp"
 
 #include "Utility_ToStringTraits.hpp"
 #include "Utility_ToStringTraitsDecl.hpp"
@@ -40,6 +41,17 @@ using namespace MonteCarlo;
 
 %shared_ptr( MonteCarlo::StandardParticleDistribution )
 %include "MonteCarlo_StandardParticleDistribution.hpp"
+
+// ---------------------------------------------------------------------------//
+// Add GenericHistogramImportanceParticleDistribution support
+// ---------------------------------------------------------------------------//
+
+%template(dimensionOrderArray) std::vector<MonteCarlo::PhaseSpaceDimension>;
+%template(importanceDistributionBoundaryMap) std::map< MonteCarlo::PhaseSpaceDimension, std::vector< double > >;
+%template(importanceDistributionPointerVector) std::vector< std::shared_ptr< MonteCarlo::PhaseSpaceDimensionDistribution> >;
+%template(importanceDistributionDimensionMap) std::map< MonteCarlo::PhaseSpaceDimension, std::vector< std::shared_ptr< MonteCarlo::PhaseSpaceDimensionDistribution> > >;
+%shared_ptr( MonteCarlo::GenericHistogramImportanceParticleDistribution )
+%include "MonteCarlo_GenericHistogramImportanceParticleDistribution.hpp"
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_ParticleDistribution.i

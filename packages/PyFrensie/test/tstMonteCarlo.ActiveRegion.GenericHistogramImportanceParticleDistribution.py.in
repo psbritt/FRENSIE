@@ -1,0 +1,168 @@
+#! ${PYTHON_EXECUTABLE}
+#-----------------------------------------------------------------------------#
+## MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution class unit tests
+#  \file   tstMonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution.py
+#  \author Luke Kersting
+#  \brief  Unit tests for the MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution class
+#-----------------------------------------------------------------------------#
+
+# System imports
+import numpy
+import sys
+import os
+import unittest
+from optparse import *
+
+# Parse the command-line arguments
+parser = OptionParser()
+parser.add_option("-v", "--verbosity", type="int", dest="verbosity", default=2,
+                  help="set the verbosity level [default 2]")
+
+options,args = parser.parse_args()
+
+from testingHelpers import importPyFrensieModuleFromBuildDir
+Utility = importPyFrensieModuleFromBuildDir('Utility')
+Prng = importPyFrensieModuleFromBuildDir('Utility.Prng')
+Distribution = importPyFrensieModuleFromBuildDir('Utility.Distribution')
+Coordinate = importPyFrensieModuleFromBuildDir('Utility.Coordinate')
+MonteCarlo = importPyFrensieModuleFromBuildDir('MonteCarlo')
+ActiveRegion = importPyFrensieModuleFromBuildDir('MonteCarlo.ActiveRegion')
+Mesh = importPyFrensieModuleFromBuildDir('Utility.Mesh')
+DirectionDiscretization = importPyFrensieModuleFromBuildDir('Utility.DirectionDiscretization')
+
+
+#-----------------------------------------------------------------------------#
+# Tests.
+#-----------------------------------------------------------------------------#
+# Test the StandardParticleDistribution class
+class GenericHistogramImportanceParticleDistribution(unittest.TestCase):
+    "TestCase class for MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution class"
+
+    def setUp(self):
+
+        distribution = ActiveRegion.GenericHistogramImportanceParticleDistribution( "test dist" )
+
+    def testSetIndependentDimensionDistribution(self):
+        "*Test MonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution setIndependentDimensionDistribution"
+        distribution = ActiveRegion.GenericHistogramImportanceParticleDistribution( "test dist" )
+
+        raw_time_dist = Distribution.DeltaDistribution(3)
+
+        time_dist = ActiveRegion.IndependentTimeDimensionDistribution(raw_time_dist)
+
+        distribution.setIndependentDimensionDistribution(time_dist, True)
+
+    def testSetImportanceDimensionDistributions(self):
+        
+        dimension_order_vector = ActiveRegion.dimensionOrderArray()
+
+        dimension_order_vector.push_back(ActiveRegion.SPATIAL_INDEX_DIMENSION)
+        dimension_order_vector.push_back(ActiveRegion.DIRECTION_INDEX_DIMENSION)
+        dimension_order_vector.push_back(ActiveRegion.ENERGY_DIMENSION)
+
+        distribution = ActiveRegion.GenericHistogramImportanceParticleDistribution( "test dist" )
+
+        energy_bounds = [0.5, 1.0, 2.0]
+        energy_values = [2.0, 3.0]
+
+        raw_energy_dist = Distribution.HistogramDistribution(energy_bounds, energy_values)
+
+        mesh_x_planes = [0, 1, 2]
+        mesh_y_planes = [0, 1]
+        mesh_z_planes = [0, 1]
+
+        test_mesh = Mesh.StructuredHexMesh(mesh_x_planes, mesh_y_planes, mesh_z_planes)
+        distribution.setMeshIndexDimensionDistributionObject(test_mesh)
+
+        test_direction_disc = DirectionDiscretization.PQLAQuadrature(2)
+        distribution.setDirectionIndexDimensionDistributionObject(test_direction_disc)
+
+        mesh_bounds = [0, 1, 2]
+        mesh_values = [1.0, 3.0]
+
+        raw_mesh_distribution = Distribution.HistogramDistribution( mesh_bounds, mesh_values )
+
+        direction_bounds = []
+        for i in range(33):
+          direction_bounds.append(i) 
+
+        direction_values = []
+        for i in range(32):
+          direction_values.append(1.0)
+
+        raw_direction_distribution = Distribution.HistogramDistribution( direction_bounds, direction_values )
+
+        spatial_index_boundary_vector = [0.0, 1.0, 2.0]
+
+        direction_index_boundary_vector = [0.0, 16.0, 32.0]
+
+        energy_boundary_vector = [0.5, 1.0, 2.0]
+
+        dist_boundary_map = {ActiveRegion.SPATIAL_INDEX_DIMENSION: spatial_index_boundary_vector, \
+                            ActiveRegion.DIRECTION_INDEX_DIMENSION: direction_index_boundary_vector, \
+                            ActiveRegion.ENERGY_DIMENSION: energy_boundary_vector}
+
+        spatial_importance_distribution_vector = ActiveRegion.importanceDistributionPointerVector()
+
+        spatial_importance_distribution = Distribution.HistogramDistribution([0, 1, 2], [2.0, 2.0])
+
+        spatial_importance_independent_distribution = ActiveRegion.ImportanceSampledIndependentSpatialIndexDimensionDistribution(raw_mesh_distribution, spatial_importance_distribution)
+
+        spatial_importance_distribution_vector.push_back(spatial_importance_independent_distribution)
+
+        direction_importance_distribution_vector = ActiveRegion.importanceDistributionPointerVector()
+        for i in range(2):
+          direction_importance_distribution = Distribution.HistogramDistribution([0, 16.0, 32.0], [5.0, 4.0])
+          direction_importance_independent_distribution = ActiveRegion.ImportanceSampledIndependentDirectionIndexDimensionDistribution(raw_direction_distribution, direction_importance_distribution)
+          direction_importance_distribution_vector.push_back(direction_importance_independent_distribution)
+        
+        energy_importance_distribution_vector = ActiveRegion.importanceDistributionPointerVector()
+        for i in range(4):
+          energy_importance_distribution = Distribution.HistogramDistribution( energy_boundary_vector, [3.0, 2.0])
+          energy_importance_independent_distribution = ActiveRegion.ImportanceSampledIndependentEnergyDimensionDistribution(raw_energy_dist, energy_importance_distribution)
+          energy_importance_distribution_vector.push_back(energy_importance_independent_distribution)
+
+        distribution_map = {ActiveRegion.SPATIAL_INDEX_DIMENSION: spatial_importance_distribution_vector, \
+                            ActiveRegion.DIRECTION_INDEX_DIMENSION: direction_importance_distribution_vector, \
+                            ActiveRegion.ENERGY_DIMENSION: energy_importance_distribution_vector}
+
+        distribution.setImportanceDimensionDistributions( distribution_map, dist_boundary_map, dimension_order_vector)
+
+
+
+
+
+#-----------------------------------------------------------------------------#
+# Custom main
+#-----------------------------------------------------------------------------#
+if __name__ == "__main__":
+
+    # Initialize the FRENSIE random number generator
+    Utility.initFrensiePrng()
+
+    # Create the testSuite object
+    suite = unittest.TestSuite()
+
+    # Add the test cases to the testSuite
+    suite.addTest(unittest.makeSuite(GenericHistogramImportanceParticleDistribution))
+
+    print >>sys.stderr, \
+        "\n**************************************\n" + \
+        "Testing MonteCarlo.Model \n" + \
+        "**************************************\n"
+    result = unittest.TextTestRunner(verbosity=options.verbosity).run(suite)
+
+    errs_plus_fails = len(result.errors) + len(result.failures)
+
+    if errs_plus_fails == 0:
+        print "End Result: TEST PASSED"
+
+    # Delete the suite
+    del suite
+
+    # Exit
+    sys.exit(errs_plus_fails)
+
+#-----------------------------------------------------------------------------#
+# end tstMonteCarlo.ActiveRegion.GenericHistogramImportanceParticleDistribution.py
+#-----------------------------------------------------------------------------#
