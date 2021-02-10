@@ -73,6 +73,7 @@ typedef unsigned long int uint64_t;
 %import "MonteCarlo_EventHandler.hpp"
 %import "MonteCarlo_ParticleSource.hpp"
 %import "MonteCarlo_CollisionForcer.hpp"
+%import "MonteCarlo_PopulationControl.hpp"
 
 %shared_ptr(MonteCarlo::FilledGeometryModel);
 %shared_ptr(MonteCarlo::ParticleSource);
@@ -80,6 +81,7 @@ typedef unsigned long int uint64_t;
 %shared_ptr(MonteCarlo::SimulationGeneralProperties);
 %shared_ptr(MonteCarlo::SimulationProperties);
 %shared_ptr(MonteCarlo::CollisionForcer);
+%shared_ptr(MonteCarlo::PopulationControl);
 
 // ---------------------------------------------------------------------------//
 // Add ParticleSimulationManager support
