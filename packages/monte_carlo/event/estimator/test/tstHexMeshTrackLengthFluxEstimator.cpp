@@ -19,6 +19,7 @@
 #include "Utility_OpenMPProperties.hpp"
 #include "Utility_UnitTestHarnessWithMain.hpp"
 #include "ArchiveTestHelpers.hpp"
+#include "MonteCarlo_ObserverDirectionDimensionDiscretization.hpp"
 
 //---------------------------------------------------------------------------//
 // Testing Types
@@ -120,7 +121,7 @@ FRENSIE_UNIT_TEST_TEMPLATE( HexMeshTrackLengthFluxEstimator,
   FRENSIE_CHECK_EQUAL( estimator->getNumberOfBins(), 8 );
 
 
-  estimator->setDirectionDiscretization( MonteCarlo::ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType::PQLA,
+  estimator->setDirectionDiscretization( MonteCarlo::ObserverDirectionDiscretizationType::PQLA,
                                         2,
                                         true );
 
@@ -4385,6 +4386,71 @@ FRENSIE_UNIT_TEST_TEMPLATE_EXPAND( HexMeshTrackLengthFluxEstimator,
     FRENSIE_CHECK_FLOATING_EQUALITY( entity_bin_second_moments,
                                      std::vector<double>( 2, 0.0 ),
                                      1e-15 );
+  }
+}
+
+
+//---------------------------------------------------------------------------//
+// Check that an estimator can be archived with direction discretization
+FRENSIE_UNIT_TEST_TEMPLATE_EXPAND( HexMeshTrackLengthFluxEstimator,
+                                   archive_direction,
+                                   TestArchives )
+{
+  FETCH_TEMPLATE_PARAM( 0, RawOArchive );
+  FETCH_TEMPLATE_PARAM( 1, RawIArchive );
+
+  typedef typename std::remove_pointer<RawOArchive>::type OArchive;
+  typedef typename std::remove_pointer<RawIArchive>::type IArchive;
+
+  std::string archive_base_name( "test_hex_mesh_track_length_flux_estimator_direction_discretization" );
+  std::ostringstream archive_ostream;
+
+  {
+    std::unique_ptr<OArchive> oarchive;
+
+    createOArchive( archive_base_name, archive_ostream, oarchive );
+
+    std::shared_ptr<MonteCarlo::MeshTrackLengthFluxEstimator<MonteCarlo::WeightMultiplier> > estimator;
+
+    std::shared_ptr<MonteCarlo::Estimator> estimator_base;
+
+    std::vector<double> x_planes( {0, 1, 2} ),
+                        y_planes( {0, 1} ),
+                        z_planes( {0, 1} );
+    std::shared_ptr<Utility::StructuredHexMesh> local_test_mesh = std::make_shared< Utility::StructuredHexMesh > (x_planes, y_planes, z_planes);
+
+    {
+      estimator = std::make_shared< MonteCarlo::MeshTrackLengthFluxEstimator<MonteCarlo::WeightMultiplier> > (
+                                                            0,
+                                                            1.0,
+                                                            local_test_mesh );
+
+      estimator->setDirectionDiscretization(MonteCarlo::ObserverDirectionDiscretizationType::PQLA, 2, true);
+
+      estimator_base = estimator;
+    }
+
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP( estimator) );
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP( estimator_base ) );
+  }
+    // Copy the archive ostream to an istream
+  std::istringstream archive_istream( archive_ostream.str() );
+
+  // Load the archived distributions
+  std::unique_ptr<IArchive> iarchive;
+
+  createIArchive( archive_istream, iarchive );
+
+  std::shared_ptr<MonteCarlo::MeshTrackLengthFluxEstimator<MonteCarlo::WeightMultiplier> > estimator;
+
+  std::shared_ptr<MonteCarlo::Estimator> estimator_base;
+
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP( estimator ) );
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP( estimator_base ) );
+
+  iarchive.reset();
+  {
+    
   }
 }
 

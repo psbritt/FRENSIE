@@ -60,7 +60,7 @@ public:
   void setDiscretization( const std::shared_ptr<const ObserverPhaseSpaceDimensionDiscretization>& bins );
 
   //! Set a discretization for the direction dimension
-  void setDirectionDiscretization( const ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType discretization_type,
+  void setDirectionDiscretization( const ObserverDirectionDiscretizationType discretization_type,
                                    const unsigned quadrature_order,
                                    const bool forward_binning = true);
 

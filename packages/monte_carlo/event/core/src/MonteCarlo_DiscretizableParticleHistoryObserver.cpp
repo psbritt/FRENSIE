@@ -25,7 +25,7 @@ void DiscretizableParticleHistoryObserver::setDiscretization( const std::shared_
 }
 
 // Set a direction discretization for an observer
-void DiscretizableParticleHistoryObserver::setDirectionDiscretization( const ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType discretization_type,
+void DiscretizableParticleHistoryObserver::setDirectionDiscretization( const ObserverDirectionDiscretizationType discretization_type,
                                                                        const unsigned quadrature_order,
                                                                        const bool forward_binning)
 {
@@ -37,7 +37,7 @@ void DiscretizableParticleHistoryObserver::setDirectionDiscretization( const Obs
        interpolation of radiation intensity" by S.A. Rukolaine, V.S. Yuferev, Journal of Quantitative Spectroscopy &
        Radiative Transfer 69 (2001) 257*/
 
-    case ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType::PQLA:
+    case ObserverDirectionDiscretizationType::PQLA:
       dimension_discretization.reset(new PQLATypeObserverDirectionDimensionDiscretization(quadrature_order, forward_binning));
       break;
     default:

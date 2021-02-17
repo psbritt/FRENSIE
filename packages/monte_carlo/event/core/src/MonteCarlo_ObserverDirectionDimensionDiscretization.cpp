@@ -8,6 +8,7 @@
 
 // FRENSIE Includes
 #include "MonteCarlo_ObserverDirectionDimensionDiscretization.hpp"
+#include "FRENSIE_Archives.hpp"
 
 namespace MonteCarlo{
 
@@ -38,6 +39,8 @@ bool ObserverDirectionDimensionDiscretization::doesRangeIntersectDiscretization(
 }
 
 } // end MonteCarlo namespace
+
+EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo::ObserverDirectionDimensionDiscretization );
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_ObserverDirectionDimensionDiscretization.cpp

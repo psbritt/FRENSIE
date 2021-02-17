@@ -73,6 +73,7 @@ private:
 
   
 BOOST_SERIALIZATION_CLASS_VERSION( WeightImportanceMesh, MonteCarlo, 0 );
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY(WeightImportanceMesh, MonteCarlo);
 EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, WeightImportanceMesh );
 
 #endif // end MONTE_CARLO_WEIGHT_IMPORTANCE_MESH_HPP

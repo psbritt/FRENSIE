@@ -92,6 +92,8 @@ private:
   void serialize( Archive& ar, const unsigned version )
   { 
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( DiscretizableParticleHistoryObserver );
+
+    ar & BOOST_SERIALIZATION_NVP( d_max_split );
   }
 
   // Declare the boost serialization access object as a friend

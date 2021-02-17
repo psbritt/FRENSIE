@@ -14,13 +14,18 @@
 
 // FRENSIE includes
 #include "MonteCarlo_ObserverDirectionDimensionDiscretization.hpp"
+#include "Utility_ExplicitSerializationTemplateInstantiationMacros.hpp"
+#include "Utility_SerializationHelpers.hpp"
+#include "Utility_PQLAQuadrature.hpp"
 
-// Forward declaration of PQLA handler class
-namespace Utility{
+// Boost Includes
+#include <boost/any.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/version.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
-class PQLAQuadrature;
-
-}
 
 namespace MonteCarlo{
 
@@ -79,9 +84,26 @@ class PQLATypeObserverDirectionDimensionDiscretization: public ObserverDirection
 
   //! Stores whether or not we're reverse binning (for VR purposes)
   bool d_forward_bin;
+  
+  // Declare the boost serialization access object as a friend
+  friend class boost::serialization::access;
+
+  // Serialize the observer discretization
+  template<typename Archive>
+  void serialize( Archive& ar, const unsigned version )
+  { 
+    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( ObserverDirectionDimensionDiscretization );
+    ar & BOOST_SERIALIZATION_NVP( d_pqla_quadrature_handler );
+    ar & BOOST_SERIALIZATION_NVP( d_forward_bin );
+  }
+
 };
 
 } // end MonteCarlo namespace
+
+BOOST_SERIALIZATION_CLASS_VERSION( PQLATypeObserverDirectionDimensionDiscretization , MonteCarlo, 0 );
+BOOST_SERIALIZATION_CLASS_EXPORT_STANDARD_KEY(PQLATypeObserverDirectionDimensionDiscretization, MonteCarlo);
+EXTERN_EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo, PQLATypeObserverDirectionDimensionDiscretization);
 
 #endif // end MONTE_CARLO_PQLA_OBSERVER_DIRECTION_DIMENSION_DISCRETIZATION
 

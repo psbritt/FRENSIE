@@ -23,6 +23,7 @@ public:
 
   //! Constructor
   Importance()
+  : d_is_max_split_set(false)
   { /* ... */ }
 
   //! Destructor
@@ -49,6 +50,8 @@ private:
   { 
     // Serialize the base class data
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( PopulationControl );
+
+    ar & BOOST_SERIALIZATION_NVP( d_is_max_split_set );
   }
 
   //! max splitting value may not be recommended for importances in all cases.

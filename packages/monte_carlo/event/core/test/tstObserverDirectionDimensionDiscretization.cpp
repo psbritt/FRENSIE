@@ -16,6 +16,13 @@
 #include "MonteCarlo_PhotonState.hpp"
 #include "Utility_UnitTestHarnessWithMain.hpp"
 #include "Utility_3DCartesianVectorHelpers.hpp"
+#include "ArchiveTestHelpers.hpp"
+
+//---------------------------------------------------------------------------//
+// Testing Types
+//---------------------------------------------------------------------------//
+
+typedef TestArchiveHelper::TestArchives TestArchives;
 
 //---------------------------------------------------------------------------//
 // Testing Variables
@@ -185,6 +192,59 @@ FRENSIE_UNIT_TEST( ObserverDirectionDimensionDiscretization, calculateBinIndices
   FRENSIE_CHECK_EQUAL(bin_indices_and_weights.front().first, 3+(3*number_of_triangles_per_side)); 
   FRENSIE_CHECK_EQUAL(bin_indices_and_weights.front().second, 1.0);
 
+}
+
+//---------------------------------------------------------------------------//
+// Check that the direction discretization can be archived
+FRENSIE_UNIT_TEST_TEMPLATE_EXPAND( ObserverDirectionDimensionDiscretization,
+                                   archive,
+                                   TestArchives )
+{
+  FETCH_TEMPLATE_PARAM( 0, RawOArchive );
+  FETCH_TEMPLATE_PARAM( 1, RawIArchive );
+
+  typedef typename std::remove_pointer<RawOArchive>::type OArchive;
+  typedef typename std::remove_pointer<RawIArchive>::type IArchive;
+
+  std::string archive_base_name( "test_direction_discretization" );
+  std::ostringstream archive_ostream;
+
+  {
+    std::unique_ptr<OArchive> oarchive;
+
+    createOArchive( archive_base_name, archive_ostream, oarchive );
+
+    std::shared_ptr< MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization >
+      direction_discretization( new MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization(2, true) );
+
+    std::shared_ptr< MonteCarlo::ObserverDirectionDimensionDiscretization >  direction_discretization_base = direction_discretization;
+
+    std::shared_ptr< MonteCarlo::ObserverPhaseSpaceDimensionDiscretization > dimension_discretization_base = direction_discretization;
+
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP(direction_discretization) );
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP(direction_discretization_base) );
+    FRENSIE_REQUIRE_NO_THROW( (*oarchive) << BOOST_SERIALIZATION_NVP(dimension_discretization_base) );
+  }
+
+  // Copy the archive ostream to an istream
+  std::istringstream archive_istream( archive_ostream.str() );
+
+  // Load the archived distributions
+  std::unique_ptr<IArchive> iarchive;
+
+  createIArchive( archive_istream, iarchive );
+
+  std::shared_ptr<MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization> direction_discretization;
+  std::shared_ptr< MonteCarlo::ObserverDirectionDimensionDiscretization> direction_discretization_base;
+  std::shared_ptr< MonteCarlo::ObserverPhaseSpaceDimensionDiscretization > dimension_discretization_base;
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP(direction_discretization) );
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP(direction_discretization_base) );
+  FRENSIE_REQUIRE_NO_THROW( (*iarchive) >> BOOST_SERIALIZATION_NVP(dimension_discretization_base) );
+
+  iarchive.reset();
+  {
+    FRENSIE_CHECK_EQUAL( direction_discretization->getNumberOfBins(), 32)
+  }
 }
 
 //---------------------------------------------------------------------------//

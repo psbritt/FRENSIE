@@ -58,6 +58,7 @@ const std::unordered_map<Utility::Mesh::ElementHandle, std::vector<double>>& Wei
 } // end MonteCarlo namespace
 
 EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo::WeightImportanceMesh );
+BOOST_SERIALIZATION_CLASS_EXPORT_IMPLEMENT( WeightImportanceMesh , MonteCarlo );
 
 //---------------------------------------------------------------------------//
 // end MonteCarlo_WeightImportanceMesh.cpp

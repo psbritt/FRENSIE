@@ -225,7 +225,7 @@ class HexMeshTrackLengthFluxEstimatorTestCase(unittest.TestCase):
         "*Test MonteCarlo.Event.HexMeshTrackLengthFluxEstimator setDirectionDiscretization"
 
         estimator = Event.WeightMultipliedMeshTrackLengthFluxEstimator(0,1.0,self.hex_mesh)
-        estimator.setDirectionDiscretization(Event.ObserverDirectionDimensionDiscretization.PQLA, 2, True)
+        estimator.setDirectionDiscretization(Event.PQLA, 2, True)
 
         self.assertEqual( estimator.getNumberOfBins( Event.OBSERVER_DIRECTION_DIMENSION ), 32 )
 

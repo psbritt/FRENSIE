@@ -379,7 +379,7 @@ FRENSIE_UNIT_TEST( Estimator, setDiscretization )
   {
     TestEstimator estimator( 0, 1.0 );
 
-    estimator.setDirectionDiscretization( MonteCarlo::ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType::PQLA,
+    estimator.setDirectionDiscretization( MonteCarlo::ObserverDirectionDiscretizationType::PQLA,
                                           2,
                                           true );
 

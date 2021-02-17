@@ -19,10 +19,9 @@
 namespace MonteCarlo{
 
 WeightImportance::WeightImportance()
-{
-  // Set default value for max split parameter (able to be changed)
+: d_use_non_importance_weight_transforms(false)
+{ 
   d_max_split = 5;
-  d_use_non_importance_weight_transforms = false;
 }
 
 // Update the particle state and bank

@@ -51,6 +51,9 @@ private:
   { 
     // Serialize the base class data
     ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP( PopulationControl );
+
+    ar & BOOST_SERIALIZATION_NVP( d_use_non_importance_weight_transforms );
+    ar & BOOST_SERIALIZATION_NVP( d_weight_importance_tolerance );
   }
 
   double d_weight_importance_tolerance = 1e-13;

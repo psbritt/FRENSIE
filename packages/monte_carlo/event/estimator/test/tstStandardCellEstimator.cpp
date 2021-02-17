@@ -128,7 +128,7 @@ FRENSIE_UNIT_TEST( StandardCellEstimator, setDiscretization )
   FRENSIE_CHECK_EQUAL( estimator->getNumberOfBins(), 8 );
 
 
-  estimator->setDirectionDiscretization( MonteCarlo::ObserverDirectionDimensionDiscretization::ObserverDirectionDiscretizationType::PQLA,
+  estimator->setDirectionDiscretization( MonteCarlo::ObserverDirectionDiscretizationType::PQLA,
                                         2,
                                         true );
 

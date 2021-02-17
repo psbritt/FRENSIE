@@ -9,7 +9,7 @@
 // FRENSIE Includes
 #include "MonteCarlo_PQLATypeObserverDirectionDimensionDiscretization.hpp"
 #include "Utility_ExceptionTestMacros.hpp"
-#include "Utility_PQLAQuadrature.hpp"
+#include "FRENSIE_Archives.hpp"
 
 namespace MonteCarlo{
 
@@ -100,6 +100,8 @@ unsigned PQLATypeObserverDirectionDimensionDiscretization::returnTriangleBin( co
 
 } // end MonteCarlo namespace
 
+EXPLICIT_CLASS_SERIALIZE_INST( MonteCarlo::PQLATypeObserverDirectionDimensionDiscretization );
+BOOST_SERIALIZATION_CLASS_EXPORT_IMPLEMENT( PQLATypeObserverDirectionDimensionDiscretization , MonteCarlo );
 //---------------------------------------------------------------------------//
 // end MonteCarlo_PQLATypeObserverDirectionDimensionDiscretization.cpp
 //---------------------------------------------------------------------------//
