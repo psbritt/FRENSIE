@@ -75,7 +75,7 @@ void GenericHistogramImportanceParticleDistribution::setImportanceDimensionDistr
         THROW_EXCEPTION(std::runtime_error, "Mismatched boundary/distribution vector size on" << *(std::next(vector_it)));
     }
 
-
+    std::cout << "Size of " << *vector_it <<" dimension: " << current_distribution_vector.size() << std::endl;
     d_dimension_order.push_back(*vector_it);
     d_dimension_distributions[*vector_it] = current_distribution_vector;
     d_dimension_bounds[*vector_it] = current_distribution_boundary_vector;

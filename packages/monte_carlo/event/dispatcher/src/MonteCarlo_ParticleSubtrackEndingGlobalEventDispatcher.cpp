@@ -11,6 +11,7 @@
 #include "MonteCarlo_ParticleSubtrackEndingGlobalEventDispatcher.hpp"
 #include "Utility_DesignByContract.hpp"
 
+
 namespace MonteCarlo{
 
 // Dispatch the new event to the observers
@@ -19,6 +20,7 @@ void ParticleSubtrackEndingGlobalEventDispatcher::dispatchParticleSubtrackEnding
 						 const double start_point[3],
 						 const double end_point[3] )
 {
+
   if( this->hasObserverSet( particle.getParticleType() ) )
   {
     ObserverSet& observer_set =
@@ -35,6 +37,7 @@ void ParticleSubtrackEndingGlobalEventDispatcher::dispatchParticleSubtrackEnding
       ++it;
     }
   }
+
 }
 
 } // end namespace MonteCarlo

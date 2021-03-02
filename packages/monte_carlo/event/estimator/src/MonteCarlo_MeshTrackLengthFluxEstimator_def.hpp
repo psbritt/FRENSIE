@@ -86,9 +86,7 @@ void MeshTrackLengthFluxEstimator<ContributionMultiplierPolicy>::updateFromGloba
 						 const double end_point[3] )
 {
   Utility::Mesh::ElementHandleTrackLengthArray contribution_array;
-
   d_mesh->computeTrackLengths( start_point, end_point, contribution_array );
-
   if( contribution_array.size() > 0 )
   {
     ObserverParticleStateWrapper particle_state_wrapper( particle );

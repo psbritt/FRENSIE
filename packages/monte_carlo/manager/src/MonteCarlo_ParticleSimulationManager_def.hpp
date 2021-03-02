@@ -271,6 +271,7 @@ void ParticleSimulationManager::simulateParticleTrack(
                                               const double optical_path,
                                               const bool starting_from_source )
 {
+
   // Particle tracking information (op = optical_path)
   double remaining_track_op = optical_path;
   double op_to_surface_hit;
@@ -385,6 +386,8 @@ void ParticleSimulationManager::simulateParticleTrack(
 
   if( !particle )
     d_event_handler->updateObserversFromParticleGoneGlobalEvent( particle );
+
+
 }
 
 // Simulate an unresolved particle track using the "alternative" method
@@ -411,6 +414,7 @@ void ParticleSimulationManager::simulateParticleTrackAlternative(
                                              const double initial_optical_path,
                                              const bool starting_from_source )
 {
+
   // Particle tracking information (op = optical_path)
   double cell_op_to_collision = initial_optical_path;
   double cell_distance_to_collision;
@@ -566,6 +570,7 @@ void ParticleSimulationManager::simulateParticleTrackAlternative(
 
   if( !particle )
     d_event_handler->updateObserversFromParticleGoneGlobalEvent( particle );
+
 }
 
 // Advance a particle to the cell boundary

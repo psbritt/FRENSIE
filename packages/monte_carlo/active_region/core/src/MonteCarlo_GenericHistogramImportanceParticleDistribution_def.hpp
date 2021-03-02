@@ -31,15 +31,17 @@ inline void GenericHistogramImportanceParticleDistribution::sampleImpl(
   size_t current_distribution_index = 0;
   for( auto order_it = d_dimension_order.begin(); order_it != d_dimension_order.end(); ++order_it)
   {
+    std::cout << *order_it << " index: " << current_distribution_index << std::endl;
     auto distribution_vector = d_dimension_distributions.find(*order_it)->second;
     dimension_sampling_function(
                 *(distribution_vector[current_distribution_index]),
                 phase_space_sample );
 
-    const std::vector<double>& dimension_boundaries_vector = d_dimension_bounds.find(*order_it)->second;
+    std::cout << "Size of distribution vector for " << *order_it << ": " << distribution_vector.size() << std::endl;
     // check if next dimension has more than 1 distribution
-    if( dimension_boundaries_vector.size() > 2 && order_it != d_dimension_order.end()-1 )
+    if( distribution_vector.size() > 1 && order_it != d_dimension_order.end()-1 )
     {
+      const std::vector<double>& dimension_boundaries_vector = d_dimension_bounds.find(*order_it)->second;
       // Get the value of the sample so a search can be done
       double sample_value = phase_space_sample.getCoordinate(*order_it);
       size_t temp_index = 0;

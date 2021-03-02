@@ -366,10 +366,8 @@ void ParticleSimulationManager::runSimulation()
 
   // Enable thread support
   this->enableThreadSupport();
-
   // Conduct the first rendezvous (for caching only)
   this->rendezvous();
-
   // The simulation has started
   this->registerSimulationStartedEvent();
 
