@@ -122,6 +122,8 @@ public:
   //! Returns a bool that says whether or not a point is in the mesh.
   bool isPointInMesh( const double point[3] ) const final override;
 
+  bool isPointInMeshTol( const double point[3], const double tolerance ) const;
+
   // Compute hex index from plane indices
   size_t findIndex( const size_t i, const size_t j, const size_t k ) const;
 

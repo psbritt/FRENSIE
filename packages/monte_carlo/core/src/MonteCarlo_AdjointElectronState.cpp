@@ -73,12 +73,6 @@ AdjointElectronState::AdjointElectronState(
                           reset_collision_number )
 { /* ... */ }
 
-// Check if this is a probe
-bool AdjointElectronState::isProbe() const
-{
-  return false;
-}
-
 //! Clone the particle state (do not use to generate new particles!)
 AdjointElectronState* AdjointElectronState::clone() const
 {

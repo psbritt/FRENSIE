@@ -70,12 +70,6 @@ AdjointPhotonState::AdjointPhotonState(
 			   reset_collision_number )
 { /* ... */ }
 
-// Check if this is a probe
-bool AdjointPhotonState::isProbe() const
-{
-  return false;
-}
-
 //! Clone the particle state (do not use to generate new particles!)
 AdjointPhotonState* AdjointPhotonState::clone() const
 {

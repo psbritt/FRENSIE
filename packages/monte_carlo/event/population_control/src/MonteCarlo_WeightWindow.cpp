@@ -25,7 +25,6 @@ WeightWindowBase::WeightWindowBase()
 void WeightWindowBase::checkParticleWithPopulationController( ParticleState& particle,
                                                               ParticleBank& bank ) const
 {
-
   //! Make sure there is a weight window where this particle is.
   if(this->isParticleInWeightWindowDiscretization( particle ))
   {

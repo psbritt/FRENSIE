@@ -61,7 +61,7 @@ public:
 
   //! Destructor
   virtual ~ParticleSourceComponent()
-  { std::cout << "Destructor is being called" << std::endl << std::flush; }
+  { /* ... */ }
 
   //! Enable thread support
   void enableThreadSupport( const size_t threads );

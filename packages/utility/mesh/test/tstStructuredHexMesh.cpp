@@ -225,11 +225,15 @@ FRENSIE_UNIT_TEST( StructuredHexMesh, isPointInMesh )
   double point2[3] {0.25, 0.25, 0.25};
   double point3[3] {0.75, 0.75, 0.75};
   double point4[3] {0.25, 0.9, 0.23};
+  double point[3] {0.0, 0.25, 0.2};
+  double other_point[3] {1.0, 0.25, 0.2};
   
   FRENSIE_CHECK( hex_mesh->isPointInMesh(point1) );
   FRENSIE_CHECK( hex_mesh->isPointInMesh(point2) );
   FRENSIE_CHECK( hex_mesh->isPointInMesh(point3) );
   FRENSIE_CHECK( hex_mesh->isPointInMesh(point4) );
+  FRENSIE_CHECK( hex_mesh->isPointInMesh(point) );
+  FRENSIE_CHECK( hex_mesh->isPointInMesh(other_point));
   
   //points not inside mesh but inside boundary region (should return false)
   //points on upper dimension boundaries

@@ -559,6 +559,8 @@ void ParticleState::multiplyWeight( const double weight_factor )
   testPrecondition( weight_factor > 0.0 );
 
   d_weight *= weight_factor;
+
+  testPostcondition(d_weight > 0.0 );
 }
 
 // Return the ray safety distance (i.e. distance to the closest boundary)
@@ -747,6 +749,12 @@ void ParticleState::extractFromModel()
 bool ParticleState::isEmbeddedInModel( const Geometry::Model& model ) const
 {
   return d_model.get() == &model;
+}
+
+// Check if this is a probe
+bool ParticleState::isProbe() const
+{
+  return false;
 }
 
 // Create the navigator AdvanceComplete callback method

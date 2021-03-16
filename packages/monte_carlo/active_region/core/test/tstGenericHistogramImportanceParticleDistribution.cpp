@@ -113,7 +113,8 @@ FRENSIE_UNIT_TEST(GenericHistogramImportanceParticleDistribution, sampleAndRecor
   FRENSIE_CHECK_EQUAL(photon.getYPosition(), 0.5);
   FRENSIE_CHECK_EQUAL(photon.getZPosition(), 0.5);
 
-  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getWeight(), 7.525974025974025983e-01, 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getWeight(),  7.525974025974025983e-01, 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(photon.getEnergy(), 18.411184210526315, 1e-15);
 
   Utility::RandomNumberGenerator::unsetFakeStream();
 }

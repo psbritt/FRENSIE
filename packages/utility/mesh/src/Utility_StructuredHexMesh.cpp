@@ -204,6 +204,24 @@ bool StructuredHexMesh::isPointInMesh( const double point[3] ) const
   return false;
 }
 
+// Returns a bool that says whether or not a point is within tolerance of the mesh.
+bool StructuredHexMesh::isPointInMeshTol( const double point[3], const double tolerance = 0 ) const
+{
+
+  if( d_x_planes.front() - tolerance <= point[X_DIMENSION] && point[X_DIMENSION] <= d_x_planes.back() + tolerance )
+  {
+    if( d_y_planes.front() - tolerance <= point[Y_DIMENSION] && point[Y_DIMENSION] <= d_y_planes.back() + tolerance )
+    {
+      if(d_z_planes.front() - tolerance <= point[Z_DIMENSION] && point[Z_DIMENSION] <= d_z_planes.back() + tolerance )
+      {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 // Returns the index of the hex that contains a given point.
 auto StructuredHexMesh::whichElementIsPointIn( const double point[3] ) const -> ElementHandle
 {
@@ -528,8 +546,9 @@ void StructuredHexMesh::findInteractionPlanes(
       const PlaneIndex hex_plane_indices[3],
       std::vector<std::pair<Dimension,PlaneIndex> >& interaction_planes ) const
 {
+
   // Make sure that the point is in the mesh
-  testPrecondition( this->isPointInMesh( point ) );
+  testPrecondition( this->isPointInMeshTol( point, s_tol) );
 
   for( size_t i = X_DIMENSION; i <= Z_DIMENSION; ++i)
   {
@@ -554,7 +573,7 @@ void StructuredHexMesh::findIntersectionDistance(
                            intersection_distance ) const
 {
   // Make sure that the point is in the mesh
-  testPrecondition( this->isPointInMesh(point) );
+  testPrecondition( this->isPointInMeshTol(point, s_tol) );
   // Make sure that the direction is valid
   testPrecondition( Utility::isUnitVector( direction ) );
 

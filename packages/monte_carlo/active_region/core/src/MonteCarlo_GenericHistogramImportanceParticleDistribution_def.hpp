@@ -31,28 +31,31 @@ inline void GenericHistogramImportanceParticleDistribution::sampleImpl(
   size_t current_distribution_index = 0;
   for( auto order_it = d_dimension_order.begin(); order_it != d_dimension_order.end(); ++order_it)
   {
-    std::cout << *order_it << " index: " << current_distribution_index << std::endl;
     auto distribution_vector = d_dimension_distributions.find(*order_it)->second;
+
     dimension_sampling_function(
                 *(distribution_vector[current_distribution_index]),
                 phase_space_sample );
-
-    std::cout << "Size of distribution vector for " << *order_it << ": " << distribution_vector.size() << std::endl;
+  
     // check if next dimension has more than 1 distribution
-    if( distribution_vector.size() > 1 && order_it != d_dimension_order.end()-1 )
+    if( order_it != d_dimension_order.end()-1 )
     {
-      const std::vector<double>& dimension_boundaries_vector = d_dimension_bounds.find(*order_it)->second;
-      // Get the value of the sample so a search can be done
-      double sample_value = phase_space_sample.getCoordinate(*order_it);
-      size_t temp_index = 0;
-      for(auto vec_it = dimension_boundaries_vector.begin(); vec_it != dimension_boundaries_vector.end()-1; ++vec_it)
+      size_t next_distribution_vector_size = d_dimension_distributions.find(*(std::next(order_it)))->second.size();
+
+      if( next_distribution_vector_size > 1)
       {
-        if( *vec_it <= sample_value && sample_value < *(std::next(vec_it)))
+        double sample_value = phase_space_sample.getCoordinate(*order_it);    
+        std::vector<double> current_dimension_bounds = d_dimension_bounds.find(*order_it)->second;
+        size_t local_index = 0;
+        for(auto dim_bound_it = current_dimension_bounds.begin(); dim_bound_it != current_dimension_bounds.end(); ++dim_bound_it)
         {
-         current_distribution_index = temp_index + (dimension_boundaries_vector.size()-1)*current_distribution_index;
-         break;
+          if( *dim_bound_it <= sample_value && sample_value < *(std::next(dim_bound_it)))
+          {
+            break;
+          }
+          ++local_index;
         }
-        temp_index += 1;
+        current_distribution_index = local_index + current_distribution_index*(current_dimension_bounds.size()-1);
       }
     }
     

@@ -209,7 +209,10 @@ void ParticleSimulationManager::simulateParticleImpl(
     else
     {
       // Inject first check here
-      d_population_controller->checkParticleWithPopulationController( particle, bank );
+      if( !particle.isProbe() )
+      {
+        d_population_controller->checkParticleWithPopulationController( particle, bank );
+      }
       simulate_particle_track( particle,
                                bank,
                                d_transport_kernel->sampleOpticalPathLengthToNextCollisionSite(),
@@ -361,6 +364,7 @@ void ParticleSimulationManager::simulateParticleTrack(
       this->advanceParticleToCollisionSite( particle,
                                             remaining_track_op,
                                             cell_distance_to_collision,
+                                            cell_total_macro_cross_section,
                                             track_start_point,
                                             global_subtrack_ending_event_dispatched );
 
@@ -550,6 +554,7 @@ void ParticleSimulationManager::simulateParticleTrackAlternative(
       this->advanceParticleToCollisionSite( particle,
                                             cell_op_to_collision,
                                             cell_distance_to_collision,
+                                            cell_total_macro_cross_section,
                                             track_start_point,
                                             global_subtrack_ending_event_dispatched );
 
@@ -621,11 +626,16 @@ void ParticleSimulationManager::advanceParticleToCollisionSite(
                                    State& particle,
                                    const double op_to_collision_site,
                                    const double distance_to_collision,
+                                   const double cell_total_macro_cross_section,
                                    const double track_start_position[3],
                                    bool& global_subtrack_ending_event_dispatched )
 {
   // Advance the particle
   particle.navigator().advanceBySubstep( *Utility::reinterpretAsQuantity<Geometry::Navigator::Length>( &distance_to_collision ) );
+
+  // Update the observers: particle colliding in cell event
+  d_event_handler->updateObserversFromParticleCollidingInCellEvent( particle,
+                                                                   1.0/cell_total_macro_cross_section );
 
   // Update the observers: particle subtrack ending in cell event
   d_event_handler->updateObserversFromParticleSubtrackEndingInCellEvent(
@@ -658,7 +668,7 @@ void ParticleSimulationManager::collideWithCellMaterial( State& particle,
   // Apply the population managers to the original particle and to each of its
   // progeny. Multiple particle mode will result in all different particle types using the same
   // population manager for now. Needs to be fixed later if desired.
-  if( particle )
+  if( particle && !particle.isProbe() )
   {
     d_population_controller->checkParticleWithPopulationController( particle, bank );
   }
@@ -667,7 +677,7 @@ void ParticleSimulationManager::collideWithCellMaterial( State& particle,
   {
     ParticleBank split_particle_bank;
 
-    if( local_bank.top() )
+    if( local_bank.top() && !particle.isProbe() )
     {
       d_population_controller->checkParticleWithPopulationController( local_bank.top(),
                                                                       split_particle_bank );

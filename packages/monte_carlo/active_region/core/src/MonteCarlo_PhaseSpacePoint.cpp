@@ -521,9 +521,9 @@ void PhaseSpacePoint::setWeightCoordinate( const double weight_coord )
 double PhaseSpacePoint::getWeightOfCoordinates() const
 {
   double discretization_weight_factor = 1.0;
-  if(d_is_mesh_index_defined) discretization_weight_factor *= d_mesh_index_coord_weight;
-  if(d_is_direction_index_defined) discretization_weight_factor *= d_direction_index_coord_weight;
-
+  if(d_is_mesh_index_defined) discretization_weight_factor *= this->getDirectionIndexCoordinateWeight();
+  if(d_is_direction_index_defined) discretization_weight_factor *= this->getMeshIndexCoordinateWeight();
+  
   return this->getWeightOfSpatialCoordinates()*
     this->getWeightOfDirectionalCoordinates()*
     this->getEnergyCoordinateWeight()*
@@ -559,8 +559,8 @@ void PhaseSpacePoint::setParticleState( ParticleState& particle ) const
   particle.setTime( d_time_coord );
   particle.setSourceWeight( this->getWeightOfCoordinates() );
   particle.setWeight( particle.getSourceWeight() );
-  // Equal to weight since this method initializes particles
-  particle.setImportanceWeightTransform( particle.getSourceWeight() );
+  // Hasn't collided so it doesn't have a transform yet.
+  particle.setImportanceWeightTransform( 1 );
 }
 
 double PhaseSpacePoint::getCoordinate( PhaseSpaceDimension dimension ) const

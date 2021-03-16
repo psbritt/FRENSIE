@@ -43,18 +43,18 @@ void GenericHistogramImportanceParticleDistribution::setIndependentDimensionDist
                         const std::shared_ptr< PhaseSpaceDimensionDistribution >& dimension_distribution,
                         const bool finished_with_independent  )
 {
-// Check that pointer is valid
-testPrecondition(dimension_distribution);
+  // Check that pointer is valid
+  testPrecondition(dimension_distribution);
 
-d_dimension_order.push_back( dimension_distribution->getDimension() );
+  d_dimension_order.push_back( dimension_distribution->getDimension() );
 
-std::vector< std::shared_ptr< PhaseSpaceDimensionDistribution > > temp_vector;
+  std::vector< std::shared_ptr< PhaseSpaceDimensionDistribution > > temp_vector;
 
-temp_vector.push_back(dimension_distribution);
+  temp_vector.push_back(dimension_distribution);
 
-d_dimension_distributions[dimension_distribution->getDimension()] = temp_vector;
+  d_dimension_distributions[dimension_distribution->getDimension()] = temp_vector;
 
-d_independent_finished = finished_with_independent;
+  d_independent_finished = finished_with_independent;
 
 }
 
@@ -75,7 +75,6 @@ void GenericHistogramImportanceParticleDistribution::setImportanceDimensionDistr
         THROW_EXCEPTION(std::runtime_error, "Mismatched boundary/distribution vector size on" << *(std::next(vector_it)));
     }
 
-    std::cout << "Size of " << *vector_it <<" dimension: " << current_distribution_vector.size() << std::endl;
     d_dimension_order.push_back(*vector_it);
     d_dimension_distributions[*vector_it] = current_distribution_vector;
     d_dimension_bounds[*vector_it] = current_distribution_boundary_vector;

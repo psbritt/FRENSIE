@@ -296,6 +296,9 @@ public:
   //! Get the navigator used by the particle
   const Geometry::Navigator& navigator() const;
 
+  //! Check if this is a probe
+  virtual bool isProbe() const;
+
 protected:
 
   //! Calculate the time to traverse a distance

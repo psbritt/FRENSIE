@@ -53,9 +53,6 @@ public:
   virtual ~AdjointPhotonState()
   { /* ... */ }
 
-  //! Check if this is a probe
-  virtual bool isProbe() const;
-
   //! Clone the particle state (do not use to generate new particles!)
   virtual AdjointPhotonState* clone() const;
 
