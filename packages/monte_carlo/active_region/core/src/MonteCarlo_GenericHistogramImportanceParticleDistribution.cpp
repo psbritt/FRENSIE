@@ -72,7 +72,7 @@ void GenericHistogramImportanceParticleDistribution::setImportanceDimensionDistr
       auto next_distribution_vector = importance_sampled_distributions.find(*(std::next(vector_it)))->second;
       // Defensive pre-processing to make sure distributions are right size
       if( next_distribution_vector.size() != current_distribution_vector.size()*(current_distribution_boundary_vector.size()-1))
-        THROW_EXCEPTION(std::runtime_error, "Mismatched boundary/distribution vector size on" << *(std::next(vector_it)));
+        THROW_EXCEPTION(std::runtime_error, "Mismatched boundary/distribution vector size on " << *(std::next(vector_it)));
     }
 
     d_dimension_order.push_back(*vector_it);

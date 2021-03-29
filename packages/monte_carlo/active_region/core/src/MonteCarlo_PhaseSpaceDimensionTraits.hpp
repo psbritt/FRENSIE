@@ -565,7 +565,7 @@ struct PhaseSpaceDimensionTraits<SPATIAL_INDEX_DIMENSION>
   static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
   {
     testPrecondition(s_mesh);
-    point.getMeshIndexCoordinateWeight();
+    return point.getMeshIndexCoordinateWeight();
   }
 
   //! Set the coordinate weight
@@ -632,7 +632,8 @@ struct PhaseSpaceDimensionTraits<DIRECTION_INDEX_DIMENSION>
   static inline DimensionWeightType getCoordinateWeight( const PhaseSpacePoint& point )
   {
     testPrecondition(s_direction_discretization);
-    point.getDirectionIndexCoordinateWeight();
+
+    return point.getDirectionIndexCoordinateWeight();
   }
 
   //! Set the coordinate weight

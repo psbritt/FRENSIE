@@ -134,7 +134,7 @@ void Mesh::exportDataImpl( const std::string& output_file_name,
   moab::EntityHandle internal_mesh_handle = mesh_handle;
   
   return_value = moab_interface->write_file( output_file_name.c_str(),
-                                             NULL,
+                                             "vtk",
                                              NULL,
                                              &internal_mesh_handle,
                                              1,

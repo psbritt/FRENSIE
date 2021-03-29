@@ -498,7 +498,7 @@ void PhaseSpacePoint::setDirectionIndexCoordinateWeight( const double weight )
 {
   // Make sure direction index is defined and weight is greater than 0
   testPrecondition(d_is_direction_index_defined && weight > 0.0);
-
+  
   d_direction_index_coord_weight = weight;
 }
 
@@ -521,8 +521,8 @@ void PhaseSpacePoint::setWeightCoordinate( const double weight_coord )
 double PhaseSpacePoint::getWeightOfCoordinates() const
 {
   double discretization_weight_factor = 1.0;
-  if(d_is_mesh_index_defined) discretization_weight_factor *= this->getDirectionIndexCoordinateWeight();
-  if(d_is_direction_index_defined) discretization_weight_factor *= this->getMeshIndexCoordinateWeight();
+  if(d_is_mesh_index_defined) discretization_weight_factor *= this->getMeshIndexCoordinateWeight();
+  if(d_is_direction_index_defined) discretization_weight_factor *= this->getDirectionIndexCoordinateWeight();
   
   return this->getWeightOfSpatialCoordinates()*
     this->getWeightOfDirectionalCoordinates()*
