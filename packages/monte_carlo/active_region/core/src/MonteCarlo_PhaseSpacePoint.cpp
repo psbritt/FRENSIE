@@ -559,8 +559,8 @@ void PhaseSpacePoint::setParticleState( ParticleState& particle ) const
   particle.setTime( d_time_coord );
   particle.setSourceWeight( this->getWeightOfCoordinates() );
   particle.setWeight( particle.getSourceWeight() );
-  // Hasn't collided so it doesn't have a transform yet.
-  particle.setImportanceWeightTransform( 1 );
+  // Hasn't collided so it doesn't have a transform yet (other than source importance sampling)
+  particle.setImportanceWeightTransform( particle.getSourceWeight() );
 }
 
 double PhaseSpacePoint::getCoordinate( PhaseSpaceDimension dimension ) const

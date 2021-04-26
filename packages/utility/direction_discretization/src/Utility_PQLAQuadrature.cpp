@@ -250,28 +250,21 @@ void PQLAQuadrature::normalizeVectorToOneNorm(  const double x_direction,
 size_t PQLAQuadrature::calculatePositiveTriangleBinIndex(const unsigned i_x, const unsigned i_y, const unsigned i_z) const
 {
 
-  unsigned sum = 0;
-  /* If not on the first row (first i_x plane), first row has 2N-1 triangles, and 2 less with every row from there.
-    Calculate the sum of these elements until the relevant row is found*/
-  for(unsigned i = 0; i<i_y; ++i)
-  {
-    sum = sum + 2*(d_quadrature_order - i) - 1;
-  }
+  unsigned index = i_y*(2*d_quadrature_order-i_y) + d_quadrature_order + i_z - i_x - i_y - 1;
   // Add the basic equation for calculating the triangle index
-  sum = sum + d_quadrature_order + i_z - i_x - i_y - 1;
 
   // handle edge cases, default to lower plane index on edge cases (i_z is added, i_y is subtracted, making the below logic correct)
   if( i_x + i_y + i_z == d_quadrature_order)
   {
     if( i_z > 0 )
     {
-      sum = sum - 1;
+      index = index - 1;
     }else if (i_y != d_quadrature_order)
     {
-      sum = sum + 1;
+      index = index + 1;
     }
   }
-  return sum;
+  return index;
 }
 
 // Returns the index for the octant that a direction is in
@@ -299,10 +292,33 @@ const std::vector<SphericalTriangle>& PQLAQuadrature::getSphericalTriangleVector
 {
   return d_spherical_triangle_vector;
 }
+
+std::array<double, 3> PQLAQuadrature::getTriangleCentroid(const size_t triangle_index) const
+{
+  SphericalTriangle triangle;
+  this->getSphericalTriangle(triangle_index, triangle);
+
+  std::array<double, 3> vertex_1 = std::get<0>(triangle.triangle_parameter_vector[0]);
+  std::array<double, 3> vertex_2 = std::get<0>(triangle.triangle_parameter_vector[1]);
+  std::array<double, 3> vertex_3 = std::get<0>(triangle.triangle_parameter_vector[2]);
+
+  std::array<double, 3> centroid;
+
+  centroid[0] = vertex_1[0] + vertex_2[0] + vertex_3[0];
+  centroid[1] = vertex_1[1] + vertex_2[1] + vertex_3[1];
+  centroid[2] = vertex_1[2] + vertex_2[2] + vertex_3[2];
+
+  normalizeVector(centroid[0], centroid[1], centroid[2]);
+
+  return centroid;
+}
+
 EXPLICIT_CLASS_SERIALIZE_INST( PQLAQuadrature );
 } // end Utility namespace
 
 BOOST_SERIALIZATION_CLASS_EXPORT_IMPLEMENT( PQLAQuadrature, Utility );
+
+
 
 //---------------------------------------------------------------------------//
 // end Utility_PQLAQuadrature.cpp

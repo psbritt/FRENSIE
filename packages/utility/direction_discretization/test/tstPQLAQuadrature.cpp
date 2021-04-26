@@ -217,6 +217,62 @@ FRENSIE_UNIT_TEST(PQLAQuadrature, sampleIsotropicallyFromTriangle_and_findTriang
 }
 
 //---------------------------------------------------------------------------//
+// test getTriangleCentroid
+FRENSIE_UNIT_TEST(PQLAQuadrature, getTriangleCentroid)
+{
+  std::shared_ptr<Utility::PQLAQuadrature> PQLAQuadrature = std::make_shared<Utility::PQLAQuadrature>(1);
+
+  
+
+  for(size_t octant = 0; octant < 8; ++octant)
+  {
+    std::array<double, 3> centroid = PQLAQuadrature->getTriangleCentroid(octant);
+    int x_multiplier = 1;
+    int y_multiplier = 1;
+    int z_multiplier = 1;
+
+    // Bitwise operations to tell which octant this is
+    if(octant & 1) x_multiplier = -1;
+    if(octant & 2) y_multiplier = -1;
+    if(octant & 4) z_multiplier = -1;
+
+    FRENSIE_CHECK_FLOATING_EQUALITY(centroid[0], x_multiplier/sqrt(3), 1e-15);
+    FRENSIE_CHECK_FLOATING_EQUALITY(centroid[1], y_multiplier/sqrt(3), 1e-15);
+    FRENSIE_CHECK_FLOATING_EQUALITY(centroid[2], z_multiplier/sqrt(3), 1e-15);
+  }
+
+  PQLAQuadrature = std::make_shared<Utility::PQLAQuadrature>(2);
+  
+  std::array<double, 3> triangle_0_vertex_0 {1, 0, 0};
+
+  std::array<double, 3> triangle_0_vertex_1 {1.0/2.0,1.0/2.0, 0};
+  Utility::normalizeVector(triangle_0_vertex_1[0], triangle_0_vertex_1[1], triangle_0_vertex_1[2]);
+
+  std::array<double, 3> triangle_0_vertex_2 {1.0/2.0, 0, 1.0/2.0};
+  Utility::normalizeVector(triangle_0_vertex_2[0], triangle_0_vertex_2[1], triangle_0_vertex_2[2]);
+  
+  std::array<double, 3> manual_centroid;
+  for(size_t i = 0; i < 3; ++i)
+  {
+    manual_centroid[i] = triangle_0_vertex_0[i] + triangle_0_vertex_1[i] + triangle_0_vertex_2[i];
+  }
+
+  Utility::normalizeVector(manual_centroid[0], manual_centroid[1], manual_centroid[2]);
+ 
+  std::array<double, 3> test_centroid = PQLAQuadrature->getTriangleCentroid(0);
+
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[0], manual_centroid[0], 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[1], manual_centroid[1], 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[2], manual_centroid[2], 1e-15);
+  
+  test_centroid = PQLAQuadrature->getTriangleCentroid(4);
+  manual_centroid[0] = -manual_centroid[0];
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[0], manual_centroid[0], 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[1], manual_centroid[1], 1e-15);
+  FRENSIE_CHECK_FLOATING_EQUALITY(test_centroid[2], manual_centroid[2], 1e-15);
+}
+
+//---------------------------------------------------------------------------//
 // Check that an estimator can be archived
 FRENSIE_UNIT_TEST_TEMPLATE_EXPAND( PQLAQuadrature,
                                    archive,

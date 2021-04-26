@@ -112,6 +112,8 @@ class PQLAQuadrature
   //! Used for archive testing
   const std::vector<SphericalTriangle>& getSphericalTriangleVector() const;
 
+  std::array<double, 3> getTriangleCentroid(const size_t triangle_index) const;
+
   private:
 
   //! Default constructor (for archiving)
