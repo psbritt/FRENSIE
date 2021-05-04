@@ -17,6 +17,7 @@ RUN apt-get update; \
         autoconf \
         openmpi-bin \
         libopenmpi-dev; \
+        libomp-dev; \
     pip install numpy
 
 RUN mkdir /root/dependencies; \
