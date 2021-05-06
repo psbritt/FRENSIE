@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+RUN useradd -u 8877 philip
+
 RUN apt-get update; \
     apt-get install -y \
         git \
@@ -17,128 +19,117 @@ RUN apt-get update; \
         autoconf \
         openmpi-bin \
         libopenmpi-dev; \
-        libomp-dev; \
     pip install numpy
 
-RUN mkdir /root/dependencies; \
-    cd /root/dependencies; \
-    mkdir /root/dependencies/cmake; \
-    mkdir /root/temp; \
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies; \
+    cd /home/philip/dependencies; \
+    mkdir /home/philip/dependencies/cmake; \
+    mkdir /home/philip/temp; \
+    cd /home/philip/temp; \
     wget https://cmake.org/files/v3.17/cmake-3.17.1.tar.gz; \
     tar -xvf cmake-3.17.1.tar.gz; \
     cd cmake-3.17.1; \
     mkdir build; \
     cd build; \
-    ../configure --prefix="/root/dependencies/cmake"; \
+    ../configure --prefix="/home/philip/dependencies/cmake"; \
     make -j16; \
     make install; \
-    cd /root/; \
-    echo 'export PATH=/root/dependencies/cmake/bin:$PATH' >> /root/.bashrc 
+    cd /home/philip/; \
+    echo 'export PATH=/home/philip/dependencies/cmake/bin:$PATH' >> /home/philip/.bashrc 
 
-ENV PATH /root/dependencies/cmake/bin:$PATH 
+ENV PATH /home/philip/dependencies/cmake/bin:$PATH 
 
-RUN mkdir /root/dependencies/hdf5; \
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies/hdf5; \
+    cd /home/philip/temp; \
     wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.13/src/hdf5-1.8.13.tar.gz; \
     tar -xvf hdf5-1.8.13.tar.gz; \
     cd hdf5-1.8.13; \
     mkdir build; \
     cd build; \
-    ../configure --prefix="/root/dependencies/hdf5" --enable-optimized --enable-shared --enable-cxx --enable-hl --disable-debug; \
+    ../configure --prefix="/home/philip/dependencies/hdf5" --enable-optimized --enable-shared --enable-cxx --enable-hl --disable-debug; \
     make -j 16; \
     make install; \ 
-    echo 'export PATH=/root/dependencies/hdf5/bin:$PATH' >> /root/.bashrc; \
-    echo 'export LD_LIBRARY_PATH=/root/dependencies/hdf5/lib:$LD_LIBRARY_PATH' >> /root/.bashrc; \
+    echo 'export PATH=/home/philip/dependencies/hdf5/bin:$PATH' >> /home/philip/.bashrc; \
+    echo 'export LD_LIBRARY_PATH=/home/philip/dependencies/hdf5/lib:$LD_LIBRARY_PATH' >> /home/philip/.bashrc; \
     exec bash 
 
-ENV PATH /root/dependencies/hdf5/bin:$PATH 
-ENV LD_LIBRARY_PATH /root/dependencies/hdf5/lib:$LD_LIBRARY_PATH
+ENV PATH /home/philip/dependencies/hdf5/bin:$PATH 
+ENV LD_LIBRARY_PATH /home/philip/dependencies/hdf5/lib:$LD_LIBRARY_PATH
 
-RUN mkdir /root/dependencies/swig; \
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies/swig; \
+    cd /home/philip/temp; \
     wget -O swig-4.0.0.tar.gz https://sourceforge.net/projects/swig/files/swig/swig-4.0.0/swig-4.0.0.tar.gz/download; \
     tar -xvf swig-4.0.0.tar.gz; \
     cd swig-4.0.0; \
     mkdir build; \
     cd build; \
-    ../configure --prefix="/root/dependencies/swig"; \
+    ../configure --prefix="/home/philip/dependencies/swig"; \
     make -j 16; \
     make install; \
-    echo 'export PATH=/root/dependencies/swig/bin:$PATH' >> /root/.bashrc; \
+    echo 'export PATH=/home/philip/dependencies/swig/bin:$PATH' >> /home/philip/.bashrc; \
     exec bash
 
-ENV PATH /root/dependencies/swig/bin:$PATH
+ENV PATH /home/philip/dependencies/swig/bin:$PATH
 
-RUN mkdir /root/dependencies/boost; \
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies/boost; \
+    cd /home/philip/temp; \
     wget -O boost_1_72_0.tar.gz https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.gz/download; \
     tar -xvf boost_1_72_0.tar.gz; \
     cd boost_1_72_0; \
-    ./bootstrap.sh --prefix=/root/dependencies/boost; \
+    ./bootstrap.sh --prefix=/home/philip/dependencies/boost; \
     sed -i "$ a using mpi ;" project-config.jam; \
-    ./b2 -j16 --prefix=/root/dependencies/boost -s NO_BZIP2=1 link=shared runtime-link=shared install; \
-    echo 'export LD_LIBRARY_PATH=/root/dependencies/boost/lib:$LD_LIBRARY_PATH' >> /root/.bashrc; \
+    ./b2 -j16 --prefix=/home/philip/dependencies/boost -s NO_BZIP2=1 link=shared runtime-link=shared install; \
+    echo 'export LD_LIBRARY_PATH=/home/philip/dependencies/boost/lib:$LD_LIBRARY_PATH' >> /home/philip/.bashrc; \
     exec bash
 
-ENV LD_LIBRARY_PATH /root/dependencies/boost/lib:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH /home/philip/dependencies/boost/lib:$LD_LIBRARY_PATH
 
-RUN mkdir /root/dependencies/moab; \
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies/moab; \
+    cd /home/philip/temp; \
     git clone --single-branch -b Version5.1.0 https://bitbucket.org/fathomteam/moab; \
     cd moab; \
     autoreconf -fi; \
     mkdir build; \
     cd build; \
-    ../configure --enable-optimize --enable-shared --disable-debug --with-hdf5=/root/dependencies/hdf5 --prefix=/root/dependencies/moab/; \
+    ../configure --enable-optimize --enable-shared --disable-debug --with-hdf5=/home/philip/dependencies/hdf5 --prefix=/home/philip/dependencies/moab/; \
     make -j 16; \
     make install; \
-    echo 'export PATH=/root/dependencies/moab/bin:$PATH' >> /root/.bashrc; \
-    echo 'export LD_LIBRARY_PATH=/root/dependencies/moab/lib:$LD_LIBRARY_PATH' >> /root/.bashrc; \
+    echo 'export PATH=/home/philip/dependencies/moab/bin:$PATH' >> /home/philip/.bashrc; \
+    echo 'export LD_LIBRARY_PATH=/home/philip/dependencies/moab/lib:$LD_LIBRARY_PATH' >> /home/philip/.bashrc; \
     exec bash
 
-ENV PATH root/dependencies/moab/bin:$PATH
-ENV LD_LIBRARY_PATH /root/dependencies/moab/lib:$LD_LIBRARY_PATH
+ENV PATH /home/philip/dependencies/moab/bin:$PATH
+ENV LD_LIBRARY_PATH /home/philip/dependencies/moab/lib:$LD_LIBRARY_PATH
 
-RUN mkdir /root/dependencies/dagmc; \   
-    cd /root/temp; \
+RUN mkdir /home/philip/dependencies/dagmc; \   
+    cd /home/philip/temp; \
     git clone -b develop --single-branch https://github.com/svalinn/DAGMC.git; \
     cd DAGMC; \
     mkdir build; \
     cd build; \
-    env HDF5_ROOT=/root/dependencies/hdf5; \ 
-    cmake .. -DCMAKE_INSTALL_PREFIX=/root/dependencies/dagmc -DCMAKE_BUILD_TYPE:STRING=Release -DMOAB_DIR=/root/dependencies/moab; \
+    env HDF5_/home/philip=/home/philip/dependencies/hdf5; \ 
+    cmake .. -DCMAKE_INSTALL_PREFIX=/home/philip/dependencies/dagmc -DCMAKE_BUILD_TYPE:STRING=Release -DMOAB_DIR=/home/philip/dependencies/moab; \
     make -j 16; \
     make install; \
-    echo 'export PATH=/root/dependencies/dagmc/bin:$PATH' >> /root/.bashrc; \
-    echo 'export LD_LIBRARY_PATH=/root/dependencies/dagmc/lib:$LD_LIBRARY_PATH' >> /root/.bashrc; \
+    echo 'export PATH=/home/philip/dependencies/dagmc/bin:$PATH' >> /home/philip/.bashrc; \
+    echo 'export LD_LIBRARY_PATH=/home/philip/dependencies/dagmc/lib:$LD_LIBRARY_PATH' >> /home/philip/.bashrc; \
     exec bash
 
-ENV PATH /root/dependencies/dagmc/bin:$PATH
-ENV LD_LIBRARY_PATH /root/dependencies/dagmc/lib:$LD_LIBRARY_PATH
+ENV PATH /home/philip/dependencies/dagmc/bin:$PATH
+ENV LD_LIBRARY_PATH /home/philip/dependencies/dagmc/lib:$LD_LIBRARY_PATH
 
-# Remove all the extra dependency source code and build files
-#RUN cd ~; \
-#    rm -rf temp
+COPY database.xml /home/philip/data/database.xml
 
-# Create directory that will hold cross section data
-RUN cd ~; \
-    mkdir data; \
-    cd data; \
-    mkdir native
+COPY native /home/philip/data/native
 
-COPY database.xml /root/data/database.xml
-
-COPY native /root/data/native
-
-RUN mkdir /root/FRENSIE; \
-    cd /root/FRENSIE; \
+RUN mkdir /home/philip/FRENSIE; \
+    cd /home/philip/FRENSIE; \
     git clone -b HPC_docker --single-branch https://github.com/psbritt/FRENSIE.git; \
     ln -s FRENSIE src; \
     mkdir build; \
     cd build; \
     source ~/.bashrc; \
-    cmake -D CMAKE_INSTALL_PREFIX:PATH=/root/FRENSIE \
+    cmake -D CMAKE_INSTALL_PREFIX:PATH=/home/philip/FRENSIE \
           -D CMAKE_BUILD_TYPE:STRING=DEBUG \
           -D CMAKE_VERBOSE_CONFIGURE:BOOL=OFF \
           -D CMAKE_VERBOSE_MAKEFILE:BOOL=ON \
@@ -148,18 +139,22 @@ RUN mkdir /root/FRENSIE; \
           -D FRENSIE_ENABLE_MPI:BOOL=ON \
           -D FRENSIE_ENABLE_MOAB:BOOL=ON \
           -D FRENSIE_ENABLE_DAGMC:BOOL=ON \
-          -D FRENSIE_ENABLE_ROOT:BOOL=OFF \
+          -D FRENSIE_ENABLE_/home/philip:BOOL=OFF \
           -D FRENSIE_ENABLE_PROFILING:BOOL=OFF \
           -D FRENSIE_ENABLE_COVERAGE:BOOL=OFF \
           -D FRENSIE_ENABLE_EXPLICIT_TEMPLATE_INST:BOOL=ON \
-          -D MOAB_PREFIX:PATH=/root/dependencies/moab \
-          -D DAGMC_PREFIX:PATH=/root/dependencies/dagmc \
-          -D HDF5_PREFIX:PATH=/root/dependencies/hdf5 \
-          -D BOOST_PREFIX:PATH=/root/dependencies/boost \
-          -D SWIG_PREFIX:PATH=/root/dependencies/swig \
+          -D MOAB_PREFIX:PATH=/home/philip/dependencies/moab \
+          -D DAGMC_PREFIX:PATH=/home/philip/dependencies/dagmc \
+          -D HDF5_PREFIX:PATH=/home/philip/dependencies/hdf5 \
+          -D BOOST_PREFIX:PATH=/home/philip/dependencies/boost \
+          -D SWIG_PREFIX:PATH=/home/philip/dependencies/swig \
           -D FRENSIE_ENABLE_DASHBOARD_CLIENT:BOOL=ON \
-          -D XSDIR:PATH=/root/data \
+          -D XSDIR:PATH=/home/philip/data \
           $@ \
-          /root/FRENSIE/src; \
+          /home/philip/FRENSIE/src; \
     make -j14; \
     make install
+
+RUN rm -rf /home/philip/temp
+
+RUN chown -R philip /home/philip
