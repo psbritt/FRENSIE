@@ -74,10 +74,9 @@ void MeshTrackLengthFluxEstimator<ContributionMultiplierPolicy>::updateFromGloba
 {
   // Make sure that the particle type is assigned
   testPrecondition( this->isParticleTypeAssigned( particle.getParticleType() ) );
-  if( !particle.isProbe() )
-  {
-    d_update_method( particle, start_point, end_point );
-  }
+
+  d_update_method( particle, start_point, end_point );
+
 
 }
 
