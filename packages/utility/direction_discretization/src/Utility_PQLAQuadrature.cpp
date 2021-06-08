@@ -171,40 +171,69 @@ double PQLAQuadrature::getTriangleArea(const size_t triangle_index) const
 void PQLAQuadrature::sampleIsotropicallyFromTriangle(std::array<double, 3>& direction_vector,
                                                      const size_t triangle_index) const
 {
-  SphericalTriangle triangle;
-  this->getSphericalTriangle(triangle_index,
-                             triangle);
+  testPrecondition(triangle_index >= 0 && triangle_index <= this->getNumberOfTriangles()-1);
+  SphericalTriangle triangle = d_spherical_triangle_vector[triangle_index];
 
-  double random_area = RandomNumberGenerator::getRandomNumber<double>()*triangle.area;
+  typedef QuantityTraits<double> QT;
 
-  double s = sin(random_area - std::get<2>(triangle.triangle_parameter_vector[0]));
-  double t = cos(random_area - std::get<2>(triangle.triangle_parameter_vector[0]));
+  std::array<double, 3>& vertex_A_vector = std::get<0>(triangle.triangle_parameter_vector[0]);
+  std::array<double, 3>& vertex_B_vector = std::get<0>(triangle.triangle_parameter_vector[1]);
+  std::array<double, 3>& vertex_C_vector = std::get<0>(triangle.triangle_parameter_vector[2]);
 
-  double u = t - cos(std::get<2>(triangle.triangle_parameter_vector[0]));
-  double v = s + sin(std::get<2>(triangle.triangle_parameter_vector[0]))*cos(std::get<1>(triangle.triangle_parameter_vector[2]));
+  double& opposite_side_length_A = std::get<2>(triangle.triangle_parameter_vector[0]);
+  double& vertex_angle_B = std::get<1>(triangle.triangle_parameter_vector[2]);
 
-  double q = ((v*t - u*s)*cos(std::get<2>(triangle.triangle_parameter_vector[0])) - v)/
-             ((v*s + u*t)*sin(std::get<2>(triangle.triangle_parameter_vector[0])));
-
-  std::array<double, 3> C_hat;
-  std::array<double, 3> vector_operation_result;
-  this->isotropicSamplingVectorOperation(std::get<0>(triangle.triangle_parameter_vector[2]),
-                                         std::get<0>(triangle.triangle_parameter_vector[0]),
-                                         vector_operation_result);
-  for(int i = 0; i < 3; ++i)
+  while(true)
   {
-    C_hat[i] = q*std::get<0>(triangle.triangle_parameter_vector[0])[i]+sqrt(1-q*q)*vector_operation_result[i];
+
+    double random_area = RandomNumberGenerator::getRandomNumber<double>()*triangle.area;
+
+    double s = sin(random_area - opposite_side_length_A);
+    double t = cos(random_area - opposite_side_length_A);
+
+    double u = t - cos(opposite_side_length_A);
+    double v = s + sin(opposite_side_length_A)*cos(vertex_angle_B);
+
+    double q = ((v * t - u * s) * cos(opposite_side_length_A) - v)/
+              ((v * s + u * t) * sin(opposite_side_length_A));
+
+    if( QT::isnaninf(q) || 1 < q*q )
+    {
+      std::cout << "Problem with q in PQLA" << std::endl;
+      continue;
+    } 
+
+    std::array<double, 3> C_hat;
+    std::array<double, 3> vector_operation_result;
+    this->isotropicSamplingVectorOperation(vertex_C_vector,
+                                          vertex_A_vector,
+                                          vector_operation_result);
+
+    for (int dim = 0; dim < 3; ++dim)
+    {
+      C_hat[dim] = q * vertex_A_vector[dim] + sqrt(1 - q * q) * vector_operation_result[dim];
+    }
+
+    double z = 1-RandomNumberGenerator::getRandomNumber<double>()*(1-calculateCosineOfAngleBetweenUnitVectors(C_hat.data(), vertex_B_vector.data()));
+
+    if( 1 < z*z )
+    {
+      std::cout << "Problem with z in PQLA" << std::endl;
+      continue;
+    } 
+
+    this->isotropicSamplingVectorOperation(C_hat,
+                                          vertex_B_vector,
+                                          vector_operation_result);
+
+    for (int dim = 0; dim < 3; ++dim)
+    {
+      direction_vector[dim] = z * vertex_B_vector[dim] + sqrt(1 - z * z)*vector_operation_result[dim];
+    }
+    break;
   }
 
-  double z = 1-RandomNumberGenerator::getRandomNumber<double>()*(1-calculateCosineOfAngleBetweenUnitVectors(C_hat.data(), std::get<0>(triangle.triangle_parameter_vector[1]).data()));
 
-  this->isotropicSamplingVectorOperation(C_hat,
-                                         std::get<0>(triangle.triangle_parameter_vector[1]),
-                                         vector_operation_result);
-  for(int i = 0; i < 3; ++i)
-  {
-    direction_vector[i] = z*std::get<0>(triangle.triangle_parameter_vector[1])[i] + sqrt(1-z*z)*vector_operation_result[i];
-  }
 }
 
 // Method for a vector operation in support of above isotropic sampling method
@@ -212,13 +241,15 @@ void PQLAQuadrature::isotropicSamplingVectorOperation(const std::array<double, 3
                                       const std::array<double, 3>& vertex_2,
                                       std::array<double, 3>& result_vector) const
 {
+
   double dot_product_result = calculateCosineOfAngleBetweenUnitVectors( vertex_1.data(), vertex_2.data() );
   for(int dimension = 0; dimension < 3; ++dimension)
   {
     result_vector[dimension] = vertex_1[dimension] - dot_product_result*vertex_2[dimension];
   }
+  
   normalizeVector(result_vector.data());
-  testPostcondition(isUnitVector(result_vector.data()));
+  
 }
 
 // Converts direction vector to 1-norm normalized vector
