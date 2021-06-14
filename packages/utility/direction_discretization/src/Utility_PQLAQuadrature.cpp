@@ -197,11 +197,7 @@ void PQLAQuadrature::sampleIsotropicallyFromTriangle(std::array<double, 3>& dire
     double q = ((v * t - u * s) * cos(opposite_side_length_A) - v)/
               ((v * s + u * t) * sin(opposite_side_length_A));
 
-    if( QT::isnaninf(q) || 1 < q*q )
-    {
-      std::cout << "Problem with q in PQLA" << std::endl;
-      continue;
-    } 
+    if( QT::isnaninf(q) || 1 < q*q ) continue;
 
     std::array<double, 3> C_hat;
     std::array<double, 3> vector_operation_result;
@@ -216,11 +212,8 @@ void PQLAQuadrature::sampleIsotropicallyFromTriangle(std::array<double, 3>& dire
 
     double z = 1-RandomNumberGenerator::getRandomNumber<double>()*(1-calculateCosineOfAngleBetweenUnitVectors(C_hat.data(), vertex_B_vector.data()));
 
-    if( 1 < z*z )
-    {
-      std::cout << "Problem with z in PQLA" << std::endl;
-      continue;
-    } 
+    if( 1 < z*z ) continue;
+ 
 
     this->isotropicSamplingVectorOperation(C_hat,
                                           vertex_B_vector,
